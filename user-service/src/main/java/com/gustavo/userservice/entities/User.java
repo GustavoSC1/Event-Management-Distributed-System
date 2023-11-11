@@ -31,7 +31,7 @@ public class User implements Serializable {
 	private UUID userId;
 	
 	@Column(nullable = false, length = 150)
-	private String fullName;
+	private String name;
 	
 	@Column(length = 20)
 	private String phone;
@@ -73,11 +73,11 @@ public class User implements Serializable {
 
 	}
 
-	public User(UUID userId, String fullName, String phone, String cpf, String imageUrl, String username, String email,
+	public User(UUID userId, String name, String phone, String cpf, String imageUrl, String username, String email,
 			String password, UserStatus userStatus, LocalDateTime creationDate, LocalDateTime lastUpdateDate) {
 		super();
 		this.userId = userId;
-		this.fullName = fullName;
+		this.name = name;
 		this.phone = phone;
 		this.cpf = cpf;
 		this.imageUrl = imageUrl;
@@ -97,12 +97,12 @@ public class User implements Serializable {
 		this.userId = userId;
 	}
 
-	public String getFullName() {
-		return fullName;
+	public String getName() {
+		return name;
 	}
 
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
+	public void setFullName(String name) {
+		this.name = name;
 	}
 
 	public String getPhone() {
@@ -187,7 +187,7 @@ public class User implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cpf, creationDate, email, fullName, imageUrl, lastUpdateDate, password, phone, roles,
+		return Objects.hash(cpf, creationDate, email, name, imageUrl, lastUpdateDate, password, phone, roles,
 				userId, userStatus, username);
 	}
 
@@ -201,7 +201,7 @@ public class User implements Serializable {
 			return false;
 		User other = (User) obj;
 		return Objects.equals(cpf, other.cpf) && Objects.equals(creationDate, other.creationDate)
-				&& Objects.equals(email, other.email) && Objects.equals(fullName, other.fullName)
+				&& Objects.equals(email, other.email) && Objects.equals(name, other.name)
 				&& Objects.equals(imageUrl, other.imageUrl) && Objects.equals(lastUpdateDate, other.lastUpdateDate)
 				&& Objects.equals(password, other.password) && Objects.equals(phone, other.phone)
 				&& Objects.equals(roles, other.roles) && Objects.equals(userId, other.userId)
