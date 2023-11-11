@@ -2,6 +2,8 @@ package com.gustavo.userservice.services.impl;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +56,19 @@ public class UserServiceImpl implements UserService {
 		BeanUtils.copyProperties(user, userResponseDto);
 		
 		return userResponseDto;
+	}
+	
+	public UserResponseDTO getOneUser(UUID userId) {
+		
+		Optional<User> userOptional = userRepository.findById(userId);
+		
+		User user = userOptional.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+		
+		UserResponseDTO userResponseDto = new UserResponseDTO();
+		
+		BeanUtils.copyProperties(user, userResponseDto);
+		
+		return userResponseDto;		
 	}
 
 }
