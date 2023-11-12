@@ -1,34 +1,52 @@
 package com.gustavo.userservice.dtos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.gustavo.userservice.validation.UsernameConstraint;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+// É usada para indicar quando a propriedade anotada pode ser serializada. 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserRequestDTO {
 	
-	@NotEmpty(message="The name field is required")
-	@Size(min=8, max=150, message="The length must be between 8 and 150 characters")
+	// É possível definir várias views do mesmo model/DTOs com diferentes combinações de campos.
+	// Define as views como interfaces.
+	public interface UserView {
+		public static interface UserPost {}
+		public static interface UserPut {}
+	}
+	
+	@NotEmpty(message="The name field is required", groups = {UserView.UserPost.class, UserView.UserPut.class})
+	@Size(min=8, max=150, message="The length must be between 8 and 150 characters", groups = {UserView.UserPost.class, UserView.UserPut.class})
+	// Usado para mapear campos para uma ou mais views.
+	@JsonView({UserView.UserPost.class, UserView.UserPut.class})
 	private String fullName;
 	
-	@NotEmpty(message="The phone field is required")
+	@NotEmpty(message="The phone field is required", groups = {UserView.UserPost.class, UserView.UserPut.class})
+	@JsonView({UserView.UserPost.class, UserView.UserPut.class})
 	private String phone;
 	
-	@NotEmpty(message="The cpf field is required")
+	@NotEmpty(message="The cpf field is required", groups = {UserView.UserPost.class, UserView.UserPut.class})
+	@JsonView({UserView.UserPost.class, UserView.UserPut.class})
 	private String cpf;
 	
-	@NotEmpty(message="The username field is required")
-	@Size(min=4, max=50, message="The length must be between 4 and 50 characters")
-	@UsernameConstraint
+	@NotEmpty(message="The username field is required", groups = UserView.UserPost.class)
+	@Size(min=4, max=50, message="The length must be between 4 and 50 characters", groups = UserView.UserPost.class)
+	@UsernameConstraint(groups = UserView.UserPost.class)
+	@JsonView(UserView.UserPost.class)
 	private String username;
 	
-	@NotEmpty(message="The email field is required")
-	@Email(message="Invalid email")
+	@NotEmpty(message="The email field is required", groups = UserView.UserPost.class)
+	@Email(message="Invalid email", groups = UserView.UserPost.class)
+	@JsonView(UserView.UserPost.class)
 	private String email;
 	
-	@NotEmpty(message="The password field is required")
-	@Size(min=8, max=20, message="The length must be between 8 and 20 characters")
+	@NotEmpty(message="The password field is required", groups = UserView.UserPost.class)
+	@Size(min=8, max=20, message="The length must be between 8 and 20 characters", groups = UserView.UserPost.class)
+	@JsonView({UserView.UserPost.class})
 	private String password;
 
 	public UserRequestDTO() {

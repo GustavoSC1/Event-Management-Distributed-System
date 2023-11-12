@@ -62,13 +62,33 @@ public class UserServiceImpl implements UserService {
 		
 		Optional<User> userOptional = userRepository.findById(userId);
 		
-		User user = userOptional.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+		User user = userOptional.orElseThrow(() -> new RuntimeException("User not found."));
 		
 		UserResponseDTO userResponseDto = new UserResponseDTO();
 		
 		BeanUtils.copyProperties(user, userResponseDto);
 		
 		return userResponseDto;		
+	}
+	
+	public UserResponseDTO update(UUID userId, UserRequestDTO userRequestDto) {
+		
+		Optional<User> userOptional = userRepository.findById(userId);
+
+		User user = userOptional.orElseThrow(() -> new RuntimeException("User not found."));
+	
+		user.setFullName(userRequestDto.getFullName());
+		user.setPhone(userRequestDto.getPhone());
+		user.setCpf(userRequestDto.getCpf());
+		user.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
+		
+		userRepository.save(user);
+		
+		UserResponseDTO userResponseDto = new UserResponseDTO();
+		
+		BeanUtils.copyProperties(user, userResponseDto);
+		
+		return userResponseDto;
 	}
 
 }

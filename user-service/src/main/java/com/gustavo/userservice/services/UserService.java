@@ -10,5 +10,7 @@ public interface UserService {
 	UserResponseDTO insert(UserRequestDTO userRequestDto);
 	
 	UserResponseDTO getOneUser(UUID userId);
+	
+	UserResponseDTO update(UUID userId, UserRequestDTO userRequestDto);
 
 }
