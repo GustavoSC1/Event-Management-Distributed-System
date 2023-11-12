@@ -90,5 +90,15 @@ public class UserServiceImpl implements UserService {
 		
 		return userResponseDto;
 	}
+	
+	public void delete(UUID userId) {
+		
+		Optional<User> userOptional = userRepository.findById(userId);
+		
+		User user = userOptional.orElseThrow(() -> new RuntimeException("User not found."));
+		
+		userRepository.delete(user);
+		
+	}
 
 }

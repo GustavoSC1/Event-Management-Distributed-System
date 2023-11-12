@@ -12,5 +12,7 @@ public interface UserService {
 	UserResponseDTO getOneUser(UUID userId);
 	
 	UserResponseDTO update(UUID userId, UserRequestDTO userRequestDto);
+	
+	void delete(UUID userId);
 
 }
