@@ -14,5 +14,7 @@ public interface UserService {
 	UserResponseDTO update(UUID userId, UserRequestDTO userRequestDto);
 	
 	void delete(UUID userId);
+	
+	UserResponseDTO updateImage(UUID userId, UserRequestDTO userRequestDto);
 
 }

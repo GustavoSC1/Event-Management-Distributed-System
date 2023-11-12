@@ -97,8 +97,25 @@ public class UserServiceImpl implements UserService {
 		
 		User user = userOptional.orElseThrow(() -> new RuntimeException("User not found."));
 		
-		userRepository.delete(user);
+		userRepository.delete(user);		
+	}
+	
+	public UserResponseDTO updateImage(UUID userId, UserRequestDTO userRequestDto) {
 		
+		Optional<User> userOptional = userRepository.findById(userId);
+
+		User user = userOptional.orElseThrow(() -> new RuntimeException("User not found."));
+	
+		user.setImageUrl(userRequestDto.getImageUrl());
+		user.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
+		
+		userRepository.save(user);
+		
+		UserResponseDTO userResponseDto = new UserResponseDTO();
+		
+		BeanUtils.copyProperties(user, userResponseDto);
+		
+		return userResponseDto;
 	}
 
 }

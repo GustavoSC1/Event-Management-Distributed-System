@@ -17,6 +17,7 @@ public class UserRequestDTO {
 	public interface UserView {
 		public static interface UserPost {}
 		public static interface UserPut {}
+		public static interface ImagePut {}
 	}
 	
 	@NotEmpty(message="The name field is required", groups = {UserView.UserPost.class, UserView.UserPut.class})
@@ -39,6 +40,10 @@ public class UserRequestDTO {
 	@JsonView(UserView.UserPost.class)
 	private String username;
 	
+	@NotEmpty(message="The imageUrl field is required", groups = UserView.ImagePut.class)
+	@JsonView(UserView.ImagePut.class)
+	private String imageUrl;
+	
 	@NotEmpty(message="The email field is required", groups = UserView.UserPost.class)
 	@Email(message="Invalid email", groups = UserView.UserPost.class)
 	@JsonView(UserView.UserPost.class)
@@ -53,12 +58,13 @@ public class UserRequestDTO {
 		
 	}
 
-	public UserRequestDTO(String fullName, String phone, String cpf, String username, String email, String password) {
+	public UserRequestDTO(String fullName, String phone, String cpf, String username, String imageUrl, String email, String password) {
 		super();
 		this.fullName = fullName;
 		this.phone = phone;
 		this.cpf = cpf;
 		this.username = username;
+		this.imageUrl = imageUrl;
 		this.email = email;
 		this.password = password;
 	}
@@ -93,6 +99,14 @@ public class UserRequestDTO {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	public String getEmail() {

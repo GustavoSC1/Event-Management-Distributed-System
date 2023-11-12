@@ -58,4 +58,13 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body("User deleted successfully.");
 	}
 	
+	@PutMapping("/{userId}/image")
+	public ResponseEntity<UserResponseDTO> updateImage(@PathVariable UUID userId, 
+			@RequestBody @Validated(UserRequestDTO.UserView.ImagePut.class) 
+			@JsonView(UserRequestDTO.UserView.ImagePut.class) UserRequestDTO userRequestDto) {
+		UserResponseDTO userResponseDto = userService.updateImage(userId, userRequestDto);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
+	}
+	
 }
