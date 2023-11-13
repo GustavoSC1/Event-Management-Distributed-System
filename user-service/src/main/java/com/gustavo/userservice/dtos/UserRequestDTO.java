@@ -18,6 +18,7 @@ public class UserRequestDTO {
 		public static interface UserPost {}
 		public static interface UserPut {}
 		public static interface ImagePut {}
+		public static interface PasswordPut {}
 	}
 	
 	@NotEmpty(message="The name field is required", groups = {UserView.UserPost.class, UserView.UserPut.class})
@@ -49,10 +50,15 @@ public class UserRequestDTO {
 	@JsonView(UserView.UserPost.class)
 	private String email;
 	
-	@NotEmpty(message="The password field is required", groups = UserView.UserPost.class)
-	@Size(min=8, max=20, message="The length must be between 8 and 20 characters", groups = UserView.UserPost.class)
-	@JsonView({UserView.UserPost.class})
+	@NotEmpty(message="The password field is required", groups = {UserView.UserPost.class, UserView.PasswordPut.class})
+	@Size(min=8, max=20, message="The length must be between 8 and 20 characters", groups = {UserView.UserPost.class, UserView.PasswordPut.class})
+	@JsonView({UserView.UserPost.class, UserView.PasswordPut.class})
 	private String password;
+	
+	@NotEmpty(message="The old password field is required", groups = UserView.PasswordPut.class)
+	@Size(min=8, max=20, message="The length must be between 8 and 20 characters", groups = UserView.PasswordPut.class)
+	@JsonView(UserView.PasswordPut.class)
+	private String oldPassword;
 
 	public UserRequestDTO() {
 		
@@ -123,6 +129,14 @@ public class UserRequestDTO {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getOldPassword() {
+		return oldPassword;
+	}
+
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
 	}
 
 }

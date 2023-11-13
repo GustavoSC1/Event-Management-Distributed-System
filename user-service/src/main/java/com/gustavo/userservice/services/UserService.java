@@ -15,6 +15,8 @@ public interface UserService {
 	
 	void delete(UUID userId);
 	
+	void updatePassword(UUID userId, UserRequestDTO userRequestDto);
+	
 	UserResponseDTO updateImage(UUID userId, UserRequestDTO userRequestDto);
 
 }

@@ -58,6 +58,15 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body("User deleted successfully.");
 	}
 	
+	@PutMapping("/{userId}/password")
+	public ResponseEntity<String> updatePassword(@PathVariable UUID userId, 
+			@RequestBody @Validated(UserRequestDTO.UserView.PasswordPut.class) 
+			@JsonView(UserRequestDTO.UserView.PasswordPut.class) UserRequestDTO userRequestDto) {
+		userService.updatePassword(userId, userRequestDto);
+		
+		return ResponseEntity.status(HttpStatus.OK).body("Password updated successfully.");
+	}
+	
 	@PutMapping("/{userId}/image")
 	public ResponseEntity<UserResponseDTO> updateImage(@PathVariable UUID userId, 
 			@RequestBody @Validated(UserRequestDTO.UserView.ImagePut.class) 

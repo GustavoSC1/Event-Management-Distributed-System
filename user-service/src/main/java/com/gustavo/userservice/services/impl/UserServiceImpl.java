@@ -100,6 +100,21 @@ public class UserServiceImpl implements UserService {
 		userRepository.delete(user);		
 	}
 	
+	public void updatePassword(UUID userId, UserRequestDTO userRequestDto) {
+		Optional<User> userOptional = userRepository.findById(userId);
+
+		User user = userOptional.orElseThrow(() -> new RuntimeException("User not found."));
+		
+		if(!user.getPassword().equals(userRequestDto.getOldPassword())) {
+			throw new RuntimeException("Error: Mismatched old password");
+		} else {
+			user.setPassword(userRequestDto.getPassword());
+			user.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
+			
+			userRepository.save(user);
+		}
+	}
+	
 	public UserResponseDTO updateImage(UUID userId, UserRequestDTO userRequestDto) {
 		
 		Optional<User> userOptional = userRepository.findById(userId);
