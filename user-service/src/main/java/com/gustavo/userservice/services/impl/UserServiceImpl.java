@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.gustavo.userservice.dtos.UserRequestDTO;
@@ -69,6 +71,18 @@ public class UserServiceImpl implements UserService {
 		BeanUtils.copyProperties(user, userResponseDto);
 		
 		return userResponseDto;		
+	}
+	
+	public Page<UserResponseDTO> findAll(String name, String email, Pageable pageable) {
+		
+		Page<User> userPage = userRepository.findByNameLikeAndEmailLike(name, email, pageable);
+		
+		Page<UserResponseDTO> urserResponseDtoPage = userPage.map(obj -> {
+			UserResponseDTO userResponseDto = new UserResponseDTO();		
+			BeanUtils.copyProperties(obj, userResponseDto);
+			return userResponseDto;});
+		
+		return urserResponseDtoPage;		
 	}
 	
 	public UserResponseDTO update(UUID userId, UserRequestDTO userRequestDto) {

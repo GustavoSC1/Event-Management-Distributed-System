@@ -3,6 +3,10 @@ package com.gustavo.userservice.controllers;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -27,7 +32,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@PostMapping()
+	@PostMapping
 	public ResponseEntity<UserResponseDTO> insert(@RequestBody @Validated(UserRequestDTO.UserView.UserPost.class)  
 									@JsonView(UserRequestDTO.UserView.UserPost.class) UserRequestDTO userRequestDto) {
 		UserResponseDTO userResponseDto = userService.insert(userRequestDto);
@@ -40,6 +45,16 @@ public class UserController {
 		UserResponseDTO userResponseDto = userService.getOneUser(userId);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
+	}
+	
+	@GetMapping
+	public ResponseEntity<Page<UserResponseDTO>> getAllUsers(
+			@RequestParam(value="name", defaultValue="") String name,
+			@RequestParam(value="email", defaultValue="") String email,
+			@PageableDefault(page = 0, size = 10, sort = "userId", direction = Sort.Direction.ASC) Pageable pageable) {
+		Page<UserResponseDTO> urserResponseDtoPage = userService.findAll(name, email, pageable);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(urserResponseDtoPage);
 	}
 	
 	@PutMapping("/{userId}")
