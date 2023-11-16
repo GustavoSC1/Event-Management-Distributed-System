@@ -2,7 +2,7 @@ package com.gustavo.userservice.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.gustavo.userservice.validation.UsernameConstraint;
+import com.gustavo.userservice.services.validation.UsernameConstraint;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

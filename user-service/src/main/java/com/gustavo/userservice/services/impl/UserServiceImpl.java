@@ -20,6 +20,8 @@ import com.gustavo.userservice.entities.enums.UserStatus;
 import com.gustavo.userservice.repositories.RoleRepository;
 import com.gustavo.userservice.repositories.UserRepository;
 import com.gustavo.userservice.services.UserService;
+import com.gustavo.userservice.services.exceptions.BusinessException;
+import com.gustavo.userservice.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -33,15 +35,15 @@ public class UserServiceImpl implements UserService {
 	public UserResponseDTO insert(UserRequestDTO userRequestDto) {
 		
 		if(userRepository.existsByUsername(userRequestDto.getUsername())) {
-			throw new RuntimeException("Error: Username is already taken!");
+			throw new BusinessException("Error: Username is already taken!");
 		}
 		
 		if(userRepository.existsByEmail(userRequestDto.getEmail())) {
-			throw new RuntimeException("Error: Email is already taken!");
+			throw new BusinessException("Error: Email is already taken!");
 		}
 		
 		Role role = roleRepository.findByRoleName(RoleType.ROLE_USER)
-				.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+				.orElseThrow(() -> new ObjectNotFoundException("Error: Role is not found!"));
 		
 		User user = new User();
 		BeanUtils.copyProperties(userRequestDto, user);
@@ -64,7 +66,7 @@ public class UserServiceImpl implements UserService {
 		
 		Optional<User> userOptional = userRepository.findById(userId);
 		
-		User user = userOptional.orElseThrow(() -> new RuntimeException("User not found."));
+		User user = userOptional.orElseThrow(() -> new ObjectNotFoundException("User not found! Id: " + userId));
 		
 		UserResponseDTO userResponseDto = new UserResponseDTO();
 		
@@ -89,7 +91,7 @@ public class UserServiceImpl implements UserService {
 		
 		Optional<User> userOptional = userRepository.findById(userId);
 
-		User user = userOptional.orElseThrow(() -> new RuntimeException("User not found."));
+		User user = userOptional.orElseThrow(() -> new ObjectNotFoundException("User not found Id: " + userId));
 	
 		user.setFullName(userRequestDto.getFullName());
 		user.setPhone(userRequestDto.getPhone());
@@ -109,7 +111,7 @@ public class UserServiceImpl implements UserService {
 		
 		Optional<User> userOptional = userRepository.findById(userId);
 		
-		User user = userOptional.orElseThrow(() -> new RuntimeException("User not found."));
+		User user = userOptional.orElseThrow(() -> new ObjectNotFoundException("User not found! Id: " + userId));
 		
 		userRepository.delete(user);		
 	}
@@ -117,10 +119,10 @@ public class UserServiceImpl implements UserService {
 	public void updatePassword(UUID userId, UserRequestDTO userRequestDto) {
 		Optional<User> userOptional = userRepository.findById(userId);
 
-		User user = userOptional.orElseThrow(() -> new RuntimeException("User not found."));
+		User user = userOptional.orElseThrow(() -> new ObjectNotFoundException("User not found! Id: " + userId));
 		
 		if(!user.getPassword().equals(userRequestDto.getOldPassword())) {
-			throw new RuntimeException("Error: Mismatched old password");
+			throw new BusinessException("Error: Mismatched old password");
 		} else {
 			user.setPassword(userRequestDto.getPassword());
 			user.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
@@ -133,7 +135,7 @@ public class UserServiceImpl implements UserService {
 		
 		Optional<User> userOptional = userRepository.findById(userId);
 
-		User user = userOptional.orElseThrow(() -> new RuntimeException("User not found."));
+		User user = userOptional.orElseThrow(() -> new ObjectNotFoundException("User not found! Id: " + userId));
 	
 		user.setImageUrl(userRequestDto.getImageUrl());
 		user.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));

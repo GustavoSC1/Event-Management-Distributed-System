@@ -1,4 +1,4 @@
-package com.gustavo.userservice.validation;
+package com.gustavo.userservice.services.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
