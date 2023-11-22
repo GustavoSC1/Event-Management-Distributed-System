@@ -11,6 +11,7 @@ public class EventResponseDTO implements Serializable {
 	private String name;	
 	private String description;	
 	private LocalDateTime creationDate;	
+	private LocalDateTime lastUpdateDate;
 	private LocalDateTime registrationEndDate;	
 	private LocalDateTime startDateTime;	
 	private LocalDateTime endDateTime;	
@@ -23,13 +24,13 @@ public class EventResponseDTO implements Serializable {
 	}
 
 	public EventResponseDTO(UUID eventId, String name, String description, LocalDateTime creationDate,
-			LocalDateTime registrationEndDate, LocalDateTime startDateTime, LocalDateTime endDateTime, String place,
-			Integer capacity, Double price) {
-		super();
+			LocalDateTime lastUpdateDate, LocalDateTime registrationEndDate, LocalDateTime startDateTime,
+			LocalDateTime endDateTime, String place, Integer capacity, Double price) {
 		this.eventId = eventId;
 		this.name = name;
 		this.description = description;
 		this.creationDate = creationDate;
+		this.lastUpdateDate = lastUpdateDate;
 		this.registrationEndDate = registrationEndDate;
 		this.startDateTime = startDateTime;
 		this.endDateTime = endDateTime;
@@ -68,6 +69,14 @@ public class EventResponseDTO implements Serializable {
 
 	public void setCreationDate(LocalDateTime creationDate) {
 		this.creationDate = creationDate;
+	}
+
+	public LocalDateTime getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(LocalDateTime lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
 	}
 
 	public LocalDateTime getRegistrationEndDate() {

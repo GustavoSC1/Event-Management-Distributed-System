@@ -2,6 +2,8 @@ package com.gustavo.eventservice.services.impl;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import com.gustavo.eventservice.repositories.EventRepository;
 import com.gustavo.eventservice.services.EventService;
 import com.gustavo.eventservice.services.UserService;
 import com.gustavo.eventservice.services.exceptions.BusinessException;
+import com.gustavo.eventservice.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -51,6 +54,19 @@ public class EventServiceImpl implements EventService {
 		event.setCreationUser(user);		
 		
 		eventRepository.save(event);
+		
+		EventResponseDTO eventResponseDto = new EventResponseDTO();
+		
+		BeanUtils.copyProperties(event, eventResponseDto);
+		
+		return eventResponseDto;		
+	}
+	
+	public EventResponseDTO getOneEvent(UUID eventId) {
+		
+		Optional<Event> eventOptional = eventRepository.findById(eventId);
+		
+		Event event = eventOptional.orElseThrow(() -> new ObjectNotFoundException("Event not found! Id: " + eventId));
 		
 		EventResponseDTO eventResponseDto = new EventResponseDTO();
 		
