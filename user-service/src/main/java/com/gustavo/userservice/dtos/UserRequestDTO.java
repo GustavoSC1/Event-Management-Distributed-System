@@ -1,5 +1,7 @@
 package com.gustavo.userservice.dtos;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.gustavo.userservice.services.validation.UsernameConstraint;
@@ -10,7 +12,8 @@ import jakarta.validation.constraints.Size;
 
 // É usada para indicar quando a propriedade anotada pode ser serializada. 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserRequestDTO {
+public class UserRequestDTO implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	// É possível definir várias views do mesmo model/DTOs com diferentes combinações de campos.
 	// Define as views como interfaces.

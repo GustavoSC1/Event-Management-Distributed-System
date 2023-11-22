@@ -25,10 +25,10 @@ public class EventTicket implements Serializable {
 	private UUID ticketId;
     
     @Column(nullable = false)
-    public LocalDateTime registrationDate;
+    private LocalDateTime registrationDate;
         
     @Column(nullable = false)
-    public Boolean isPaid;    
+    private Boolean isPaid;    
     
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")

@@ -33,6 +33,7 @@ public class UserController {
 	private UserService userService;
 	
 	@PostMapping
+	// A anotação @Validated oferece suporte a "grupos de validação"
 	public ResponseEntity<UserResponseDTO> insert(@RequestBody @Validated(UserRequestDTO.UserView.UserPost.class)  
 									@JsonView(UserRequestDTO.UserView.UserPost.class) UserRequestDTO userRequestDto) {
 		UserResponseDTO userResponseDto = userService.insert(userRequestDto);

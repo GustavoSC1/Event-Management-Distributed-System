@@ -10,6 +10,8 @@ import com.gustavo.eventservice.entities.enums.UserStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
@@ -37,6 +39,7 @@ public class User implements Serializable {
     private String email;
     
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserStatus userStatus;
     
     @OneToMany(mappedBy = "creationUser", fetch = FetchType.LAZY)

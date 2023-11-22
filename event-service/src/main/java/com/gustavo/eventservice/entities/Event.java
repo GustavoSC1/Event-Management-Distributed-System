@@ -32,11 +32,14 @@ public class Event implements Serializable {
     @Column(nullable = false, length = 150)
     private String name;
     
-    @Column(nullable = false, length = 250)
+    @Column(nullable = false, length= 3000)
     private String description;
     
     @Column(nullable = false)
     private LocalDateTime creationDate;
+    
+    @Column(nullable = false)
+    private LocalDateTime lastUpdateDate;
     
     @Column(nullable = false)
     private LocalDateTime registrationEndDate;
@@ -74,18 +77,20 @@ public class Event implements Serializable {
 	}
 
 	public Event(UUID eventId, String name, String description, LocalDateTime creationDate,
-			LocalDateTime registrationEndDate, LocalDateTime startDateTime, LocalDateTime endDateTime, String place,
-			Integer capacity, Double price) {
+			LocalDateTime lastUpdateDate, LocalDateTime registrationEndDate, LocalDateTime startDateTime,
+			LocalDateTime endDateTime, String place, Integer capacity, Double price, User creationUser) {
 		this.eventId = eventId;
 		this.name = name;
 		this.description = description;
 		this.creationDate = creationDate;
+		this.lastUpdateDate = lastUpdateDate;
 		this.registrationEndDate = registrationEndDate;
 		this.startDateTime = startDateTime;
 		this.endDateTime = endDateTime;
 		this.place = place;
 		this.capacity = capacity;
 		this.price = price;
+		this.creationUser = creationUser;
 	}
 
 	public UUID getEventId() {
@@ -118,6 +123,14 @@ public class Event implements Serializable {
 
 	public void setCreationDate(LocalDateTime creationDate) {
 		this.creationDate = creationDate;
+	}
+
+	public LocalDateTime getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(LocalDateTime lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
 	}
 
 	public LocalDateTime getRegistrationEndDate() {
@@ -194,8 +207,8 @@ public class Event implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(capacity, creationDate, description, endDateTime, eventId, name, place, price,
-				registrationEndDate, startDateTime);
+		return Objects.hash(capacity, creationDate, creationUser, description, endDateTime, eventId, eventTickets,
+				lastUpdateDate, name, place, price, registrationEndDate);
 	}
 
 	@Override
@@ -208,11 +221,12 @@ public class Event implements Serializable {
 			return false;
 		Event other = (Event) obj;
 		return Objects.equals(capacity, other.capacity) && Objects.equals(creationDate, other.creationDate)
-				&& Objects.equals(description, other.description) && Objects.equals(endDateTime, other.endDateTime)
-				&& Objects.equals(eventId, other.eventId) && Objects.equals(name, other.name)
+				&& Objects.equals(creationUser, other.creationUser) && Objects.equals(description, other.description)
+				&& Objects.equals(endDateTime, other.endDateTime) && Objects.equals(eventId, other.eventId)
+				&& Objects.equals(eventTickets, other.eventTickets)
+				&& Objects.equals(lastUpdateDate, other.lastUpdateDate) && Objects.equals(name, other.name)
 				&& Objects.equals(place, other.place) && Objects.equals(price, other.price)
-				&& Objects.equals(registrationEndDate, other.registrationEndDate)
-				&& Objects.equals(startDateTime, other.startDateTime);
+				&& Objects.equals(registrationEndDate, other.registrationEndDate);
 	}
 
 }

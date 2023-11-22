@@ -17,8 +17,8 @@ import com.gustavo.userservice.entities.Role;
 import com.gustavo.userservice.entities.User;
 import com.gustavo.userservice.entities.enums.RoleType;
 import com.gustavo.userservice.entities.enums.UserStatus;
-import com.gustavo.userservice.repositories.RoleRepository;
 import com.gustavo.userservice.repositories.UserRepository;
+import com.gustavo.userservice.services.RoleService;
 import com.gustavo.userservice.services.UserService;
 import com.gustavo.userservice.services.exceptions.BusinessException;
 import com.gustavo.userservice.services.exceptions.ObjectNotFoundException;
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 	
 	@Autowired
-	private RoleRepository roleRepository;
+	private RoleService roleService;
 	
 	public UserResponseDTO insert(UserRequestDTO userRequestDto) {
 		
@@ -42,8 +42,7 @@ public class UserServiceImpl implements UserService {
 			throw new BusinessException("Error: Email is already taken!");
 		}
 		
-		Role role = roleRepository.findByRoleName(RoleType.ROLE_USER)
-				.orElseThrow(() -> new ObjectNotFoundException("Error: Role is not found!"));
+		Role role = roleService.findByRoleName(RoleType.ROLE_USER);
 		
 		User user = new User();
 		BeanUtils.copyProperties(userRequestDto, user);

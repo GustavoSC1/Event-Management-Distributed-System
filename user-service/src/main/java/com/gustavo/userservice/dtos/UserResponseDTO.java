@@ -1,5 +1,6 @@
 package com.gustavo.userservice.dtos;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -8,7 +9,8 @@ import java.util.UUID;
 import com.gustavo.userservice.entities.Role;
 import com.gustavo.userservice.entities.enums.UserStatus;
 
-public class UserResponseDTO {
+public class UserResponseDTO implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	private UUID userId;
 	private String name;
