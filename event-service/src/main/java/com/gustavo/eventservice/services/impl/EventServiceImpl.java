@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.gustavo.eventservice.dtos.EventRequestDTO;
@@ -60,6 +62,18 @@ public class EventServiceImpl implements EventService {
 		BeanUtils.copyProperties(event, eventResponseDto);
 		
 		return eventResponseDto;		
+	}
+	
+	public Page<EventResponseDTO> findAll(String search, String place, Double minPrice, Double maxPrice, LocalDateTime date, Pageable pageable) {
+		
+		Page<Event> eventPage = eventRepository.findByParams(search, place, minPrice, maxPrice, date, pageable);
+	
+		Page<EventResponseDTO> eventResponseDtoPage = eventPage.map(obj -> {
+			EventResponseDTO eventResponseDto = new EventResponseDTO();
+			BeanUtils.copyProperties(obj, eventResponseDto);
+			return eventResponseDto;});
+		
+		return eventResponseDtoPage;
 	}
 	
 	public EventResponseDTO getOneEvent(UUID eventId) {
