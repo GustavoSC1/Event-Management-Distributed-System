@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
@@ -11,42 +14,57 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class EventRequestDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	@NotEmpty(message="The name field is required")
-	@Size(min=8, max=150, message="The length must be between 8 and 150 characters")
+	public interface EventView {
+		public static interface EventPost {}
+		public static interface EventPut {}
+	}
+	
+	@NotEmpty(message="The name field is required", groups = {EventView.EventPost.class, EventView.EventPut.class})
+	@Size(min=8, max=150, message="The length must be between 8 and 150 characters", groups = {EventView.EventPost.class, EventView.EventPut.class})
+	@JsonView({EventView.EventPost.class, EventView.EventPut.class})
 	private String name;
 	
-	@NotEmpty(message="The description field is required")
-	@Size(min=20, max=250, message="The length must be between 8 and 3000 characters")
+	@NotEmpty(message="The description field is required", groups = {EventView.EventPost.class, EventView.EventPut.class})
+	@Size(min=20, max=250, message="The length must be between 8 and 3000 characters", groups = {EventView.EventPost.class, EventView.EventPut.class})
+	@JsonView({EventView.EventPost.class, EventView.EventPut.class})
 	private String description;
 	
-	@NotNull(message="The registration end date field is required")
-	@Future(message="Invalid date")
+	@NotNull(message="The registration end date field is required", groups = {EventView.EventPost.class, EventView.EventPut.class})
+	@Future(message="Invalid date", groups = {EventView.EventPost.class, EventView.EventPut.class})
+	@JsonView({EventView.EventPost.class, EventView.EventPut.class})
 	private LocalDateTime registrationEndDate;
 	
-	@NotNull(message="The start date time field is required")
-	@Future(message="Invalid date")
+	@NotNull(message="The start date time field is required", groups = {EventView.EventPost.class, EventView.EventPut.class})
+	@Future(message="Invalid date", groups = {EventView.EventPost.class, EventView.EventPut.class})
+	@JsonView({EventView.EventPost.class, EventView.EventPut.class})
 	private LocalDateTime startDateTime;
 	
-	@NotNull(message="The end date time field is required")
-	@Future(message="Invalid date")
+	@NotNull(message="The end date time field is required", groups = {EventView.EventPost.class, EventView.EventPut.class})
+	@Future(message="Invalid date", groups = {EventView.EventPost.class, EventView.EventPut.class})
+	@JsonView({EventView.EventPost.class, EventView.EventPut.class})
 	private LocalDateTime endDateTime;
 	
-	@NotEmpty(message="The place field is required")
-	@Size(min=8, max=150, message="The length must be between 8 and 150 characters")
+	@NotEmpty(message="The place field is required", groups = {EventView.EventPost.class, EventView.EventPut.class})
+	@Size(min=8, max=150, message="The length must be between 8 and 150 characters", groups = {EventView.EventPost.class, EventView.EventPut.class})
+	@JsonView({EventView.EventPost.class, EventView.EventPut.class})
 	private String place;
 	
-	@NotNull(message="The capacity field is required")
-	@Min(value=1, message="Capacity cannot be less than 1")
+	@NotNull(message="The capacity field is required", groups = {EventView.EventPost.class, EventView.EventPut.class})
+	@Min(value=1, message="Capacity cannot be less than 1", groups = {EventView.EventPost.class, EventView.EventPut.class})
+	@JsonView({EventView.EventPost.class, EventView.EventPut.class})
 	private Integer capacity;
 	
-	@NotNull(message="The capacity field is required")
-	@DecimalMin(value="0.0", message="Price cannot be negative")
+	@NotNull(message="The capacity field is required", groups = {EventView.EventPost.class, EventView.EventPut.class})
+	@DecimalMin(value="0.0", message="Price cannot be negative", groups = {EventView.EventPost.class, EventView.EventPut.class})
+	@JsonView({EventView.EventPost.class, EventView.EventPut.class})
 	private Double price;
 	
-	@NotNull(message="The creation user ID field is required")	
+	@NotNull(message="The creation user ID field is required", groups = EventView.EventPost.class)	
+	@JsonView(EventView.EventPost.class)
 	private UUID creationUser;
 	
 	public EventRequestDTO() {

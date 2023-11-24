@@ -88,5 +88,38 @@ public class EventServiceImpl implements EventService {
 		
 		return eventResponseDto;		
 	}
+	
+	public EventResponseDTO update(UUID eventId, EventRequestDTO eventRequestDto) {
+		
+		Optional<Event> eventOptional = eventRepository.findById(eventId);
+		
+		Event event = eventOptional.orElseThrow(() -> new ObjectNotFoundException("Event not found! Id: " + eventId));
+		
+		if(eventRequestDto.getEndDateTime().isBefore(eventRequestDto.getStartDateTime())) {
+			throw new BusinessException("The End Date and Time of the event cannot be earlier than the Start Date and Time!");
+		}
+				
+		if(eventRequestDto.getEndDateTime().isBefore(eventRequestDto.getRegistrationEndDate())) {
+			throw new BusinessException("The registration end date cannot be later than the event end date and time!");
+		}
+		
+		event.setName(eventRequestDto.getName());
+		event.setDescription(eventRequestDto.getDescription());
+		event.setRegistrationEndDate(eventRequestDto.getRegistrationEndDate());
+		event.setStartDateTime(eventRequestDto.getStartDateTime());
+		event.setEndDateTime(eventRequestDto.getEndDateTime());
+		event.setPlace(eventRequestDto.getPlace());
+		event.setCapacity(eventRequestDto.getCapacity());
+		event.setPrice(eventRequestDto.getPrice());
+		event.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
+		
+		eventRepository.save(event);
+		
+		EventResponseDTO eventResponseDto = new EventResponseDTO();
+		
+		BeanUtils.copyProperties(event, eventResponseDto);
+		
+		return eventResponseDto;
+	}
 
 }

@@ -16,5 +16,7 @@ public interface EventService {
 	Page<EventResponseDTO> findAll(String search, String place, Double minPrice, Double maxPrice, LocalDateTime date, Pageable pageable);
 	
 	EventResponseDTO getOneEvent(UUID eventId);
+	
+	EventResponseDTO update(UUID eventId, EventRequestDTO eventRequestDto);
 
 }
