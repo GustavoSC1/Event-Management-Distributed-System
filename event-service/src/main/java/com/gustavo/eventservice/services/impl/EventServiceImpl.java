@@ -98,12 +98,34 @@ public class EventServiceImpl implements EventService {
 		return eventResponseDto;
 	}
 	
+	public void closeRegistrations(UUID eventId) {
+		
+		Event event = findById(eventId);
+		
+		if(!event.getEventStatus().equals(EventStatus.CLOSED_TO_REGISTRATIONS) &&
+		   !event.getEventStatus().equals(EventStatus.CANCELED) &&
+		   !event.getEventStatus().equals(EventStatus.PAST)) {
+			
+			event.setEventStatus(EventStatus.CLOSED_TO_REGISTRATIONS);
+			
+		} else {
+			new BusinessException("It is not possible to close registrations for this event!");
+		}
+		
+		eventRepository.save(event);
+	}
+	
 	public void cancelEvent(UUID eventId) {
 		
 		Event event = findById(eventId);
 		
-		if(!event.getEventStatus().equals(EventStatus.CANCELED)) {
+		if(!event.getEventStatus().equals(EventStatus.CANCELED) &&
+		   !event.getEventStatus().equals(EventStatus.PAST)) {
+			
 			event.setEventStatus(EventStatus.CANCELED);
+			
+		} else {
+			new BusinessException("It is not possible to cancel this event!");
 		}
 		
 		eventRepository.save(event);

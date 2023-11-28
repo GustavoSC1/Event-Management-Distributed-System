@@ -19,6 +19,8 @@ public interface EventService {
 	
 	EventResponseDTO update(UUID eventId, EventRequestDTO eventRequestDto);
 	
+	void closeRegistrations(UUID eventId);
+	
 	void cancelEvent(UUID eventId);
 
 }

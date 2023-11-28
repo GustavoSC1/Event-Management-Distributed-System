@@ -72,6 +72,13 @@ public class EventController {
 		return ResponseEntity.status(HttpStatus.OK).body(eventResponseDto);
 	}
 	
+	@PatchMapping("/{eventId}/close")
+	public ResponseEntity<String> closeRegistrations(@PathVariable UUID eventId) {
+		eventService.closeRegistrations(eventId);
+		
+		return ResponseEntity.status(HttpStatus.OK).body("Registrations closed successfully.");
+	}
+	
 	@PatchMapping("/{eventId}/cancel")
 	public ResponseEntity<String> cancelEvent(@PathVariable UUID eventId) {
 		eventService.cancelEvent(eventId);
