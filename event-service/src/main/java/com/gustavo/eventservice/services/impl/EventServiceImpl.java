@@ -15,6 +15,7 @@ import com.gustavo.eventservice.dtos.EventRequestDTO;
 import com.gustavo.eventservice.dtos.EventResponseDTO;
 import com.gustavo.eventservice.entities.Event;
 import com.gustavo.eventservice.entities.User;
+import com.gustavo.eventservice.entities.enums.EventStatus;
 import com.gustavo.eventservice.repositories.EventRepository;
 import com.gustavo.eventservice.services.EventService;
 import com.gustavo.eventservice.services.UserService;
@@ -32,29 +33,19 @@ public class EventServiceImpl implements EventService {
 	
 	public EventResponseDTO insert(EventRequestDTO  eventRequestDto) {
 		
-		LocalDateTime currentDate = LocalDateTime.now(ZoneId.of("UTC"));
-		
-		if(eventRequestDto.getEndDateTime().isBefore(eventRequestDto.getStartDateTime())) {
-			throw new BusinessException("The End Date and Time of the event cannot be earlier than the Start Date and Time!");
-		}
-		
-		if(eventRequestDto.getRegistrationEndDate().isBefore(currentDate)) {
-			throw new BusinessException("The Registration End Date cannot be earlier than the Registration Start Date!");
-		}
-		
-		if(eventRequestDto.getEndDateTime().isBefore(eventRequestDto.getRegistrationEndDate())) {
-			throw new BusinessException("The registration end date cannot be later than the event end date and time!");
-		}
-				
 		User user = userService.findById(eventRequestDto.getCreationUser());
 		
 		Event event = new Event();
 		BeanUtils.copyProperties(eventRequestDto, event);
 		
-		event.setCreationDate(currentDate);
-		event.setLastUpdateDate(currentDate);
-		event.setCreationUser(user);		
+		event.setCreationDate(LocalDateTime.now(ZoneId.of("UTC")));
+		event.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));		
+		event.setCreationUser(user);	
 		
+		checkDates(event, eventRequestDto);
+
+		updateStatus(event);
+
 		eventRepository.save(event);
 		
 		EventResponseDTO eventResponseDto = new EventResponseDTO();
@@ -78,9 +69,7 @@ public class EventServiceImpl implements EventService {
 	
 	public EventResponseDTO getOneEvent(UUID eventId) {
 		
-		Optional<Event> eventOptional = eventRepository.findById(eventId);
-		
-		Event event = eventOptional.orElseThrow(() -> new ObjectNotFoundException("Event not found! Id: " + eventId));
+		Event event = findById(eventId) ;
 		
 		EventResponseDTO eventResponseDto = new EventResponseDTO();
 		
@@ -90,29 +79,16 @@ public class EventServiceImpl implements EventService {
 	}
 	
 	public EventResponseDTO update(UUID eventId, EventRequestDTO eventRequestDto) {
-		
-		Optional<Event> eventOptional = eventRepository.findById(eventId);
-		
-		Event event = eventOptional.orElseThrow(() -> new ObjectNotFoundException("Event not found! Id: " + eventId));
-		
-		if(eventRequestDto.getEndDateTime().isBefore(eventRequestDto.getStartDateTime())) {
-			throw new BusinessException("The End Date and Time of the event cannot be earlier than the Start Date and Time!");
-		}
 				
-		if(eventRequestDto.getEndDateTime().isBefore(eventRequestDto.getRegistrationEndDate())) {
-			throw new BusinessException("The registration end date cannot be later than the event end date and time!");
-		}
+		Event event = findById(eventId) ;
 		
 		event.setName(eventRequestDto.getName());
 		event.setDescription(eventRequestDto.getDescription());
-		event.setRegistrationEndDate(eventRequestDto.getRegistrationEndDate());
-		event.setStartDateTime(eventRequestDto.getStartDateTime());
-		event.setEndDateTime(eventRequestDto.getEndDateTime());
-		event.setPlace(eventRequestDto.getPlace());
-		event.setCapacity(eventRequestDto.getCapacity());
-		event.setPrice(eventRequestDto.getPrice());
+		event.setImageUrl(eventRequestDto.getImageUrl());		
 		event.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
-		
+				
+		updateStatus(event);
+				
 		eventRepository.save(event);
 		
 		EventResponseDTO eventResponseDto = new EventResponseDTO();
@@ -120,6 +96,48 @@ public class EventServiceImpl implements EventService {
 		BeanUtils.copyProperties(event, eventResponseDto);
 		
 		return eventResponseDto;
+	}
+	
+	public Event findById(UUID eventId) {
+		
+		Optional<Event> eventOptional = eventRepository.findById(eventId);
+		
+		return eventOptional.orElseThrow(() -> new ObjectNotFoundException("Event not found! Id: " + eventId));
+	}
+	
+	public void checkDates(Event event, EventRequestDTO eventRequestDto) {
+				
+		if(eventRequestDto.getStartDateTime().isBefore(eventRequestDto.getRegistrationStartDate())) {
+			new BusinessException("An event cannot start before ticket sales begin!");
+		}
+				
+		if(eventRequestDto.getEndDateTime().isBefore(eventRequestDto.getStartDateTime())) {
+			throw new BusinessException("The end date and Time of the event cannot be earlier than the start d and time!");
+		}
+		
+		if(eventRequestDto.getRegistrationEndDate().isBefore(eventRequestDto.getRegistrationStartDate())) {
+			throw new BusinessException("The registration end date cannot be earlier than the registration start date!");
+		}
+		
+		if(eventRequestDto.getEndDateTime().isBefore(eventRequestDto.getRegistrationEndDate())) {
+			throw new BusinessException("The registration end date cannot be later than the event end date and time!");
+		}
+	}
+	
+	public void updateStatus(Event event) {
+		LocalDateTime currentDate = LocalDateTime.now(ZoneId.of("UTC"));
+				
+		if(event.getStartDateTime().isBefore(currentDate) && currentDate.isBefore(event.getEndDateTime())) {
+			event.setEventStatus(EventStatus.ONGOING);
+		} else if(currentDate.isAfter(event.getRegistrationStartDate()) && currentDate.isBefore(event.getRegistrationEndDate())) {
+			event.setEventStatus(EventStatus.OPEN_TO_REGISTRATIONS);
+		} else if(currentDate.isAfter(event.getRegistrationEndDate()) && currentDate.isBefore(event.getEndDateTime())) {
+			event.setEventStatus(EventStatus.CLOSED_TO_REGISTRATIONS);			
+		} else if(currentDate.isBefore(event.getRegistrationStartDate())) {
+			event.setEventStatus(EventStatus.CLOSED_TO_REGISTRATIONS);
+		} else if(currentDate.isAfter(event.getEndDateTime())) {
+			event.setEventStatus(EventStatus.PAST);	
+		}
 	}
 
 }

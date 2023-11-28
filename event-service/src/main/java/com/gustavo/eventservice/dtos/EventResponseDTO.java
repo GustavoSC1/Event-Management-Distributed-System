@@ -4,39 +4,47 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.gustavo.eventservice.entities.enums.EventStatus;
+
 public class EventResponseDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private UUID eventId;	
 	private String name;	
 	private String description;	
+	private String imageUrl;
 	private LocalDateTime creationDate;	
 	private LocalDateTime lastUpdateDate;
+	private LocalDateTime registrationStartDate;
 	private LocalDateTime registrationEndDate;	
 	private LocalDateTime startDateTime;	
 	private LocalDateTime endDateTime;	
 	private String place;	
 	private Integer capacity;	
 	private Double price;
+	private EventStatus eventStatus;
 	
 	public EventResponseDTO() {
 
 	}
-
-	public EventResponseDTO(UUID eventId, String name, String description, LocalDateTime creationDate,
-			LocalDateTime lastUpdateDate, LocalDateTime registrationEndDate, LocalDateTime startDateTime,
-			LocalDateTime endDateTime, String place, Integer capacity, Double price) {
+	
+	public EventResponseDTO(UUID eventId, String name, String description, String imageUrl, LocalDateTime creationDate,
+			LocalDateTime lastUpdateDate, LocalDateTime registrationStartDate, LocalDateTime registrationEndDate,
+			LocalDateTime startDateTime, LocalDateTime endDateTime, String place, Integer capacity, Double price,
+			EventStatus eventStatus) {
 		this.eventId = eventId;
 		this.name = name;
 		this.description = description;
 		this.creationDate = creationDate;
 		this.lastUpdateDate = lastUpdateDate;
+		this.registrationStartDate = registrationStartDate;
 		this.registrationEndDate = registrationEndDate;
 		this.startDateTime = startDateTime;
 		this.endDateTime = endDateTime;
 		this.place = place;
 		this.capacity = capacity;
 		this.price = price;
+		this.eventStatus = eventStatus;
 	}
 
 	public UUID getEventId() {
@@ -63,6 +71,14 @@ public class EventResponseDTO implements Serializable {
 		this.description = description;
 	}
 
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
 	public LocalDateTime getCreationDate() {
 		return creationDate;
 	}
@@ -77,6 +93,14 @@ public class EventResponseDTO implements Serializable {
 
 	public void setLastUpdateDate(LocalDateTime lastUpdateDate) {
 		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	public LocalDateTime getRegistrationStartDate() {
+		return registrationStartDate;
+	}
+
+	public void setRegistrationStartDate(LocalDateTime registrationStartDate) {
+		this.registrationStartDate = registrationStartDate;
 	}
 
 	public LocalDateTime getRegistrationEndDate() {
@@ -125,6 +149,14 @@ public class EventResponseDTO implements Serializable {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public EventStatus getEventStatus() {
+		return eventStatus;
+	}
+
+	public void setEventStatus(EventStatus eventStatus) {
+		this.eventStatus = eventStatus;
 	}
 
 }

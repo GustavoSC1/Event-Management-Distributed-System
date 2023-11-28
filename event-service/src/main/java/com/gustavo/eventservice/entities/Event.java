@@ -7,8 +7,12 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+import com.gustavo.eventservice.entities.enums.EventStatus;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -35,11 +39,17 @@ public class Event implements Serializable {
     @Column(nullable = false, length= 3000)
     private String description;
     
+    @Column
+	private String imageUrl;
+    
     @Column(nullable = false)
     private LocalDateTime creationDate;
     
     @Column(nullable = false)
     private LocalDateTime lastUpdateDate;
+    
+    @Column(nullable = false)
+    private LocalDateTime registrationStartDate;
     
     @Column(nullable = false)
     private LocalDateTime registrationEndDate;
@@ -59,9 +69,13 @@ public class Event implements Serializable {
     @Column(nullable = false)
     private Double price;
     
+    @Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+    private EventStatus eventStatus;
+    
     @ManyToOne(optional = false)
 	@JoinColumn(name = "creationUser_id")
-    public User creationUser;
+    private User creationUser;
     
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "TB_STAFF",
@@ -75,21 +89,25 @@ public class Event implements Serializable {
 	public Event() {		
 
 	}
-
-	public Event(UUID eventId, String name, String description, LocalDateTime creationDate,
-			LocalDateTime lastUpdateDate, LocalDateTime registrationEndDate, LocalDateTime startDateTime,
-			LocalDateTime endDateTime, String place, Integer capacity, Double price, User creationUser) {
+	
+	public Event(UUID eventId, String name, String description, String imageUrl, LocalDateTime creationDate,
+			LocalDateTime lastUpdateDate, LocalDateTime registrationStartDate, LocalDateTime registrationEndDate,
+			LocalDateTime startDateTime, LocalDateTime endDateTime, String place, Integer capacity, Double price,
+			EventStatus eventStatus, User creationUser) {
 		this.eventId = eventId;
 		this.name = name;
 		this.description = description;
+		this.imageUrl = imageUrl;
 		this.creationDate = creationDate;
 		this.lastUpdateDate = lastUpdateDate;
+		this.registrationStartDate = registrationStartDate;
 		this.registrationEndDate = registrationEndDate;
 		this.startDateTime = startDateTime;
 		this.endDateTime = endDateTime;
 		this.place = place;
 		this.capacity = capacity;
 		this.price = price;
+		this.eventStatus = eventStatus;
 		this.creationUser = creationUser;
 	}
 
@@ -117,6 +135,14 @@ public class Event implements Serializable {
 		this.description = description;
 	}
 
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
 	public LocalDateTime getCreationDate() {
 		return creationDate;
 	}
@@ -131,6 +157,14 @@ public class Event implements Serializable {
 
 	public void setLastUpdateDate(LocalDateTime lastUpdateDate) {
 		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	public LocalDateTime getRegistrationStartDate() {
+		return registrationStartDate;
+	}
+
+	public void setRegistrationStartDate(LocalDateTime registrationStartDate) {
+		this.registrationStartDate = registrationStartDate;
 	}
 
 	public LocalDateTime getRegistrationEndDate() {
@@ -181,6 +215,14 @@ public class Event implements Serializable {
 		this.price = price;
 	}
 
+	public EventStatus getEventStatus() {
+		return eventStatus;
+	}
+
+	public void setEventStatus(EventStatus eventStatus) {
+		this.eventStatus = eventStatus;
+	}
+
 	public User getCreationUser() {
 		return creationUser;
 	}
@@ -207,8 +249,9 @@ public class Event implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(capacity, creationDate, creationUser, description, endDateTime, eventId, eventTickets,
-				lastUpdateDate, name, place, price, registrationEndDate);
+		return Objects.hash(capacity, creationDate, creationUser, description, endDateTime, eventId, eventStatus,
+				imageUrl, lastUpdateDate, name, place, price, registrationEndDate, registrationStartDate,
+				startDateTime);
 	}
 
 	@Override
@@ -223,10 +266,12 @@ public class Event implements Serializable {
 		return Objects.equals(capacity, other.capacity) && Objects.equals(creationDate, other.creationDate)
 				&& Objects.equals(creationUser, other.creationUser) && Objects.equals(description, other.description)
 				&& Objects.equals(endDateTime, other.endDateTime) && Objects.equals(eventId, other.eventId)
-				&& Objects.equals(eventTickets, other.eventTickets)
+				&& eventStatus == other.eventStatus && Objects.equals(imageUrl, other.imageUrl)
 				&& Objects.equals(lastUpdateDate, other.lastUpdateDate) && Objects.equals(name, other.name)
 				&& Objects.equals(place, other.place) && Objects.equals(price, other.price)
-				&& Objects.equals(registrationEndDate, other.registrationEndDate);
+				&& Objects.equals(registrationEndDate, other.registrationEndDate)
+				&& Objects.equals(registrationStartDate, other.registrationStartDate)
+				&& Objects.equals(startDateTime, other.startDateTime);
 	}
 
 }

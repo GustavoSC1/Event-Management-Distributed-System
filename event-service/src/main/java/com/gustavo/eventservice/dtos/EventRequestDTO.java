@@ -33,34 +33,43 @@ public class EventRequestDTO implements Serializable {
 	@JsonView({EventView.EventPost.class, EventView.EventPut.class})
 	private String description;
 	
-	@NotNull(message="The registration end date field is required", groups = {EventView.EventPost.class, EventView.EventPut.class})
-	@Future(message="Invalid date", groups = {EventView.EventPost.class, EventView.EventPut.class})
+	@NotEmpty(message="The imageUrl field is required", groups = {EventView.EventPost.class, EventView.EventPut.class})
 	@JsonView({EventView.EventPost.class, EventView.EventPut.class})
+	private String imageUrl;
+	
+	@NotNull(message="The registration start date field is required", groups = EventView.EventPost.class)
+	@Future(message="Invalid date", groups = EventView.EventPost.class)
+	@JsonView(EventView.EventPost.class)
+	private LocalDateTime registrationStartDate;
+	
+	@NotNull(message="The registration end date field is required", groups = EventView.EventPost.class)
+	@Future(message="Invalid date", groups = EventView.EventPost.class)
+	@JsonView(EventView.EventPost.class)
 	private LocalDateTime registrationEndDate;
 	
-	@NotNull(message="The start date time field is required", groups = {EventView.EventPost.class, EventView.EventPut.class})
-	@Future(message="Invalid date", groups = {EventView.EventPost.class, EventView.EventPut.class})
-	@JsonView({EventView.EventPost.class, EventView.EventPut.class})
+	@NotNull(message="The start date time field is required", groups = EventView.EventPost.class)
+	@Future(message="Invalid date", groups = EventView.EventPost.class)
+	@JsonView(EventView.EventPost.class)
 	private LocalDateTime startDateTime;
 	
-	@NotNull(message="The end date time field is required", groups = {EventView.EventPost.class, EventView.EventPut.class})
-	@Future(message="Invalid date", groups = {EventView.EventPost.class, EventView.EventPut.class})
-	@JsonView({EventView.EventPost.class, EventView.EventPut.class})
+	@NotNull(message="The end date time field is required", groups = EventView.EventPost.class)
+	@Future(message="Invalid date", groups = EventView.EventPost.class)
+	@JsonView(EventView.EventPost.class)
 	private LocalDateTime endDateTime;
 	
-	@NotEmpty(message="The place field is required", groups = {EventView.EventPost.class, EventView.EventPut.class})
-	@Size(min=8, max=150, message="The length must be between 8 and 150 characters", groups = {EventView.EventPost.class, EventView.EventPut.class})
-	@JsonView({EventView.EventPost.class, EventView.EventPut.class})
+	@NotEmpty(message="The place field is required", groups = EventView.EventPost.class)
+	@Size(min=8, max=150, message="The length must be between 8 and 150 characters", groups = EventView.EventPost.class)
+	@JsonView(EventView.EventPost.class)
 	private String place;
 	
-	@NotNull(message="The capacity field is required", groups = {EventView.EventPost.class, EventView.EventPut.class})
-	@Min(value=1, message="Capacity cannot be less than 1", groups = {EventView.EventPost.class, EventView.EventPut.class})
-	@JsonView({EventView.EventPost.class, EventView.EventPut.class})
+	@NotNull(message="The capacity field is required", groups = EventView.EventPost.class)
+	@Min(value=1, message="Capacity cannot be less than 1", groups = EventView.EventPost.class)
+	@JsonView(EventView.EventPost.class)
 	private Integer capacity;
 	
-	@NotNull(message="The capacity field is required", groups = {EventView.EventPost.class, EventView.EventPut.class})
-	@DecimalMin(value="0.0", message="Price cannot be negative", groups = {EventView.EventPost.class, EventView.EventPut.class})
-	@JsonView({EventView.EventPost.class, EventView.EventPut.class})
+	@NotNull(message="The capacity field is required", groups = EventView.EventPost.class)
+	@DecimalMin(value="0.0", message="Price cannot be negative", groups = EventView.EventPost.class)
+	@JsonView(EventView.EventPost.class)
 	private Double price;
 	
 	@NotNull(message="The creation user ID field is required", groups = EventView.EventPost.class)	
@@ -71,12 +80,12 @@ public class EventRequestDTO implements Serializable {
 
 	}
 
-	public EventRequestDTO(String name, String description, LocalDateTime registrationEndDate,
-			LocalDateTime startDateTime, LocalDateTime endDateTime, String place, Integer capacity, Double price,
-			UUID creationUser) {
-		super();
+	public EventRequestDTO(String name, String description, String imageUrl, LocalDateTime registrationStartDate, 
+			LocalDateTime registrationEndDate, LocalDateTime startDateTime, LocalDateTime endDateTime, 
+			String place, Integer capacity, Double price, UUID creationUser) {
 		this.name = name;
 		this.description = description;
+		this.registrationStartDate = registrationStartDate;
 		this.registrationEndDate = registrationEndDate;
 		this.startDateTime = startDateTime;
 		this.endDateTime = endDateTime;
@@ -100,6 +109,22 @@ public class EventRequestDTO implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public LocalDateTime getRegistrationStartDate() {
+		return registrationStartDate;
+	}
+
+	public void setRegistrationStartDate(LocalDateTime registrationStartDate) {
+		this.registrationStartDate = registrationStartDate;
 	}
 
 	public LocalDateTime getRegistrationEndDate() {

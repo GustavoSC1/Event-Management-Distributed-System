@@ -63,9 +63,7 @@ public class UserServiceImpl implements UserService {
 	
 	public UserResponseDTO getOneUser(UUID userId) {
 		
-		Optional<User> userOptional = userRepository.findById(userId);
-		
-		User user = userOptional.orElseThrow(() -> new ObjectNotFoundException("User not found! Id: " + userId));
+		User user = findById(userId);
 		
 		UserResponseDTO userResponseDto = new UserResponseDTO();
 		
@@ -88,9 +86,7 @@ public class UserServiceImpl implements UserService {
 	
 	public UserResponseDTO update(UUID userId, UserRequestDTO userRequestDto) {
 		
-		Optional<User> userOptional = userRepository.findById(userId);
-
-		User user = userOptional.orElseThrow(() -> new ObjectNotFoundException("User not found Id: " + userId));
+		User user = findById(userId);
 	
 		user.setFullName(userRequestDto.getFullName());
 		user.setPhone(userRequestDto.getPhone());
@@ -107,18 +103,15 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	public void delete(UUID userId) {
-		
-		Optional<User> userOptional = userRepository.findById(userId);
-		
-		User user = userOptional.orElseThrow(() -> new ObjectNotFoundException("User not found! Id: " + userId));
+				
+		User user = findById(userId);
 		
 		userRepository.delete(user);		
 	}
 	
 	public void updatePassword(UUID userId, UserRequestDTO userRequestDto) {
-		Optional<User> userOptional = userRepository.findById(userId);
 
-		User user = userOptional.orElseThrow(() -> new ObjectNotFoundException("User not found! Id: " + userId));
+		User user = findById(userId);
 		
 		if(!user.getPassword().equals(userRequestDto.getOldPassword())) {
 			throw new BusinessException("Error: Mismatched old password");
@@ -146,6 +139,13 @@ public class UserServiceImpl implements UserService {
 		BeanUtils.copyProperties(user, userResponseDto);
 		
 		return userResponseDto;
+	}
+	
+	public User findById(UUID userId) {
+		
+		Optional<User> userOptional = userRepository.findById(userId);
+		
+		return userOptional.orElseThrow(() -> new ObjectNotFoundException("User not found! Id: " + userId));
 	}
 
 }
