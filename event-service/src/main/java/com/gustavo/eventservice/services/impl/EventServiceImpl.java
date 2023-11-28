@@ -69,7 +69,7 @@ public class EventServiceImpl implements EventService {
 	
 	public EventResponseDTO getOneEvent(UUID eventId) {
 		
-		Event event = findById(eventId) ;
+		Event event = findById(eventId);
 		
 		EventResponseDTO eventResponseDto = new EventResponseDTO();
 		
@@ -80,7 +80,7 @@ public class EventServiceImpl implements EventService {
 	
 	public EventResponseDTO update(UUID eventId, EventRequestDTO eventRequestDto) {
 				
-		Event event = findById(eventId) ;
+		Event event = findById(eventId);
 		
 		event.setName(eventRequestDto.getName());
 		event.setDescription(eventRequestDto.getDescription());
@@ -96,6 +96,17 @@ public class EventServiceImpl implements EventService {
 		BeanUtils.copyProperties(event, eventResponseDto);
 		
 		return eventResponseDto;
+	}
+	
+	public void cancelEvent(UUID eventId) {
+		
+		Event event = findById(eventId);
+		
+		if(!event.getEventStatus().equals(EventStatus.CANCELED)) {
+			event.setEventStatus(EventStatus.CANCELED);
+		}
+		
+		eventRepository.save(event);
 	}
 	
 	public Event findById(UUID eventId) {
