@@ -4,10 +4,15 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.UUID;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.gustavo.eventservice.dtos.RegistrationRequestDTO;
+import com.gustavo.eventservice.dtos.RegistrationResponseDTO;
+import com.gustavo.eventservice.dtos.UserResponseDTO;
 import com.gustavo.eventservice.entities.Event;
 import com.gustavo.eventservice.entities.EventTicket;
 import com.gustavo.eventservice.entities.User;
@@ -63,5 +68,22 @@ public class EventTicketServiceImpl implements EventTicketService {
 		
 		eventTicketRepository.save(eventTicket);
 	}	
+	
+	public Page<RegistrationResponseDTO> findByEvent(UUID eventId, Pageable pageable) {
+		
+		Event event = eventService.findById(eventId);
+		
+		Page<EventTicket> eventTicket = eventTicketRepository.findByEvent(event, pageable);
+		
+		Page<RegistrationResponseDTO> registrationResponseDtoPage = eventTicket.map(obj -> {
+			RegistrationResponseDTO registrationResponseDto = new RegistrationResponseDTO();
+			UserResponseDTO userResponseDto = new UserResponseDTO();
+			BeanUtils.copyProperties(obj, registrationResponseDto);
+			BeanUtils.copyProperties(obj.getUser(), userResponseDto);
+			registrationResponseDto.setUserResponseDto(userResponseDto);
+			return registrationResponseDto;});
+		
+		return registrationResponseDtoPage;		
+	}
 
 }

@@ -2,6 +2,8 @@ package com.gustavo.eventservice.repositories;
 
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.gustavo.eventservice.entities.Event;
@@ -13,5 +15,7 @@ public interface EventTicketRepository extends JpaRepository<EventTicket, UUID> 
 	boolean existsByUserAndEvent(User user, Event event);
 	
 	long countByEvent(Event event);
+	
+	Page<EventTicket> findByEvent(Event event, Pageable pageable);
 
 }
