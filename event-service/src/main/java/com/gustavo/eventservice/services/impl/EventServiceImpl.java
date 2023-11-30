@@ -130,7 +130,7 @@ public class EventServiceImpl implements EventService {
 		
 		eventRepository.save(event);
 	}
-	
+		
 	public Event findById(UUID eventId) {
 		
 		Optional<Event> eventOptional = eventRepository.findById(eventId);

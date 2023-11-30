@@ -72,7 +72,7 @@ public class EventRequestDTO implements Serializable {
 	@JsonView(EventView.EventPost.class)
 	private Double price;
 	
-	@NotNull(message="The creation user ID field is required", groups = EventView.EventPost.class)	
+	@NotNull(message="The Creation User ID field is required", groups = EventView.EventPost.class)	
 	@JsonView(EventView.EventPost.class)
 	private UUID creationUser;
 	
