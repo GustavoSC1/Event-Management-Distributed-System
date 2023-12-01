@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.gustavo.eventservice.dtos.EventRequestDTO;
 import com.gustavo.eventservice.dtos.EventResponseDTO;
+import com.gustavo.eventservice.dtos.StaffRequestDTO;
 import com.gustavo.eventservice.entities.Event;
 
 public interface EventService {
@@ -25,5 +26,7 @@ public interface EventService {
 	void cancelEvent(UUID eventId);
 	
 	Event findById(UUID eventId);
+	
+	void insertStaff(UUID eventId, StaffRequestDTO staffRequestDTO);
 
 }

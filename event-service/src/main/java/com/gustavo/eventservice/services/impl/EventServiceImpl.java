@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.gustavo.eventservice.dtos.EventRequestDTO;
 import com.gustavo.eventservice.dtos.EventResponseDTO;
+import com.gustavo.eventservice.dtos.StaffRequestDTO;
 import com.gustavo.eventservice.entities.Event;
 import com.gustavo.eventservice.entities.User;
 import com.gustavo.eventservice.entities.enums.EventStatus;
@@ -128,6 +129,26 @@ public class EventServiceImpl implements EventService {
 			new BusinessException("It is not possible to cancel this event!");
 		}
 		
+		eventRepository.save(event);
+	}
+	
+	public void insertStaff(UUID eventId, StaffRequestDTO staffRequestDTO) {
+		
+		Event event = findById(eventId);
+		
+		User user = userService.findById(staffRequestDTO.getUserId());
+		
+		if(event.getEventStatus().equals(EventStatus.PAST) || 
+		   event.getEventStatus().equals(EventStatus.CANCELED)) {
+			throw new BusinessException("It is not possible to add new users to the staff!");
+		}
+		
+		if(event.getStaffUsers().contains(user)) {
+			throw new BusinessException("This user is already on staff!");
+		}
+		
+		event.getStaffUsers().add(user);
+				
 		eventRepository.save(event);
 	}
 		

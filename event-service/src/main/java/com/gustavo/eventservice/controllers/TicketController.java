@@ -28,13 +28,13 @@ public class TicketController {
 	@Autowired
 	private TicketService ticketService;
 	
-	@PostMapping("/tickets/events/{eventId}/users/registration")
+	@PostMapping("/tickets/events/{eventId}/users")
 	public ResponseEntity<String> insert(@PathVariable UUID eventId, @Validated
             @RequestBody TicketRequestDTO ticketRequestDto) {
 		
 		ticketService.insert(eventId, ticketRequestDto);
 		
-		return ResponseEntity.status(HttpStatus.CREATED).body("Registration created successfully!"); 
+		return ResponseEntity.status(HttpStatus.CREATED).body("Registration completed successfully!"); 
 	}
 	
 	@GetMapping("/tickets/events/{eventId}/users")
