@@ -7,15 +7,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.gustavo.eventservice.entities.Event;
-import com.gustavo.eventservice.entities.EventTicket;
+import com.gustavo.eventservice.entities.Ticket;
 import com.gustavo.eventservice.entities.User;
 
-public interface EventTicketRepository extends JpaRepository<EventTicket, UUID> {
+public interface TicketRepository extends JpaRepository<Ticket, UUID> {
 	
 	boolean existsByUserAndEvent(User user, Event event);
 	
 	long countByEvent(Event event);
 	
-	Page<EventTicket> findByEvent(Event event, Pageable pageable);
+	Page<Ticket> findByEvent(Event event, Pageable pageable);
+	
+	Page<Ticket> findByUser(User user, Pageable pageable);
 
 }

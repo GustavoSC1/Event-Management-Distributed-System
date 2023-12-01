@@ -16,8 +16,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "TB_EVENT_TICKET")
-public class EventTicket implements Serializable {
+@Table(name = "TB_TICKET")
+public class Ticket implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id
@@ -38,11 +38,11 @@ public class EventTicket implements Serializable {
 	@JoinColumn(name = "event_id")
     private Event event;
     
-	public EventTicket() {
+	public Ticket() {
 		
 	}
 	
-	public EventTicket(UUID ticketId, Boolean isPaid, LocalDateTime registrationDate) {
+	public Ticket(UUID ticketId, Boolean isPaid, LocalDateTime registrationDate) {
 		this.ticketId = ticketId;
 		this.isPaid = isPaid;
 		this.registrationDate = registrationDate;
@@ -101,7 +101,7 @@ public class EventTicket implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		EventTicket other = (EventTicket) obj;
+		Ticket other = (Ticket) obj;
 		return Objects.equals(isPaid, other.isPaid) && Objects.equals(registrationDate, other.registrationDate)
 				&& Objects.equals(ticketId, other.ticketId);
 	}

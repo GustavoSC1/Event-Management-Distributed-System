@@ -5,17 +5,17 @@ import java.util.UUID;
 
 import jakarta.validation.constraints.NotNull;
 
-public class RegistrationRequestDTO implements Serializable {
+public class TicketRequestDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@NotNull(message="The Creation User ID field is required")
 	private UUID userId;
 	
-	public RegistrationRequestDTO() {
+	public TicketRequestDTO() {
 
 	}
 
-	public RegistrationRequestDTO(UUID userId) {		
+	public TicketRequestDTO(UUID userId) {		
 		this.userId = userId;
 	}
 

@@ -84,7 +84,7 @@ public class Event implements Serializable {
     private Set<User> staffUsers = new HashSet<>();
     
     @OneToMany(mappedBy="event", fetch = FetchType.LAZY)
-    private Set<EventTicket> eventTickets = new HashSet<>();
+    private Set<Ticket> tickets = new HashSet<>();
     
 	public Event() {		
 
@@ -239,12 +239,12 @@ public class Event implements Serializable {
 		this.staffUsers = staffUsers;
 	}
 
-	public Set<EventTicket> getEventTickets() {
-		return eventTickets;
+	public Set<Ticket> getTickets() {
+		return tickets;
 	}
 
-	public void setEventTickets(Set<EventTicket> eventTickets) {
-		this.eventTickets = eventTickets;
+	public void setTickets(Set<Ticket> tickets) {
+		this.tickets = tickets;
 	}
 
 	@Override

@@ -17,34 +17,44 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gustavo.eventservice.dtos.RegistrationRequestDTO;
-import com.gustavo.eventservice.dtos.RegistrationResponseDTO;
-import com.gustavo.eventservice.services.EventTicketService;
+import com.gustavo.eventservice.dtos.TicketRequestDTO;
+import com.gustavo.eventservice.dtos.TicketResponseDTO;
+import com.gustavo.eventservice.services.TicketService;
 
 @RestController
 @RequestMapping
-public class EventUserController {
+public class TicketController {
 	
 	@Autowired
-	private EventTicketService eventTicketService;
+	private TicketService ticketService;
 	
-	@PostMapping("/events/{eventId}/users/registration")
+	@PostMapping("/tickets/events/{eventId}/users/registration")
 	public ResponseEntity<String> insert(@PathVariable UUID eventId, @Validated
-            @RequestBody RegistrationRequestDTO registrationDto) {
+            @RequestBody TicketRequestDTO ticketRequestDto) {
 		
-		eventTicketService.insert(eventId, registrationDto);
+		ticketService.insert(eventId, ticketRequestDto);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body("Registration created successfully!"); 
 	}
 	
-	@GetMapping("/events/{eventId}/users")
-	public ResponseEntity<Page<RegistrationResponseDTO>> findByEvent(
+	@GetMapping("/tickets/events/{eventId}/users")
+	public ResponseEntity<Page<TicketResponseDTO>> findByEvent(
 			@PathVariable UUID eventId,
 			@PageableDefault(page = 0, size = 10, sort = "ticketId", direction = Sort.Direction.ASC) Pageable pageable) {
 		
-		Page<RegistrationResponseDTO> registrationResponseDtoPage = eventTicketService.findByEvent(eventId, pageable);
+		Page<TicketResponseDTO> ticketResponseDtoPage = ticketService.findByEvent(eventId, pageable);
 		
-		return ResponseEntity.status(HttpStatus.OK).body(registrationResponseDtoPage);
+		return ResponseEntity.status(HttpStatus.OK).body(ticketResponseDtoPage);
+	}
+	
+	@GetMapping("/tickets/users/{userId}/events")
+	public ResponseEntity<Page<TicketResponseDTO>> findByUser(
+			@PathVariable UUID userId,
+			@PageableDefault(page = 0, size = 10, sort = "ticketId", direction = Sort.Direction.ASC) Pageable pageable) {
+		
+		Page<TicketResponseDTO> ticketResponseDtoPage = ticketService.findByUser(userId, pageable);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(ticketResponseDtoPage);
 	}
 	
 

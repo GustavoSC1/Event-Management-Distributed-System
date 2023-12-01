@@ -4,24 +4,29 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class RegistrationResponseDTO implements Serializable {
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class TicketResponseDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private UUID ticketId;
 	private LocalDateTime registrationDate;
 	private Boolean isPaid;	
 	private UserResponseDTO userResponseDto;
+	private EventResponseDTO eventResponseDto;
 	
-	public RegistrationResponseDTO() {
+	public TicketResponseDTO() {
 
 	}
 
-	public RegistrationResponseDTO(UUID ticketId, LocalDateTime registrationDate, Boolean isPaid,
-			UserResponseDTO userResponseDto) {
+	public TicketResponseDTO(UUID ticketId, LocalDateTime registrationDate, Boolean isPaid,
+			UserResponseDTO userResponseDto, EventResponseDTO eventResponseDto) {
 		this.ticketId = ticketId;
 		this.registrationDate = registrationDate;
 		this.isPaid = isPaid;
 		this.userResponseDto = userResponseDto;
+		this.eventResponseDto = eventResponseDto;
 	}
 
 	public UUID getTicketId() {
@@ -54,6 +59,14 @@ public class RegistrationResponseDTO implements Serializable {
 
 	public void setUserResponseDto(UserResponseDTO userResponseDto) {
 		this.userResponseDto = userResponseDto;
+	}
+
+	public EventResponseDTO getEventResponseDto() {
+		return eventResponseDto;
+	}
+
+	public void setEventResponseDto(EventResponseDTO eventResponseDto) {
+		this.eventResponseDto = eventResponseDto;
 	}
 
 }
