@@ -34,8 +34,7 @@ public class UserServiceImpl implements UserService {
 		return userPage.map(obj -> {
 			UserResponseDTO userResponseDto = new UserResponseDTO();
 			BeanUtils.copyProperties(obj, userResponseDto);
-			return userResponseDto;
-			});		
+			return userResponseDto;});		
 	}
 
 }

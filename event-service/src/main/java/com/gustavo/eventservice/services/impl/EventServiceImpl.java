@@ -151,6 +151,16 @@ public class EventServiceImpl implements EventService {
 				
 		eventRepository.save(event);
 	}
+	
+	public Page<EventResponseDTO> findStaffUsers(UUID userId, Pageable pageable) {
+		
+		Page<Event> eventPage = eventRepository.findByStaffUsersUserId(userId, pageable);
+		
+		return eventPage.map(obj -> {
+			EventResponseDTO eventResponseDto = new EventResponseDTO();
+			BeanUtils.copyProperties(obj, eventResponseDto);
+			return eventResponseDto;}); 	
+	}
 			
 	public Event findById(UUID eventId) {
 		

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gustavo.eventservice.entities.Event;
 
@@ -21,4 +22,7 @@ public interface EventRepository extends JpaRepository<Event, UUID> {
 	Page<Event> findByParams(@Param("search") String search, @Param("place") String place,@Param("minPrice") Double minPrice, 
 			@Param("maxPrice") Double maxPrice, @Param("date") LocalDateTime date, Pageable pageable);
 		
+	@Transactional(readOnly = true)
+	Page<Event> findByStaffUsersUserId(UUID userId, Pageable pageable);
+	
 }

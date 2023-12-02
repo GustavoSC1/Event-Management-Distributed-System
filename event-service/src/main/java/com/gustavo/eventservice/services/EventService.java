@@ -28,5 +28,7 @@ public interface EventService {
 	Event findById(UUID eventId);
 	
 	void insertStaff(UUID eventId, StaffRequestDTO staffRequestDTO);
+	
+	Page<EventResponseDTO> findStaffUsers(UUID userId, Pageable pageable);
 
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gustavo.eventservice.dtos.EventResponseDTO;
 import com.gustavo.eventservice.dtos.StaffRequestDTO;
 import com.gustavo.eventservice.dtos.UserResponseDTO;
 import com.gustavo.eventservice.services.EventService;
@@ -46,6 +47,15 @@ public class StaffController {
 		Page<UserResponseDTO> userResponseDto = userService.findStaffEvent(eventId, pageable);
 		
 		 return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
+	}
+	
+	@GetMapping("/staffs/users/{userId}/events")
+	public ResponseEntity<Page<EventResponseDTO>> findStaffUsers(@PathVariable UUID userId,
+			@PageableDefault(page = 0, size = 10, sort = "eventId", direction = Sort.Direction.ASC) Pageable pageable) {
+		System.out.println("Passou aqui 1");
+		Page<EventResponseDTO> eventResponseDto = eventService.findStaffUsers(userId, pageable);
+		
+		 return ResponseEntity.status(HttpStatus.OK).body(eventResponseDto);
 	}
 
 }
