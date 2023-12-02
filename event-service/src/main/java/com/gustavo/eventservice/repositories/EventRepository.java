@@ -20,5 +20,5 @@ public interface EventRepository extends JpaRepository<Event, UUID> {
 			+ "(:date BETWEEN obj.startDateTime AND obj.endDateTime)")
 	Page<Event> findByParams(@Param("search") String search, @Param("place") String place,@Param("minPrice") Double minPrice, 
 			@Param("maxPrice") Double maxPrice, @Param("date") LocalDateTime date, Pageable pageable);
-
+		
 }
