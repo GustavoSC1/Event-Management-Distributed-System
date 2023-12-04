@@ -25,6 +25,9 @@ public class Payment implements Serializable {
     private UUID paymentCode;
     
     @Column(nullable = false)
+    private UUID ticketId;
+    
+    @Column(nullable = false)
     private String details;
     
     @Column(nullable = false)
@@ -39,10 +42,11 @@ public class Payment implements Serializable {
 
 	}
 
-	public Payment(UUID paymentId, UUID paymentCode, String details, Double amount, boolean isPaid,
+	public Payment(UUID paymentId, UUID paymentCode, UUID ticketId, String details, Double amount, boolean isPaid,
 			LocalDateTime paymentDate) {
 		this.paymentId = paymentId;
 		this.paymentCode = paymentCode;
+		this.ticketId = ticketId;
 		this.details = details;
 		this.amount = amount;
 		this.isPaid = isPaid;
@@ -63,6 +67,14 @@ public class Payment implements Serializable {
 
 	public void setPaymentCode(UUID paymentCode) {
 		this.paymentCode = paymentCode;
+	}
+	
+	public UUID getTicketId() {
+		return ticketId;
+	}
+
+	public void setTicketId(UUID ticketId) {
+		this.ticketId = ticketId;
 	}
 
 	public String getDetails() {
