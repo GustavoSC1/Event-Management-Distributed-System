@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
 			UserResponseDTO userResponseDto = new UserResponseDTO();		
 			BeanUtils.copyProperties(obj, userResponseDto);
 			return userResponseDto;});
-		
+				
 		return urserResponseDtoPage;		
 	}
 	

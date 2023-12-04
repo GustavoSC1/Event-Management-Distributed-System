@@ -4,9 +4,11 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import com.gustavo.eventservice.entities.enums.EventStatus;
 
-public class EventResponseDTO implements Serializable {
+public class EventResponseDTO extends RepresentationModel<EventResponseDTO> implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private UUID eventId;	

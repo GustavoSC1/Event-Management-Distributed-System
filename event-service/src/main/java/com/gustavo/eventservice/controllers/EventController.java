@@ -1,5 +1,8 @@
 package com.gustavo.eventservice.controllers;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.UUID;
@@ -60,7 +63,15 @@ public class EventController {
 		LocalDateTime date = ("".equals(eventDate)) ? LocalDateTime.now(ZoneId.of("UTC")) : LocalDateTime.parse(eventDate);
 		
 		Page<EventResponseDTO> eventResponseDtoPage = eventService.findAll(search.replace(" ", "%"), place.replace(" ", "%"), minPrice, maxPrice, date, pageable);
-
+		
+		if(!eventResponseDtoPage.isEmpty()) {
+			
+			for(EventResponseDTO eventResponseDto: eventResponseDtoPage.toList()) {
+				eventResponseDto.add(linkTo(methodOn(EventController.class).getOneEvent(eventResponseDto.getEventId())).withSelfRel());
+			}
+			
+		}
+		
 		return ResponseEntity.status(HttpStatus.OK).body(eventResponseDtoPage);
 	}
 	

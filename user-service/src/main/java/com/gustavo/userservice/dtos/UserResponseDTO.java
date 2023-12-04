@@ -6,10 +6,12 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import com.gustavo.userservice.entities.Role;
 import com.gustavo.userservice.entities.enums.UserStatus;
 
-public class UserResponseDTO implements Serializable {
+public class UserResponseDTO extends RepresentationModel<UserResponseDTO> implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private UUID userId;

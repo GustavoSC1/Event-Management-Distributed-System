@@ -1,5 +1,8 @@
 package com.gustavo.userservice.controllers;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +47,7 @@ public class UserController {
 	@GetMapping("/{userId}")
 	public ResponseEntity<UserResponseDTO> getOneUser(@PathVariable UUID userId) {
 		UserResponseDTO userResponseDto = userService.getOneUser(userId);
-		
+				
 		return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
 	}
 	
@@ -53,7 +56,16 @@ public class UserController {
 			@RequestParam(value="name", defaultValue="") String name,
 			@RequestParam(value="email", defaultValue="") String email,
 			@PageableDefault(page = 0, size = 10, sort = "userId", direction = Sort.Direction.ASC) Pageable pageable) {
+		
 		Page<UserResponseDTO> urserResponseDtoPage = userService.findAll(name, email, pageable);
+		
+		if(!urserResponseDtoPage.isEmpty()) {
+			
+			for(UserResponseDTO userResponseDto: urserResponseDtoPage.toList()) {
+				userResponseDto.add(linkTo(methodOn(UserController.class).getOneUser(userResponseDto.getUserId())).withSelfRel());
+			}
+			
+		}
 		
 		return ResponseEntity.status(HttpStatus.OK).body(urserResponseDtoPage);
 	}
