@@ -74,7 +74,7 @@ public class TicketServiceImpl implements TicketService {
 		
 		Event event = eventService.findById(eventId);
 		
-		Page<Ticket> eventTicket = ticketRepository.findByEvent(event, pageable);
+		Page<Ticket> eventTicket = ticketRepository.findAllByEvent(event, pageable);
 		
 		Page<TicketResponseDTO> ticketResponseDtoPage = eventTicket.map(obj -> {
 			TicketResponseDTO ticketResponseDto = new TicketResponseDTO();
@@ -91,7 +91,7 @@ public class TicketServiceImpl implements TicketService {
 		
 		User user = userService.findById(userId);
 		
-		Page<Ticket> eventTicket = ticketRepository.findByUser(user, pageable);
+		Page<Ticket> eventTicket = ticketRepository.findAllByUser(user, pageable);
 		
 		Page<TicketResponseDTO> ticketResponseDtoPage = eventTicket.map(obj -> {
 			TicketResponseDTO ticketResponseDto = new TicketResponseDTO();

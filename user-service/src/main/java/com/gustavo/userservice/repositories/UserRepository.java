@@ -31,6 +31,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 			attributePaths = "roles", type = EntityGraph.EntityGraphType.FETCH
 	)
 	@Query("select obj from User obj where upper(obj.name) LIKE '%' || upper(:name) || '%' AND upper(obj.email) LIKE '%' || upper(:email) || '%'")
-	Page<User> findByNameAndEmail(@Param("name") String name, @Param("email") String email, Pageable pageable);
+	Page<User> findAllByNameAndEmail(@Param("name") String name, @Param("email") String email, Pageable pageable);
 
 }

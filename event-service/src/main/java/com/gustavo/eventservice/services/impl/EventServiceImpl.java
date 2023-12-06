@@ -154,7 +154,7 @@ public class EventServiceImpl implements EventService {
 	
 	public Page<EventResponseDTO> findStaffUsers(UUID userId, Pageable pageable) {
 		
-		Page<Event> eventPage = eventRepository.findByStaffUsersUserId(userId, pageable);
+		Page<Event> eventPage = eventRepository.findAllByStaffUsersUserId(userId, pageable);
 		
 		return eventPage.map(obj -> {
 			EventResponseDTO eventResponseDto = new EventResponseDTO();

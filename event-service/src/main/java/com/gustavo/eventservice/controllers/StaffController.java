@@ -46,16 +46,15 @@ public class StaffController {
 			@PageableDefault(page = 0, size = 10, sort = "userId", direction = Sort.Direction.ASC) Pageable pageable) {
 		Page<UserResponseDTO> userResponseDto = userService.findStaffEvent(eventId, pageable);
 		
-		 return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
+		return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
 	}
 	
 	@GetMapping("/staffs/users/{userId}/events")
 	public ResponseEntity<Page<EventResponseDTO>> findStaffUsers(@PathVariable UUID userId,
 			@PageableDefault(page = 0, size = 10, sort = "eventId", direction = Sort.Direction.ASC) Pageable pageable) {
-		System.out.println("Passou aqui 1");
 		Page<EventResponseDTO> eventResponseDto = eventService.findStaffUsers(userId, pageable);
 		
-		 return ResponseEntity.status(HttpStatus.OK).body(eventResponseDto);
+		return ResponseEntity.status(HttpStatus.OK).body(eventResponseDto);
 	}
 
 }

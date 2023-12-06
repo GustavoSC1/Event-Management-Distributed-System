@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 	
 	public Page<UserResponseDTO> findStaffEvent(UUID eventId, Pageable pageable) {
 		
-		Page<User> userPage = userRepository.findByStaffEventsEventId(eventId, pageable);				
+		Page<User> userPage = userRepository.findAllByStaffEventsEventId(eventId, pageable);				
 		
 		return userPage.map(obj -> {
 			UserResponseDTO userResponseDto = new UserResponseDTO();

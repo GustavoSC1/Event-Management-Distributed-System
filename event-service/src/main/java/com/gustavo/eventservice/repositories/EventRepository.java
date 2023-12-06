@@ -23,6 +23,6 @@ public interface EventRepository extends JpaRepository<Event, UUID> {
 			@Param("maxPrice") Double maxPrice, @Param("date") LocalDateTime date, Pageable pageable);
 		
 	@Transactional(readOnly = true)
-	Page<Event> findByStaffUsersUserId(UUID userId, Pageable pageable);
+	Page<Event> findAllByStaffUsersUserId(UUID userId, Pageable pageable);
 	
 }

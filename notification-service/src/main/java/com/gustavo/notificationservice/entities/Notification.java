@@ -39,7 +39,7 @@ public class Notification implements Serializable {
     
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private NotificationStatus notificationStatus;
+	private NotificationStatus notificationStatus;
     
 	public Notification() {
 		

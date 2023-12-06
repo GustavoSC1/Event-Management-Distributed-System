@@ -12,6 +12,6 @@ import com.gustavo.eventservice.entities.User;
 public interface UserRepository extends JpaRepository<User, UUID> {
 	
 	@Transactional(readOnly = true)
-	Page<User> findByStaffEventsEventId(UUID eventId, Pageable pageable);
+	Page<User> findAllByStaffEventsEventId(UUID eventId, Pageable pageable);
 
 }

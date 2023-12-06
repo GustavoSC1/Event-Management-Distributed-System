@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
 	
 	public Page<UserResponseDTO> findAll(String name, String email, Pageable pageable) {
 		
-		Page<User> userPage = userRepository.findByNameAndEmail(name, email, pageable);
+		Page<User> userPage = userRepository.findAllByNameAndEmail(name, email, pageable);
 		
 		Page<UserResponseDTO> urserResponseDtoPage = userPage.map(obj -> {
 			UserResponseDTO userResponseDto = new UserResponseDTO();		
