@@ -1,5 +1,6 @@
 package com.gustavo.notificationservice.services.impl;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
@@ -13,6 +14,7 @@ import com.gustavo.notificationservice.entities.Notification;
 import com.gustavo.notificationservice.entities.enums.NotificationStatus;
 import com.gustavo.notificationservice.repositories.NotificationRepository;
 import com.gustavo.notificationservice.services.NotificationService;
+import com.gustavo.notificationservice.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -30,6 +32,18 @@ public class NotificationServiceImpl implements NotificationService {
 			return notificationResponseDto;});
 		
 		return notificationResponseDtoPage;
+	}
+	
+	public void markAsRead(UUID userId, UUID notificationId) {
+		
+		Optional<Notification> notificationOptional = notificationRepository.findByNotificationIdAndUserId(notificationId, userId);
+		
+		Notification notification = notificationOptional.orElseThrow(() -> 
+			new ObjectNotFoundException("Notification not found! Id: " + notificationId + " User Id: " + userId));
+		
+		notification.setNotificationStatus(NotificationStatus.READ);
+		
+		notificationRepository.save(notification);
 	}
 	
 

@@ -10,5 +10,7 @@ import com.gustavo.notificationservice.dtos.NotificationResponseDTO;
 public interface NotificationService {
 	
 	Page<NotificationResponseDTO> findByUser(UUID userId, Pageable pageable);
+	
+	void markAsRead(UUID userId, UUID notificationId);
 
 }
