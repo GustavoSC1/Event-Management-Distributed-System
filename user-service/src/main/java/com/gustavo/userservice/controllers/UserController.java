@@ -29,7 +29,7 @@ import com.gustavo.userservice.dtos.UserResponseDTO;
 import com.gustavo.userservice.services.UserService;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("users")
 public class UserController {
 	
 	@Autowired

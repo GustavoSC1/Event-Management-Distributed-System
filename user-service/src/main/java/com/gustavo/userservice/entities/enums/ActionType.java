@@ -1,6 +1,7 @@
 package com.gustavo.userservice.entities.enums;
 
-public enum RoleType {	
-	ROLE_ADMIN,
-    ROLE_USER
+public enum ActionType {
+	CREATE,
+	UPDATE,
+	DELETE
 }

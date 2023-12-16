@@ -13,10 +13,13 @@ import org.springframework.stereotype.Service;
 
 import com.gustavo.userservice.dtos.UserRequestDTO;
 import com.gustavo.userservice.dtos.UserResponseDTO;
+import com.gustavo.userservice.dtos.rabbitmqDtos.UserEventDto;
 import com.gustavo.userservice.entities.Role;
 import com.gustavo.userservice.entities.User;
+import com.gustavo.userservice.entities.enums.ActionType;
 import com.gustavo.userservice.entities.enums.RoleType;
 import com.gustavo.userservice.entities.enums.UserStatus;
+import com.gustavo.userservice.producers.UserEventProducer;
 import com.gustavo.userservice.repositories.UserRepository;
 import com.gustavo.userservice.services.RoleService;
 import com.gustavo.userservice.services.UserService;
@@ -31,6 +34,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private RoleService roleService;
+	
+	@Autowired
+	private UserEventProducer userEventProducer;
 	
 	public UserResponseDTO insert(UserRequestDTO userRequestDto) {
 		
@@ -53,6 +59,11 @@ public class UserServiceImpl implements UserService {
 		user.getRoles().add(role);
 		
 		userRepository.save(user);
+		
+		UserEventDto userEventDto = new UserEventDto(user);
+		userEventDto.setActionType(ActionType.CREATE.toString());
+		
+		userEventProducer.produceUserEvent(userEventDto);
 		
 		UserResponseDTO userResponseDto = new UserResponseDTO();
 		
