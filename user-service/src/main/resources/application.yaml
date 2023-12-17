@@ -30,4 +30,4 @@ eureka:
       
 rabbitmq:
   exchange:
-    name: em.userevent
+    name: em.user

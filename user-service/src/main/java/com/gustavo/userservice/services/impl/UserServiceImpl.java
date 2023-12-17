@@ -19,7 +19,7 @@ import com.gustavo.userservice.entities.User;
 import com.gustavo.userservice.entities.enums.ActionType;
 import com.gustavo.userservice.entities.enums.RoleType;
 import com.gustavo.userservice.entities.enums.UserStatus;
-import com.gustavo.userservice.producers.UserEventProducer;
+import com.gustavo.userservice.producers.UserProducer;
 import com.gustavo.userservice.repositories.UserRepository;
 import com.gustavo.userservice.services.RoleService;
 import com.gustavo.userservice.services.UserService;
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 	private RoleService roleService;
 	
 	@Autowired
-	private UserEventProducer userEventProducer;
+	private UserProducer userProducer;
 	
 	public UserResponseDTO insert(UserRequestDTO userRequestDto) {
 		
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
 		UserEventDto userEventDto = new UserEventDto(user);
 		userEventDto.setActionType(ActionType.CREATE.toString());
 		
-		userEventProducer.produceUserEvent(userEventDto);
+		userProducer.produceUserEvent(userEventDto);
 		
 		UserResponseDTO userResponseDto = new UserResponseDTO();
 		
@@ -106,6 +106,11 @@ public class UserServiceImpl implements UserService {
 		
 		userRepository.save(user);
 		
+		UserEventDto userEventDto = new UserEventDto(user);
+		userEventDto.setActionType(ActionType.UPDATE.toString());
+		
+		userProducer.produceUserEvent(userEventDto);
+		
 		UserResponseDTO userResponseDto = new UserResponseDTO();
 		
 		BeanUtils.copyProperties(user, userResponseDto);
@@ -117,7 +122,12 @@ public class UserServiceImpl implements UserService {
 				
 		User user = findById(userId);
 		
-		userRepository.delete(user);		
+		userRepository.delete(user);	
+		
+		UserEventDto userEventDto = new UserEventDto(user);
+		userEventDto.setActionType(ActionType.DELETE.toString());
+		
+		userProducer.produceUserEvent(userEventDto);
 	}
 	
 	public void updatePassword(UUID userId, UserRequestDTO userRequestDto) {
@@ -144,6 +154,11 @@ public class UserServiceImpl implements UserService {
 		user.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
 		
 		userRepository.save(user);
+		
+		UserEventDto userEventDto = new UserEventDto(user);
+		userEventDto.setActionType(ActionType.UPDATE.toString());
+		
+		userProducer.produceUserEvent(userEventDto);
 		
 		UserResponseDTO userResponseDto = new UserResponseDTO();
 		

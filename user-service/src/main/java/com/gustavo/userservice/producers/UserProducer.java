@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.gustavo.userservice.dtos.rabbitmqDtos.UserEventDto;
 
 @Component
-public class UserEventProducer {
+public class UserProducer {
 	
 	@Autowired
 	private RabbitTemplate rabbitTemplate;

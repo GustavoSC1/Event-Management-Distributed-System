@@ -10,6 +10,8 @@ import com.gustavo.eventservice.entities.User;
 
 public interface UserService {
 	
+	UserResponseDTO insert(User user);
+	
 	User findById(UUID userId);
 	
 	Page<UserResponseDTO> findStaffEvent(UUID eventId, Pageable pageable);

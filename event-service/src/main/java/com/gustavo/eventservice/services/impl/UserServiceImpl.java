@@ -21,6 +21,15 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
+	public UserResponseDTO insert(User user) {
+		userRepository.save(user);
+		
+		UserResponseDTO userResponseDto= new UserResponseDTO();
+		BeanUtils.copyProperties(user, userResponseDto);
+		
+		return userResponseDto;
+	}
+	
 	public User findById(UUID userId) {
 		Optional<User> userOptional = userRepository.findById(userId);
 		
