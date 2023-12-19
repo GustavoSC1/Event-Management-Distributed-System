@@ -15,8 +15,21 @@ spring:
     console:
       enabled: true
       path: /h2-console
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: password
 
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+      
+rabbitmq:
+  exchange:
+    notificationExchange:  notifications.v1.notification_created
+  queue:
+    notificationQueue: notifications.v1.notification_created.send_notification
+  key:
+    notificationKey: notifications.v1.notification_created.send_notification.key

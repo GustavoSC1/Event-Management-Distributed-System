@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 	public UserResponseDTO insert(User user) {
 		userRepository.save(user);
 		
-		UserResponseDTO userResponseDto= new UserResponseDTO();
+		UserResponseDTO userResponseDto = new UserResponseDTO();
 		BeanUtils.copyProperties(user, userResponseDto);
 		
 		return userResponseDto;

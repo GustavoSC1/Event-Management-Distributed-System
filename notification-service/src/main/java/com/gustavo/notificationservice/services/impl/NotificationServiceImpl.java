@@ -22,6 +22,15 @@ public class NotificationServiceImpl implements NotificationService {
 	@Autowired
 	private NotificationRepository notificationRepository;
 	
+	public NotificationResponseDTO insert(Notification notification) {
+		notificationRepository.save(notification);
+		
+		NotificationResponseDTO notificationResponseDto = new NotificationResponseDTO();
+		BeanUtils.copyProperties(notification, notificationResponseDto);
+		
+		return notificationResponseDto;
+	}
+	
 	public Page<NotificationResponseDTO> findByUser(UUID userId, Pageable pageable) {
 		
 		Page<Notification> notificationPage = notificationRepository.findAllByUserIdAndNotificationStatus(userId, NotificationStatus.CREATED, pageable);
