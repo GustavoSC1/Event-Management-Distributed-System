@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitmqConfig {
 	
-	@Value("${rabbitmq.exchange.name}")
+	@Value("${rabbitmq.exchange.userExchange}")
 	private String exchange;
 		
 	@Bean

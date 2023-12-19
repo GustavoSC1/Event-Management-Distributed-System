@@ -13,7 +13,7 @@ public class UserProducer {
 	@Autowired
 	private RabbitTemplate rabbitTemplate;
 	
-	@Value("${rabbitmq.exchange.name}")
+	@Value("${rabbitmq.exchange.userExchange}")
 	private String exchange;
 	
 	public void produceUserEvent(UserEventDto userEventDto) {		

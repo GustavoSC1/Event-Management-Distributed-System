@@ -2,6 +2,7 @@ package com.gustavo.eventservice.configs;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -17,23 +18,31 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitmqConfig {
 	
-	@Value("${rabbitmq.queue.name}")
-	private String queueName;
+	@Value("${rabbitmq.queue.userQueue}")
+	private String userQueue;
 	
-	@Value("${rabbitmq.exchange.name}")
-	private String exchangeName;
+	@Value("${rabbitmq.exchange.userExchange}")
+	private String userExchange;
+	
+	@Value("${rabbitmq.exchange.notificationExchange}")
+	private String exchangeNotification;
 	
 	@Bean
-	public Queue queue() {		
-		return new Queue(queueName, true);
+	public Queue userQueue() {		
+		return new Queue(userQueue, true);
 	}
 	
 	@Bean
-	public Binding binding(Queue queue) {
-		FanoutExchange exchange = new FanoutExchange(exchangeName);
+	public Binding userBinding(Queue userQueue) {
+		FanoutExchange exchange = new FanoutExchange(userExchange);
 		// Ignorar exceções, como propriedades incompatíveis ao declarar.
 		exchange.setIgnoreDeclarationExceptions(true);
-		return BindingBuilder.bind(queue).to(exchange);
+		return BindingBuilder.bind(userQueue).to(exchange);
+	}
+	
+	@Bean
+	public DirectExchange notificationExchange() {
+		return new DirectExchange(exchangeNotification);
 	}
 	
 	@Bean

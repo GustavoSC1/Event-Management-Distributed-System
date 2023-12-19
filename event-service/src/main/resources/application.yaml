@@ -28,6 +28,10 @@ eureka:
       
 rabbitmq:
   exchange:
-    name: em.user
+    userExchange: users.v1.user_event
+    notificationExchange:  notifications.v1.notification_created
   queue:
-    name: em.user.event
+    userQueue: users.v1.user_event.send_user
+  key:
+    notificationKey: notifications.v1.notification_created.send_notification.key
+    

@@ -27,7 +27,7 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
-      
+
 rabbitmq:
   exchange:
-    name: em.user
+    userExchange: users.v1.user_event

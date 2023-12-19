@@ -14,9 +14,11 @@ import org.springframework.stereotype.Service;
 import com.gustavo.eventservice.dtos.EventRequestDTO;
 import com.gustavo.eventservice.dtos.EventResponseDTO;
 import com.gustavo.eventservice.dtos.StaffRequestDTO;
+import com.gustavo.eventservice.dtos.rabbitmqDtos.NotificationEventDto;
 import com.gustavo.eventservice.entities.Event;
 import com.gustavo.eventservice.entities.User;
 import com.gustavo.eventservice.entities.enums.EventStatus;
+import com.gustavo.eventservice.producers.NotificationProducer;
 import com.gustavo.eventservice.repositories.EventRepository;
 import com.gustavo.eventservice.services.EventService;
 import com.gustavo.eventservice.services.UserService;
@@ -31,6 +33,9 @@ public class EventServiceImpl implements EventService {
 	
 	@Autowired
 	private UserService userService;	
+	
+	@Autowired
+	private NotificationProducer notificationProducer;
 	
 	public EventResponseDTO insert(EventRequestDTO  eventRequestDto) {
 		
@@ -49,6 +54,13 @@ public class EventServiceImpl implements EventService {
 
 		eventRepository.save(event);
 		
+		NotificationEventDto notificationCommandDto = new NotificationEventDto();
+        notificationCommandDto.setTitle("Event created successfully");
+        notificationCommandDto.setMessage("You have just created a new event called " + event.getName());
+        notificationCommandDto.setUserId(user.getUserId());
+
+        notificationProducer.produceNotificationEvent(notificationCommandDto);
+				
 		EventResponseDTO eventResponseDto = new EventResponseDTO();
 		
 		BeanUtils.copyProperties(event, eventResponseDto);
@@ -92,6 +104,13 @@ public class EventServiceImpl implements EventService {
 				
 		eventRepository.save(event);
 		
+		NotificationEventDto notificationCommandDto = new NotificationEventDto();
+        notificationCommandDto.setTitle("Event updated successfully");
+        notificationCommandDto.setMessage("You just updated the " + event.getName() + " event");
+        notificationCommandDto.setUserId(event.getCreationUser().getUserId());
+
+        notificationProducer.produceNotificationEvent(notificationCommandDto);
+		
 		EventResponseDTO eventResponseDto = new EventResponseDTO();
 		
 		BeanUtils.copyProperties(event, eventResponseDto);
@@ -114,6 +133,13 @@ public class EventServiceImpl implements EventService {
 		}
 		
 		eventRepository.save(event);
+		
+		NotificationEventDto notificationCommandDto = new NotificationEventDto();
+        notificationCommandDto.setTitle("Registrations closed successfully");
+        notificationCommandDto.setMessage("You have closed registrations for the " + event.getName() + " event");
+        notificationCommandDto.setUserId(event.getCreationUser().getUserId());
+
+        notificationProducer.produceNotificationEvent(notificationCommandDto);
 	}
 	
 	public void cancelEvent(UUID eventId) {
@@ -130,6 +156,13 @@ public class EventServiceImpl implements EventService {
 		}
 		
 		eventRepository.save(event);
+		
+		NotificationEventDto notificationCommandDto = new NotificationEventDto();
+        notificationCommandDto.setTitle("Event successfully canceled");
+        notificationCommandDto.setMessage("You canceled the " + event.getName() + " event");
+        notificationCommandDto.setUserId(event.getCreationUser().getUserId());
+
+        notificationProducer.produceNotificationEvent(notificationCommandDto);
 	}
 	
 	public void insertStaff(UUID eventId, StaffRequestDTO staffRequestDTO) {

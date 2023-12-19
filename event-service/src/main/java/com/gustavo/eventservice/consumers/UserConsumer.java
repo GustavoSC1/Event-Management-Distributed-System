@@ -17,7 +17,7 @@ public class UserConsumer {
 	@Autowired
 	private UserService userService;
 	
-	@RabbitListener(queues = "${rabbitmq.queue.name}")
+	@RabbitListener(queues = "${rabbitmq.queue.userQueue}")
 	public void onUserCreated(@Payload UserEventDto userEventDto) {
 				
 		User user = new User(userEventDto.getUserId(), userEventDto.getName(), userEventDto.getCpf(), 
