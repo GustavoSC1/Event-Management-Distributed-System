@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import com.gustavo.notificationservice.dtos.rabbitmqDtos.NotificationEventDto;
+import com.gustavo.notificationservice.dtos.rabbitmqDtos.NotificationEventDTO;
 import com.gustavo.notificationservice.entities.Notification;
 import com.gustavo.notificationservice.entities.enums.NotificationStatus;
 import com.gustavo.notificationservice.services.NotificationService;
@@ -21,7 +21,7 @@ public class NotificationConsumer {
 	private NotificationService notificationService;
 	
 	@RabbitListener(queues = "${rabbitmq.queue.notificationQueue}")
-	public void onNotificationCreated(@Payload NotificationEventDto notificationEventDto) {
+	public void onNotificationCreated(@Payload NotificationEventDTO notificationEventDto) {
 		
 		Notification notification = new Notification();
 		BeanUtils.copyProperties(notificationEventDto, notification);

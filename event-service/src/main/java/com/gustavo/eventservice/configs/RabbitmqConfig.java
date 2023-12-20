@@ -27,6 +27,9 @@ public class RabbitmqConfig {
 	@Value("${rabbitmq.exchange.notificationExchange}")
 	private String notificationExchange;
 	
+	@Value("${rabbitmq.exchange.paymentExchange}")
+	private String paymentExchange;
+	
 	@Bean
 	public Queue userQueue() {		
 		return new Queue(userQueue, true);
@@ -43,6 +46,11 @@ public class RabbitmqConfig {
 	@Bean
 	public DirectExchange notificationExchange() {
 		return new DirectExchange(notificationExchange);
+	}
+	
+	@Bean
+	public DirectExchange paymentExchange() {
+		return new DirectExchange(paymentExchange);
 	}
 	
 	@Bean

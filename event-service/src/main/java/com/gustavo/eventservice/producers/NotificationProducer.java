@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.gustavo.eventservice.dtos.rabbitmqDtos.NotificationEventDto;
+import com.gustavo.eventservice.dtos.rabbitmqDtos.NotificationEventDTO;
 
 @Component
 public class NotificationProducer {
@@ -19,7 +19,7 @@ public class NotificationProducer {
 	@Value("${rabbitmq.key.notificationKey}")
 	private String notificationKey;
 	
-	public void produceNotificationEvent(NotificationEventDto notificationEventDto) {		
+	public void produceNotificationEvent(NotificationEventDTO notificationEventDto) {		
 		rabbitTemplate.convertAndSend(notificationExchange, notificationKey, notificationEventDto);
 	}
 

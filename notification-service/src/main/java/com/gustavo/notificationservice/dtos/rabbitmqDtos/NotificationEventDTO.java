@@ -2,18 +2,17 @@ package com.gustavo.notificationservice.dtos.rabbitmqDtos;
 
 import java.util.UUID;
 
-public class NotificationEventDto {
+public class NotificationEventDTO {
 	
 	private String title;
     private String message;
     private UUID userId;
     
-	public NotificationEventDto() {
+	public NotificationEventDTO() {
 
 	}
 
-	public NotificationEventDto(String title, String message, UUID userId) {
-		super();
+	public NotificationEventDTO(String title, String message, UUID userId) {
 		this.title = title;
 		this.message = message;
 		this.userId = userId;

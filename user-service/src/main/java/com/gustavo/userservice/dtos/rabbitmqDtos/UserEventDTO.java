@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import com.gustavo.userservice.entities.User;
 
-public class UserEventDto {
+public class UserEventDTO {
 	
 	private UUID userId;
 	private String name;
@@ -16,11 +16,11 @@ public class UserEventDto {
 	private String userStatus;
 	private String actionType;
 	
-	public UserEventDto() {
+	public UserEventDTO() {
 
 	}
 
-	public UserEventDto(UUID userId, String name, String phone, String cpf, String imageUrl, String username,
+	public UserEventDTO(UUID userId, String name, String phone, String cpf, String imageUrl, String username,
 			String email, String userStatus, String actionType) {
 		this.userId = userId;
 		this.name = name;
@@ -33,7 +33,7 @@ public class UserEventDto {
 		this.actionType = actionType;
 	}
 	
-	public UserEventDto(User user) {
+	public UserEventDTO(User user) {
 		this.userId = user.getUserId();
 		this.name = user.getName();
 		this.phone = user.getPhone();

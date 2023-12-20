@@ -30,8 +30,10 @@ rabbitmq:
   exchange:
     userExchange: users.v1.user_event
     notificationExchange:  notifications.v1.notification_created
+    paymentExchange:  payments.v1.payment_created
   queue:
     userQueue: users.v1.user_event.send_user
   key:
     notificationKey: notifications.v1.notification_created.send_notification.key
+    paymentKey: payments.v1.payment_created.send_payment.key
     

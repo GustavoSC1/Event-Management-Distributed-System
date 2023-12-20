@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.gustavo.userservice.dtos.UserRequestDTO;
 import com.gustavo.userservice.dtos.UserResponseDTO;
-import com.gustavo.userservice.dtos.rabbitmqDtos.UserEventDto;
+import com.gustavo.userservice.dtos.rabbitmqDtos.UserEventDTO;
 import com.gustavo.userservice.entities.Role;
 import com.gustavo.userservice.entities.User;
 import com.gustavo.userservice.entities.enums.ActionType;
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
 		
 		userRepository.save(user);
 		
-		UserEventDto userEventDto = new UserEventDto(user);
+		UserEventDTO userEventDto = new UserEventDTO(user);
 		userEventDto.setActionType(ActionType.CREATE.toString());
 		
 		userProducer.produceUserEvent(userEventDto);
@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserService {
 		
 		userRepository.save(user);
 		
-		UserEventDto userEventDto = new UserEventDto(user);
+		UserEventDTO userEventDto = new UserEventDTO(user);
 		userEventDto.setActionType(ActionType.UPDATE.toString());
 		
 		userProducer.produceUserEvent(userEventDto);
@@ -124,7 +124,7 @@ public class UserServiceImpl implements UserService {
 		
 		userRepository.delete(user);	
 		
-		UserEventDto userEventDto = new UserEventDto(user);
+		UserEventDTO userEventDto = new UserEventDTO(user);
 		userEventDto.setActionType(ActionType.DELETE.toString());
 		
 		userProducer.produceUserEvent(userEventDto);
@@ -155,7 +155,7 @@ public class UserServiceImpl implements UserService {
 		
 		userRepository.save(user);
 		
-		UserEventDto userEventDto = new UserEventDto(user);
+		UserEventDTO userEventDto = new UserEventDTO(user);
 		userEventDto.setActionType(ActionType.UPDATE.toString());
 		
 		userProducer.produceUserEvent(userEventDto);

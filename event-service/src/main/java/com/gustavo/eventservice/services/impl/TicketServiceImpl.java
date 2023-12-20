@@ -14,12 +14,14 @@ import com.gustavo.eventservice.dtos.EventResponseDTO;
 import com.gustavo.eventservice.dtos.TicketRequestDTO;
 import com.gustavo.eventservice.dtos.TicketResponseDTO;
 import com.gustavo.eventservice.dtos.UserResponseDTO;
-import com.gustavo.eventservice.dtos.rabbitmqDtos.NotificationEventDto;
+import com.gustavo.eventservice.dtos.rabbitmqDtos.NotificationEventDTO;
+import com.gustavo.eventservice.dtos.rabbitmqDtos.PaymentEventDTO;
 import com.gustavo.eventservice.entities.Event;
 import com.gustavo.eventservice.entities.Ticket;
 import com.gustavo.eventservice.entities.User;
 import com.gustavo.eventservice.entities.enums.EventStatus;
 import com.gustavo.eventservice.producers.NotificationProducer;
+import com.gustavo.eventservice.producers.PaymentProducer;
 import com.gustavo.eventservice.repositories.TicketRepository;
 import com.gustavo.eventservice.services.EventService;
 import com.gustavo.eventservice.services.TicketService;
@@ -40,6 +42,9 @@ public class TicketServiceImpl implements TicketService {
 
 	@Autowired
 	private NotificationProducer notificationProducer;
+	
+	@Autowired
+	private PaymentProducer paymentProducer;
 
 	public void insert(UUID eventId, TicketRequestDTO ticketRequestDto) {
 		
@@ -69,21 +74,34 @@ public class TicketServiceImpl implements TicketService {
 		String message = "";
 		if(event.getPrice().equals(0.0)) {
 			eventTicket.setIsPaid(true);
+			
+			ticketRepository.save(eventTicket);
+			
 			message = "You have successfully registered for the " + event.getName() + " event.";
 		} else {
 			eventTicket.setIsPaid(false);
 			message = "You have successfully registered for the " + event.getName() + " event,"
 					+ " now all you need to do is pay the ticket.";
+			
+			ticketRepository.save(eventTicket);
+			
+			PaymentEventDTO paymentEventDto = new PaymentEventDTO();			
+			paymentEventDto.setTicketId(eventTicket.getTicketId());
+			paymentEventDto.setUserId(user.getUserId());
+			paymentEventDto.setAmount(event.getPrice());
+			paymentEventDto.setDetails(event.getName());
+			
+			paymentProducer.producePaymentEvent(paymentEventDto);		
 		}
 		
 		ticketRepository.save(eventTicket);
 		
-		NotificationEventDto notificationCommandDto = new NotificationEventDto();
-        notificationCommandDto.setTitle("You registered for a new event");
-        notificationCommandDto.setMessage(message);
-        notificationCommandDto.setUserId(user.getUserId());
+		NotificationEventDTO notificationEventDto = new NotificationEventDTO();
+		notificationEventDto.setTitle("You registered for a new event");
+        notificationEventDto.setMessage(message);
+        notificationEventDto.setUserId(user.getUserId());
 
-        notificationProducer.produceNotificationEvent(notificationCommandDto);		
+        notificationProducer.produceNotificationEvent(notificationEventDto);		
 	}	
 	
 	public Page<TicketResponseDTO> findByEvent(UUID eventId, Pageable pageable) {
