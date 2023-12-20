@@ -14,10 +14,12 @@ import com.gustavo.eventservice.dtos.EventResponseDTO;
 import com.gustavo.eventservice.dtos.TicketRequestDTO;
 import com.gustavo.eventservice.dtos.TicketResponseDTO;
 import com.gustavo.eventservice.dtos.UserResponseDTO;
+import com.gustavo.eventservice.dtos.rabbitmqDtos.NotificationEventDto;
 import com.gustavo.eventservice.entities.Event;
 import com.gustavo.eventservice.entities.Ticket;
 import com.gustavo.eventservice.entities.User;
 import com.gustavo.eventservice.entities.enums.EventStatus;
+import com.gustavo.eventservice.producers.NotificationProducer;
 import com.gustavo.eventservice.repositories.TicketRepository;
 import com.gustavo.eventservice.services.EventService;
 import com.gustavo.eventservice.services.TicketService;
@@ -35,6 +37,9 @@ public class TicketServiceImpl implements TicketService {
 	
 	@Autowired
 	private EventService eventService;
+
+	@Autowired
+	private NotificationProducer notificationProducer;
 
 	public void insert(UUID eventId, TicketRequestDTO ticketRequestDto) {
 		
@@ -61,13 +66,24 @@ public class TicketServiceImpl implements TicketService {
 		eventTicket.setEvent(event);
 		eventTicket.setUser(user);
 		
+		String message = "";
 		if(event.getPrice().equals(0.0)) {
 			eventTicket.setIsPaid(true);
+			message = "You have successfully registered for the " + event.getName() + " event.";
 		} else {
 			eventTicket.setIsPaid(false);
+			message = "You have successfully registered for the " + event.getName() + " event,"
+					+ " now all you need to do is pay the ticket.";
 		}
 		
 		ticketRepository.save(eventTicket);
+		
+		NotificationEventDto notificationCommandDto = new NotificationEventDto();
+        notificationCommandDto.setTitle("You registered for a new event");
+        notificationCommandDto.setMessage(message);
+        notificationCommandDto.setUserId(user.getUserId());
+
+        notificationProducer.produceNotificationEvent(notificationCommandDto);		
 	}	
 	
 	public Page<TicketResponseDTO> findByEvent(UUID eventId, Pageable pageable) {

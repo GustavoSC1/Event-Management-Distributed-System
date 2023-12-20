@@ -16,6 +16,7 @@ import com.gustavo.eventservice.dtos.EventResponseDTO;
 import com.gustavo.eventservice.dtos.StaffRequestDTO;
 import com.gustavo.eventservice.dtos.rabbitmqDtos.NotificationEventDto;
 import com.gustavo.eventservice.entities.Event;
+import com.gustavo.eventservice.entities.Ticket;
 import com.gustavo.eventservice.entities.User;
 import com.gustavo.eventservice.entities.enums.EventStatus;
 import com.gustavo.eventservice.producers.NotificationProducer;
@@ -56,7 +57,7 @@ public class EventServiceImpl implements EventService {
 		
 		NotificationEventDto notificationCommandDto = new NotificationEventDto();
         notificationCommandDto.setTitle("Event created successfully");
-        notificationCommandDto.setMessage("You have just created a new event called " + event.getName());
+        notificationCommandDto.setMessage("You have just created a new event called " + event.getName() + ".");
         notificationCommandDto.setUserId(user.getUserId());
 
         notificationProducer.produceNotificationEvent(notificationCommandDto);
@@ -105,8 +106,23 @@ public class EventServiceImpl implements EventService {
 		eventRepository.save(event);
 		
 		NotificationEventDto notificationCommandDto = new NotificationEventDto();
+		
+		notificationCommandDto.setTitle("Updated event.");
+        notificationCommandDto.setMessage("The " + event.getName() + " event has been updated.");
+        
+		for(Ticket eventTicket: event.getTickets()) {
+    		User user = eventTicket.getUser();
+    		notificationCommandDto.setUserId(user.getUserId());
+    		notificationProducer.produceNotificationEvent(notificationCommandDto);
+    	}
+		
+		for(User user: event.getStaffUsers()) {
+    		notificationCommandDto.setUserId(user.getUserId());
+    		notificationProducer.produceNotificationEvent(notificationCommandDto);
+    	}
+		
         notificationCommandDto.setTitle("Event updated successfully");
-        notificationCommandDto.setMessage("You just updated the " + event.getName() + " event");
+        notificationCommandDto.setMessage("You just updated the " + event.getName() + " event.");
         notificationCommandDto.setUserId(event.getCreationUser().getUserId());
 
         notificationProducer.produceNotificationEvent(notificationCommandDto);
@@ -135,8 +151,8 @@ public class EventServiceImpl implements EventService {
 		eventRepository.save(event);
 		
 		NotificationEventDto notificationCommandDto = new NotificationEventDto();
-        notificationCommandDto.setTitle("Registrations closed successfully");
-        notificationCommandDto.setMessage("You have closed registrations for the " + event.getName() + " event");
+        notificationCommandDto.setTitle("Registrations closed successfully.");
+        notificationCommandDto.setMessage("You have closed registrations for the " + event.getName() + " event.");
         notificationCommandDto.setUserId(event.getCreationUser().getUserId());
 
         notificationProducer.produceNotificationEvent(notificationCommandDto);
@@ -154,15 +170,39 @@ public class EventServiceImpl implements EventService {
 		} else {
 			new BusinessException("It is not possible to cancel this event!");
 		}
+        
+        eventRepository.save(event);
 		
-		eventRepository.save(event);
+        NotificationEventDto notificationCommandDto = new NotificationEventDto();
+        notificationCommandDto.setTitle("An event you are registered for has been canceled.");
+		if(event.getPrice().equals(0.0)) {
+			notificationCommandDto.setMessage("The " + event.getName() + " event has been cancelled.");
+        } else {
+        	notificationCommandDto.setMessage("The " + event.getName() + " event has been cancelled. "
+        			+ "If you have already made the payment, please contact " + event.getCreationUser().getEmail() + 
+        			" to request a refund.");
+        }
 		
-		NotificationEventDto notificationCommandDto = new NotificationEventDto();
+		for(Ticket eventTicket: event.getTickets()) {
+    		User user = eventTicket.getUser();
+    		notificationCommandDto.setUserId(user.getUserId());
+    		notificationProducer.produceNotificationEvent(notificationCommandDto);
+    	}
+		
+		notificationCommandDto.setTitle("Event canceled");
+		notificationCommandDto.setMessage("The " + event.getName() + " event has been canceled.");
+		for(User user: event.getStaffUsers()) {
+    		notificationCommandDto.setUserId(user.getUserId());
+    		notificationProducer.produceNotificationEvent(notificationCommandDto);
+    	}
+				
         notificationCommandDto.setTitle("Event successfully canceled");
-        notificationCommandDto.setMessage("You canceled the " + event.getName() + " event");
+        notificationCommandDto.setMessage("You canceled the " + event.getName() + " event.");
         notificationCommandDto.setUserId(event.getCreationUser().getUserId());
 
         notificationProducer.produceNotificationEvent(notificationCommandDto);
+        
+        
 	}
 	
 	public void insertStaff(UUID eventId, StaffRequestDTO staffRequestDTO) {
@@ -183,6 +223,13 @@ public class EventServiceImpl implements EventService {
 		event.getStaffUsers().add(user);
 				
 		eventRepository.save(event);
+		
+		NotificationEventDto notificationCommandDto = new NotificationEventDto();
+        notificationCommandDto.setTitle("You have been added to an event staff.");
+        notificationCommandDto.setMessage("You are now part of the " + event.getName() + " event staff.");
+        notificationCommandDto.setUserId(user.getUserId());
+
+        notificationProducer.produceNotificationEvent(notificationCommandDto);				
 	}
 	
 	public Page<EventResponseDTO> findStaffUsers(UUID userId, Pageable pageable) {
