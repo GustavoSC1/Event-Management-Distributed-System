@@ -46,6 +46,7 @@ public class TicketServiceImpl implements TicketService {
 	@Autowired
 	private PaymentProducer paymentProducer;
 
+	@Override
 	public void insert(UUID eventId, TicketRequestDTO ticketRequestDto) {
 		
 		Event event = eventService.findById(eventId);
@@ -104,6 +105,7 @@ public class TicketServiceImpl implements TicketService {
         notificationProducer.produceNotificationEvent(notificationEventDto);		
 	}	
 	
+	@Override
 	public Page<TicketResponseDTO> findByEvent(UUID eventId, Pageable pageable) {
 		
 		Event event = eventService.findById(eventId);
@@ -121,6 +123,7 @@ public class TicketServiceImpl implements TicketService {
 		return ticketResponseDtoPage;		
 	}
 	
+	@Override
 	public Page<TicketResponseDTO> findByUser(UUID userId, Pageable pageable) {
 		
 		User user = userService.findById(userId);

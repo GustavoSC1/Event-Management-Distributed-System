@@ -15,6 +15,7 @@ public class RoleServiceImpl implements RoleService {
 	@Autowired
 	private RoleRepository roleRepository;
 	
+	@Override
 	public Role findByRoleName(RoleType name) {
 		return roleRepository.findByRoleName(RoleType.ROLE_USER)
 				.orElseThrow(() -> new ObjectNotFoundException("Error: Role is not found!"));

@@ -15,8 +15,21 @@ spring:
     console:
       enabled: true
       path: /h2-console
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: password
 
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+      
+rabbitmq:
+  exchange:
+    paymentExchange: payments.v1.payment_created
+  queue:
+    paymentQueue: payments.v1.payment_created.send_payment
+  key:
+    paymentKey: payments.v1.payment_created.send_payment.key

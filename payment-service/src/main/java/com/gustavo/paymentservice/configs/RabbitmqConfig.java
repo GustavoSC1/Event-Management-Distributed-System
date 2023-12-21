@@ -1,4 +1,4 @@
-package com.gustavo.notificationservice.configs;
+package com.gustavo.paymentservice.configs;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -17,25 +17,25 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitmqConfig {
 	
-	@Value("${rabbitmq.queue.notificationQueue}")
-	private String notificationQueue;
+	@Value("${rabbitmq.queue.paymentQueue}")
+	private String paymentQueue;
 	
-	@Value("${rabbitmq.exchange.notificationExchange}")
-	private String notificationExchange;
+	@Value("${rabbitmq.exchange.paymentExchange}")
+	private String paymentExchange;
 	
-	@Value("${rabbitmq.key.notificationKey}")
-	private String notificationKey;
+	@Value("${rabbitmq.key.paymentKey}")
+	private String paymentKey;
 	
 	@Bean
-	public Queue notificationQueue() {		
-		return new Queue(notificationQueue, true);
+	public Queue paymentQueue() {		
+		return new Queue(paymentQueue, true);
 	}
 	
 	@Bean
-	public Binding notificationBinding(Queue notificationQueue) {
-		DirectExchange exchange = new DirectExchange(notificationExchange);
+	public Binding paymentBinding(Queue paymentQueue) {
+		DirectExchange exchange = new DirectExchange(paymentExchange);
 		exchange.setIgnoreDeclarationExceptions(true);
-		return BindingBuilder.bind(notificationQueue).to(exchange).with(notificationKey);
+		return BindingBuilder.bind(paymentQueue).to(exchange).with(paymentKey);
 	}
 	
 	@Bean

@@ -1,7 +1,6 @@
 package com.gustavo.paymentservice.dtos;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -9,21 +8,21 @@ public class PaymentRequestDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@NotNull(message="The Payment Code field is required")
-	private UUID paymentCode;
+	private String paymentCode;
 
 	public PaymentRequestDTO() {
 
 	}
 
-	public PaymentRequestDTO(UUID paymentCode) {
+	public PaymentRequestDTO(String paymentCode) {
 		this.paymentCode = paymentCode;
 	}
 
-	public UUID getPaymentCode() {
+	public String getPaymentCode() {
 		return paymentCode;
 	}
 
-	public void setPaymentCode(UUID paymentCode) {
+	public void setPaymentCode(String paymentCode) {
 		this.paymentCode = paymentCode;
 	}
 

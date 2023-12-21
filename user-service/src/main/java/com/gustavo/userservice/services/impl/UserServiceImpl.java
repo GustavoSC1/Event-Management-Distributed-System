@@ -38,6 +38,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserProducer userProducer;
 	
+	@Override
 	public UserResponseDTO insert(UserRequestDTO userRequestDto) {
 		
 		if(userRepository.existsByUsername(userRequestDto.getUsername())) {
@@ -72,6 +73,7 @@ public class UserServiceImpl implements UserService {
 		return userResponseDto;
 	}
 	
+	@Override
 	public UserResponseDTO getOneUser(UUID userId) {
 		
 		User user = findById(userId);
@@ -83,6 +85,7 @@ public class UserServiceImpl implements UserService {
 		return userResponseDto;		
 	}
 	
+	@Override
 	public Page<UserResponseDTO> findAll(String name, String email, Pageable pageable) {
 		
 		Page<User> userPage = userRepository.findAllByNameAndEmail(name, email, pageable);
@@ -95,6 +98,7 @@ public class UserServiceImpl implements UserService {
 		return urserResponseDtoPage;		
 	}
 	
+	@Override
 	public UserResponseDTO update(UUID userId, UserRequestDTO userRequestDto) {
 		
 		User user = findById(userId);
@@ -118,6 +122,7 @@ public class UserServiceImpl implements UserService {
 		return userResponseDto;
 	}
 	
+	@Override
 	public void delete(UUID userId) {
 				
 		User user = findById(userId);
@@ -130,6 +135,7 @@ public class UserServiceImpl implements UserService {
 		userProducer.produceUserEvent(userEventDto);
 	}
 	
+	@Override
 	public void updatePassword(UUID userId, UserRequestDTO userRequestDto) {
 
 		User user = findById(userId);
@@ -144,6 +150,7 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 	
+	@Override
 	public UserResponseDTO updateImage(UUID userId, UserRequestDTO userRequestDto) {
 		
 		Optional<User> userOptional = userRepository.findById(userId);

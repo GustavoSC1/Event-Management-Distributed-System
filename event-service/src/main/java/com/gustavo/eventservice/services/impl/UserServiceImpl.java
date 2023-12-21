@@ -21,6 +21,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
+	@Override
 	public UserResponseDTO insert(User user) {
 		userRepository.save(user);
 		
@@ -30,12 +31,14 @@ public class UserServiceImpl implements UserService {
 		return userResponseDto;
 	}
 	
+	@Override
 	public User findById(UUID userId) {
 		Optional<User> userOptional = userRepository.findById(userId);
 		
 		return userOptional.orElseThrow(() -> new ObjectNotFoundException("User not found! Id: " + userId));
 	}
 	
+	@Override
 	public Page<UserResponseDTO> findStaffEvent(UUID eventId, Pageable pageable) {
 		
 		Page<User> userPage = userRepository.findAllByStaffEventsEventId(eventId, pageable);				

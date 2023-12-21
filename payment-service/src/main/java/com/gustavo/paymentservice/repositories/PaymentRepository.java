@@ -10,6 +10,6 @@ import com.gustavo.paymentservice.entities.Payment;
 public interface PaymentRepository extends JpaRepository<Payment, UUID> {
 	
 	@Transactional(readOnly = true)
-	Payment findByPaymentCode(UUID paymentCode);
+	Payment findByPaymentCode(String paymentCode);
 	
 }

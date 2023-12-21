@@ -22,6 +22,7 @@ public class NotificationServiceImpl implements NotificationService {
 	@Autowired
 	private NotificationRepository notificationRepository;
 	
+	@Override
 	public NotificationResponseDTO insert(Notification notification) {
 		notificationRepository.save(notification);
 		
@@ -31,6 +32,7 @@ public class NotificationServiceImpl implements NotificationService {
 		return notificationResponseDto;
 	}
 	
+	@Override
 	public Page<NotificationResponseDTO> findByUser(UUID userId, Pageable pageable) {
 		
 		Page<Notification> notificationPage = notificationRepository.findAllByUserIdAndNotificationStatus(userId, NotificationStatus.CREATED, pageable);
@@ -43,6 +45,7 @@ public class NotificationServiceImpl implements NotificationService {
 		return notificationResponseDtoPage;
 	}
 	
+	@Override
 	public void markAsRead(UUID userId, UUID notificationId) {
 		
 		Optional<Notification> notificationOptional = notificationRepository.findByNotificationIdAndUserId(notificationId, userId);

@@ -38,6 +38,7 @@ public class EventServiceImpl implements EventService {
 	@Autowired
 	private NotificationProducer notificationProducer;
 	
+	@Override
 	public EventResponseDTO insert(EventRequestDTO  eventRequestDto) {
 		
 		User user = userService.findById(eventRequestDto.getCreationUser());
@@ -69,6 +70,7 @@ public class EventServiceImpl implements EventService {
 		return eventResponseDto;		
 	}
 	
+	@Override
 	public Page<EventResponseDTO> findAll(String search, String place, Double minPrice, Double maxPrice, LocalDateTime date, Pageable pageable) {
 		
 		Page<Event> eventPage = eventRepository.findByParams(search, place, minPrice, maxPrice, date, pageable);
@@ -81,6 +83,7 @@ public class EventServiceImpl implements EventService {
 		return eventResponseDtoPage;
 	}
 	
+	@Override
 	public EventResponseDTO getOneEvent(UUID eventId) {
 		
 		Event event = findById(eventId);
@@ -92,6 +95,7 @@ public class EventServiceImpl implements EventService {
 		return eventResponseDto;		
 	}
 	
+	@Override
 	public EventResponseDTO update(UUID eventId, EventRequestDTO eventRequestDto) {
 				
 		Event event = findById(eventId);
@@ -134,6 +138,7 @@ public class EventServiceImpl implements EventService {
 		return eventResponseDto;
 	}
 	
+	@Override
 	public void closeRegistrations(UUID eventId) {
 		
 		Event event = findById(eventId);
@@ -158,6 +163,7 @@ public class EventServiceImpl implements EventService {
         notificationProducer.produceNotificationEvent(notificationEventDto);
 	}
 	
+	@Override
 	public void cancelEvent(UUID eventId) {
 		
 		Event event = findById(eventId);
@@ -205,6 +211,7 @@ public class EventServiceImpl implements EventService {
         
 	}
 	
+	@Override
 	public void insertStaff(UUID eventId, StaffRequestDTO staffRequestDTO) {
 		
 		Event event = findById(eventId);
@@ -232,6 +239,7 @@ public class EventServiceImpl implements EventService {
         notificationProducer.produceNotificationEvent(notificationEventDto);				
 	}
 	
+	@Override
 	public Page<EventResponseDTO> findStaffUsers(UUID userId, Pageable pageable) {
 		
 		Page<Event> eventPage = eventRepository.findAllByStaffUsersUserId(userId, pageable);
@@ -241,7 +249,8 @@ public class EventServiceImpl implements EventService {
 			BeanUtils.copyProperties(obj, eventResponseDto);
 			return eventResponseDto;}); 	
 	}
-			
+	
+	@Override
 	public Event findById(UUID eventId) {
 		
 		Optional<Event> eventOptional = eventRepository.findById(eventId);

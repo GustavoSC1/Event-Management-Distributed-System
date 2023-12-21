@@ -3,10 +3,12 @@ package com.gustavo.paymentservice.services.impl;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gustavo.paymentservice.dtos.PaymentRequestDTO;
+import com.gustavo.paymentservice.dtos.PaymentResponseDTO;
 import com.gustavo.paymentservice.entities.Payment;
 import com.gustavo.paymentservice.repositories.PaymentRepository;
 import com.gustavo.paymentservice.services.PaymentService;
@@ -19,6 +21,17 @@ public class PaymentServiceImpl implements PaymentService {
 	@Autowired
 	private PaymentRepository paymentRepository;	
 	
+	@Override
+	public PaymentResponseDTO insert(Payment payment) {
+		paymentRepository.save(payment);
+		
+		PaymentResponseDTO paymentResponseDto = new PaymentResponseDTO();
+		BeanUtils.copyProperties(payment, paymentResponseDto);
+		
+		return paymentResponseDto;
+	}
+	
+	@Override
 	public void makePayment(PaymentRequestDTO paymentRequestDto) {
 		
 		Payment payment = paymentRepository.findByPaymentCode(paymentRequestDto.getPaymentCode());
@@ -36,5 +49,5 @@ public class PaymentServiceImpl implements PaymentService {
 		
 		paymentRepository.save(payment);	
 	}
-
+	
 }
