@@ -31,3 +31,5 @@ eureka:
 rabbitmq:
   exchange:
     userExchange: users.v1.user_event
+  key:
+    userKey: users.v1.user_event.send_user.key

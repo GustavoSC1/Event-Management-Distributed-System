@@ -14,10 +14,13 @@ public class UserProducer {
 	private RabbitTemplate rabbitTemplate;
 	
 	@Value("${rabbitmq.exchange.userExchange}")
-	private String exchange;
+	private String userExchange;
+	
+	@Value("${rabbitmq.key.userKey}")
+	private String userKey;
 	
 	public void produceUserEvent(UserEventDTO userEventDto) {		
-		rabbitTemplate.convertAndSend(exchange, "", userEventDto);
+		rabbitTemplate.convertAndSend(userExchange, userKey, userEventDto);
 	}
 
 }

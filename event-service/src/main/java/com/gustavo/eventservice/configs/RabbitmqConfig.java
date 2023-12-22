@@ -3,7 +3,6 @@ package com.gustavo.eventservice.configs;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
@@ -24,6 +23,9 @@ public class RabbitmqConfig {
 	@Value("${rabbitmq.exchange.userExchange}")
 	private String userExchange;
 	
+	@Value("${rabbitmq.key.userKey}")
+	private String userKey;
+	
 	@Value("${rabbitmq.exchange.notificationExchange}")
 	private String notificationExchange;
 	
@@ -37,10 +39,10 @@ public class RabbitmqConfig {
 	
 	@Bean
 	public Binding userBinding(Queue userQueue) {
-		FanoutExchange exchange = new FanoutExchange(userExchange);
+		DirectExchange exchange = new DirectExchange(userExchange);
 		// Ignorar exceções, como propriedades incompatíveis ao declarar.
 		exchange.setIgnoreDeclarationExceptions(true);
-		return BindingBuilder.bind(userQueue).to(exchange);
+		return BindingBuilder.bind(userQueue).to(exchange).with(userKey);
 	}
 	
 	@Bean

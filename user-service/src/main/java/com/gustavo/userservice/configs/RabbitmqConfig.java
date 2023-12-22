@@ -1,6 +1,6 @@
 package com.gustavo.userservice.configs;
 
-import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -15,11 +15,11 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitmqConfig {
 	
 	@Value("${rabbitmq.exchange.userExchange}")
-	private String exchange;
+	private String userExchange;
 		
 	@Bean
-	public FanoutExchange fanoutExchange() {
-		return new FanoutExchange(exchange);
+	public DirectExchange userExchange() {
+		return new DirectExchange(userExchange);
 	}
 
 	@Bean
