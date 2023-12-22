@@ -3,6 +3,7 @@ package com.gustavo.paymentservice.configs;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
@@ -23,6 +24,9 @@ public class RabbitmqConfig {
 	@Value("${rabbitmq.exchange.paymentExchange}")
 	private String paymentExchange;
 	
+	@Value("${rabbitmq.exchange.paymentMadeExchange}")
+	private String paymentMadeExchange;
+	
 	@Value("${rabbitmq.key.paymentKey}")
 	private String paymentKey;
 	
@@ -36,6 +40,11 @@ public class RabbitmqConfig {
 		DirectExchange exchange = new DirectExchange(paymentExchange);
 		exchange.setIgnoreDeclarationExceptions(true);
 		return BindingBuilder.bind(paymentQueue).to(exchange).with(paymentKey);
+	}
+	
+	@Bean
+	public FanoutExchange paymentMadeExchange() {
+		return new FanoutExchange(paymentMadeExchange);
 	}
 	
 	@Bean

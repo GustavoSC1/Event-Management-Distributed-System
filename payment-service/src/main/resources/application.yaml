@@ -29,6 +29,7 @@ eureka:
 rabbitmq:
   exchange:
     paymentExchange: payments.v1.payment_created
+    paymentMadeExchange: payments.v1.payment_made
   queue:
     paymentQueue: payments.v1.payment_created.send_payment
   key:
