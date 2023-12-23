@@ -28,7 +28,9 @@ public class Ticket implements Serializable {
     private LocalDateTime registrationDate;
         
     @Column(nullable = false)
-    private Boolean isPaid;    
+    private Boolean isPaid;  
+    
+    private LocalDateTime paymentDate;
     
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
@@ -70,6 +72,14 @@ public class Ticket implements Serializable {
 
 	public void setIsPaid(Boolean isPaid) {
 		this.isPaid = isPaid;
+	}
+
+	public LocalDateTime getPaymentDate() {
+		return paymentDate;
+	}
+
+	public void setPaymentDate(LocalDateTime paymentDate) {
+		this.paymentDate = paymentDate;
 	}
 
 	public User getUser() {

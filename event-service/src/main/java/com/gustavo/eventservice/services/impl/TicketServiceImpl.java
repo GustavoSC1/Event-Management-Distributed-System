@@ -2,6 +2,7 @@ package com.gustavo.eventservice.services.impl;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
@@ -16,6 +17,7 @@ import com.gustavo.eventservice.dtos.TicketResponseDTO;
 import com.gustavo.eventservice.dtos.UserResponseDTO;
 import com.gustavo.eventservice.dtos.rabbitmqDtos.NotificationEventDTO;
 import com.gustavo.eventservice.dtos.rabbitmqDtos.PaymentEventDTO;
+import com.gustavo.eventservice.dtos.rabbitmqDtos.PaymentMadeEventDTO;
 import com.gustavo.eventservice.entities.Event;
 import com.gustavo.eventservice.entities.Ticket;
 import com.gustavo.eventservice.entities.User;
@@ -27,6 +29,7 @@ import com.gustavo.eventservice.services.EventService;
 import com.gustavo.eventservice.services.TicketService;
 import com.gustavo.eventservice.services.UserService;
 import com.gustavo.eventservice.services.exceptions.BusinessException;
+import com.gustavo.eventservice.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class TicketServiceImpl implements TicketService {
@@ -106,6 +109,23 @@ public class TicketServiceImpl implements TicketService {
 	}	
 	
 	@Override
+	public void setTicketPaid(PaymentMadeEventDTO paymentMadeEventDto) {
+		Ticket ticket = findById(paymentMadeEventDto.getTicketId());
+		
+		ticket.setIsPaid(paymentMadeEventDto.isPaid());
+		ticket.setPaymentDate(paymentMadeEventDto.getPaymentDate());
+
+		ticketRepository.save(ticket);
+	}
+
+	@Override
+	public Ticket findById(UUID ticketId) {
+		Optional<Ticket> ticketOptional = ticketRepository.findById(ticketId);
+		
+		return ticketOptional.orElseThrow(() -> new ObjectNotFoundException("Ticket not found! Id: " + ticketId));
+	}
+	
+	@Override
 	public Page<TicketResponseDTO> findByEvent(UUID eventId, Pageable pageable) {
 		
 		Event event = eventService.findById(eventId);
@@ -140,5 +160,5 @@ public class TicketServiceImpl implements TicketService {
 		
 		return ticketResponseDtoPage;		
 	}
-
+	
 }

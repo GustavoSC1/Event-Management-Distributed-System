@@ -3,6 +3,7 @@ package com.gustavo.eventservice.configs;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
@@ -13,6 +14,9 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @Configuration
 public class RabbitmqConfig {
@@ -32,6 +36,12 @@ public class RabbitmqConfig {
 	@Value("${rabbitmq.exchange.paymentExchange}")
 	private String paymentExchange;
 	
+	@Value("${rabbitmq.queue.paymentMadeQueue}")
+	private String paymentMadeQueue;
+	
+	@Value("${rabbitmq.exchange.paymentMadeExchange}")
+	private String paymentMadeExchange;
+		
 	@Bean
 	public Queue userQueue() {		
 		return new Queue(userQueue, true);
@@ -46,6 +56,18 @@ public class RabbitmqConfig {
 	}
 	
 	@Bean
+	public Queue paymentMadeQueue() {		
+		return new Queue(paymentMadeQueue, true);
+	}
+	
+	@Bean
+	public Binding paymentMadeBinding(Queue paymentMadeQueue) {
+		FanoutExchange exchange = new FanoutExchange(paymentMadeExchange);
+		exchange.setIgnoreDeclarationExceptions(true);
+		return BindingBuilder.bind(paymentMadeQueue).to(exchange);
+	}
+	
+	@Bean
 	public DirectExchange notificationExchange() {
 		return new DirectExchange(notificationExchange);
 	}
@@ -57,7 +79,9 @@ public class RabbitmqConfig {
 	
 	@Bean
 	public Jackson2JsonMessageConverter messageConverter() {
-		return new Jackson2JsonMessageConverter();
+		ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        return new Jackson2JsonMessageConverter(objectMapper);
 	}
 	
 	@Bean

@@ -12,7 +12,8 @@ public class TicketResponseDTO implements Serializable {
 	
 	private UUID ticketId;
 	private LocalDateTime registrationDate;
-	private Boolean isPaid;	
+	private Boolean isPaid;
+	private LocalDateTime paymentDate;
 	private UserResponseDTO userResponseDto;
 	private EventResponseDTO eventResponseDto;
 	
@@ -21,10 +22,11 @@ public class TicketResponseDTO implements Serializable {
 	}
 
 	public TicketResponseDTO(UUID ticketId, LocalDateTime registrationDate, Boolean isPaid,
-			UserResponseDTO userResponseDto, EventResponseDTO eventResponseDto) {
+			LocalDateTime paymentDate, UserResponseDTO userResponseDto, EventResponseDTO eventResponseDto) {
 		this.ticketId = ticketId;
 		this.registrationDate = registrationDate;
 		this.isPaid = isPaid;
+		this.paymentDate = paymentDate;
 		this.userResponseDto = userResponseDto;
 		this.eventResponseDto = eventResponseDto;
 	}
@@ -51,6 +53,14 @@ public class TicketResponseDTO implements Serializable {
 
 	public void setIsPaid(Boolean isPaid) {
 		this.isPaid = isPaid;
+	}
+	
+	public LocalDateTime getPaymentDate() {
+		return paymentDate;
+	}
+
+	public void setPaymentDate(LocalDateTime paymentDate) {
+		this.paymentDate = paymentDate;
 	}
 
 	public UserResponseDTO getUserResponseDto() {

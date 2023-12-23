@@ -31,8 +31,10 @@ rabbitmq:
     userExchange: users.v1.user_event
     notificationExchange:  notifications.v1.notification_created
     paymentExchange:  payments.v1.payment_created
+    paymentMadeExchange: payments.v1.payment_made
   queue:
     userQueue: users.v1.user_event.send_user
+    paymentMadeQueue: payments.v1.payment_made.send_confirmation_to_event
   key:
     userKey: users.v1.user_event.send_user.key
     notificationKey: notifications.v1.notification_created.send_notification.key

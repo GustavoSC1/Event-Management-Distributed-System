@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.gustavo.paymentservice.dtos.PaymentRequestDTO;
 import com.gustavo.paymentservice.dtos.PaymentResponseDTO;
+import com.gustavo.paymentservice.dtos.rabbitmqDtos.PaymentMadeEventDTO;
 import com.gustavo.paymentservice.entities.Payment;
+import com.gustavo.paymentservice.producers.PaymentMadeProducer;
 import com.gustavo.paymentservice.repositories.PaymentRepository;
 import com.gustavo.paymentservice.services.PaymentService;
 import com.gustavo.paymentservice.services.exceptions.BusinessException;
@@ -20,6 +22,9 @@ public class PaymentServiceImpl implements PaymentService {
 	
 	@Autowired
 	private PaymentRepository paymentRepository;	
+	
+	@Autowired
+	private PaymentMadeProducer paymentMadeProducer;
 	
 	@Override
 	public PaymentResponseDTO insert(Payment payment) {
@@ -48,6 +53,13 @@ public class PaymentServiceImpl implements PaymentService {
 		payment.setPaymentDate(LocalDateTime.now(ZoneId.of("UTC")));
 		
 		paymentRepository.save(payment);	
+				
+		PaymentMadeEventDTO paymentMadeEventDto = new PaymentMadeEventDTO();		
+		BeanUtils.copyProperties(payment, paymentMadeEventDto);
+		paymentMadeEventDto.setPaid(true);
+		paymentMadeEventDto.setPaymentDate(LocalDateTime.now(ZoneId.of("UTC")));
+		
+		paymentMadeProducer.produceUserEvent(paymentMadeEventDto);
 	}
 	
 }
