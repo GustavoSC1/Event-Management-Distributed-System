@@ -10,7 +10,7 @@ public class PaymentResponseDTO implements Serializable {
 	private UUID paymentId;
 	private String paymentCode;
 	private UUID ticketId;
-	private String details;
+	private String eventName;
 	private Double amount;
 	private boolean isPaid;
 	private LocalDateTime paymentDate;
@@ -19,12 +19,12 @@ public class PaymentResponseDTO implements Serializable {
 
 	}
 
-	public PaymentResponseDTO(UUID paymentId, String paymentCode, UUID ticketId, String details, Double amount,
+	public PaymentResponseDTO(UUID paymentId, String paymentCode, UUID ticketId, String eventName, Double amount,
 			boolean isPaid, LocalDateTime paymentDate) {
 		this.paymentId = paymentId;
 		this.paymentCode = paymentCode;
 		this.ticketId = ticketId;
-		this.details = details;
+		this.eventName = eventName;
 		this.amount = amount;
 		this.isPaid = isPaid;
 		this.paymentDate = paymentDate;
@@ -54,12 +54,12 @@ public class PaymentResponseDTO implements Serializable {
 		this.ticketId = ticketId;
 	}
 
-	public String getDetails() {
-		return details;
+	public String getEventName() {
+		return eventName;
 	}
 
-	public void setDetails(String details) {
-		this.details = details;
+	public void setEventName(String eventName) {
+		this.eventName = eventName;
 	}
 
 	public Double getAmount() {

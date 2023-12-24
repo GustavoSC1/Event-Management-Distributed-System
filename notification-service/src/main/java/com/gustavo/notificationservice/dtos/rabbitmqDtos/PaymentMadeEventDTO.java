@@ -1,4 +1,4 @@
-package com.gustavo.eventservice.dtos.rabbitmqDtos;
+package com.gustavo.notificationservice.dtos.rabbitmqDtos;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

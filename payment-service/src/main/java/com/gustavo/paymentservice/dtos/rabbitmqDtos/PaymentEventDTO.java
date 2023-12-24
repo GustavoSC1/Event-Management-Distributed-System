@@ -6,20 +6,20 @@ public class PaymentEventDTO {
 
 	private UUID ticketId;
 	private UUID userId;
-	private String details;
+	private String eventName;
 	private Double amount;
 	
 	public PaymentEventDTO() {
 
 	}
 
-	public PaymentEventDTO(UUID ticketId, UUID userId, String details, Double amount) {
+	public PaymentEventDTO(UUID ticketId, UUID userId, String eventName, Double amount) {
 		this.ticketId = ticketId;
 		this.userId = userId;
-		this.details = details;
+		this.eventName = eventName;
 		this.amount = amount;
 	}
-
+	
 	public UUID getTicketId() {
 		return ticketId;
 	}
@@ -36,12 +36,12 @@ public class PaymentEventDTO {
 		this.userId = userId;
 	}
 
-	public String getDetails() {
-		return details;
+	public String getEventName() {
+		return eventName;
 	}
 
-	public void setDetails(String details) {
-		this.details = details;
+	public void setEventName(String eventName) {
+		this.eventName = eventName;
 	}
 
 	public Double getAmount() {

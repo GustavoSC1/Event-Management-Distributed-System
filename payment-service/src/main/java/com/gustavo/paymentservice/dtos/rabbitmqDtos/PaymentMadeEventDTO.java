@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public class PaymentMadeEventDTO {
 	
+	private String eventName;
 	private String paymentCode;
 	private UUID ticketId;
 	private UUID userId;
@@ -14,15 +15,23 @@ public class PaymentMadeEventDTO {
 	public PaymentMadeEventDTO() {
 
 	}
-
-	public PaymentMadeEventDTO(String paymentCode, UUID ticketId, UUID userId, boolean isPaid,
+	
+	public PaymentMadeEventDTO(String eventName, String paymentCode, UUID ticketId, UUID userId, boolean isPaid,
 			LocalDateTime paymentDate) {
-		super();
+		this.eventName = eventName;
 		this.paymentCode = paymentCode;
 		this.ticketId = ticketId;
 		this.userId = userId;
 		this.isPaid = isPaid;
 		this.paymentDate = paymentDate;
+	}
+	
+	public String getEventName() {
+		return eventName;
+	}
+
+	public void setEventName(String eventName) {
+		this.eventName = eventName;
 	}
 
 	public String getPaymentCode() {

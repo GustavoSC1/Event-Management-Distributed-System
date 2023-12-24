@@ -31,7 +31,7 @@ public class Payment implements Serializable {
     private UUID userId;
     
     @Column(nullable = false)
-    private String details;
+    private String eventName;
     
     @Column(nullable = false)
     private Double amount;
@@ -44,18 +44,20 @@ public class Payment implements Serializable {
 	public Payment() {
 
 	}
-
-	public Payment(UUID paymentId, String paymentCode, UUID ticketId, UUID userId, String details, Double amount, boolean isPaid,
-			LocalDateTime paymentDate) {
+	
+	public Payment(UUID paymentId, String paymentCode, UUID ticketId, UUID userId, String eventName, Double amount,
+			boolean isPaid, LocalDateTime paymentDate) {
 		this.paymentId = paymentId;
 		this.paymentCode = paymentCode;
 		this.ticketId = ticketId;
 		this.userId = userId;
-		this.details = details;
+		this.eventName = eventName;
 		this.amount = amount;
 		this.isPaid = isPaid;
 		this.paymentDate = paymentDate;
 	}
+
+
 
 	public UUID getPaymentId() {
 		return paymentId;
@@ -89,12 +91,12 @@ public class Payment implements Serializable {
 		this.userId = userId;
 	}
 
-	public String getDetails() {
-		return details;
+	public String getEventName() {
+		return eventName;
 	}
 
-	public void setDetails(String details) {
-		this.details = details;
+	public void setEventName(String eventName) {
+		this.eventName = eventName;
 	}
 
 	public Double getAmount() {
@@ -123,7 +125,7 @@ public class Payment implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(amount, details, isPaid, paymentCode, paymentDate, paymentId);
+		return Objects.hash(amount, eventName, isPaid, paymentCode, paymentDate, paymentId, ticketId, userId);
 	}
 
 	@Override
@@ -135,9 +137,10 @@ public class Payment implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Payment other = (Payment) obj;
-		return Objects.equals(amount, other.amount) && Objects.equals(details, other.details) && isPaid == other.isPaid
-				&& Objects.equals(paymentCode, other.paymentCode) && Objects.equals(paymentDate, other.paymentDate)
-				&& Objects.equals(paymentId, other.paymentId);
+		return Objects.equals(amount, other.amount) && Objects.equals(eventName, other.eventName)
+				&& isPaid == other.isPaid && Objects.equals(paymentCode, other.paymentCode)
+				&& Objects.equals(paymentDate, other.paymentDate) && Objects.equals(paymentId, other.paymentId)
+				&& Objects.equals(ticketId, other.ticketId) && Objects.equals(userId, other.userId);
 	}
 
 }

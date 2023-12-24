@@ -93,7 +93,7 @@ public class TicketServiceImpl implements TicketService {
 			paymentEventDto.setTicketId(eventTicket.getTicketId());
 			paymentEventDto.setUserId(user.getUserId());
 			paymentEventDto.setAmount(event.getPrice());
-			paymentEventDto.setDetails(event.getName());
+			paymentEventDto.setEventName(event.getName());
 			
 			paymentProducer.producePaymentEvent(paymentEventDto);		
 		}

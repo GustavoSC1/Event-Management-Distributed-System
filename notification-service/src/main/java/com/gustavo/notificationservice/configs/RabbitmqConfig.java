@@ -3,6 +3,7 @@ package com.gustavo.notificationservice.configs;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
@@ -29,6 +30,12 @@ public class RabbitmqConfig {
 	@Value("${rabbitmq.key.notificationKey}")
 	private String notificationKey;
 	
+	@Value("${rabbitmq.queue.paymentMadeQueue}")
+	private String paymentMadeQueue;
+	
+	@Value("${rabbitmq.exchange.paymentMadeExchange}")
+	private String paymentMadeExchange;
+	
 	@Bean
 	public Queue notificationQueue() {		
 		return new Queue(notificationQueue, true);
@@ -39,6 +46,18 @@ public class RabbitmqConfig {
 		DirectExchange exchange = new DirectExchange(notificationExchange);
 		exchange.setIgnoreDeclarationExceptions(true);
 		return BindingBuilder.bind(notificationQueue).to(exchange).with(notificationKey);
+	}
+	
+	@Bean
+	public Queue paymentMadeQueue() {		
+		return new Queue(paymentMadeQueue, true);
+	}
+	
+	@Bean
+	public Binding paymentMadeBinding(Queue paymentMadeQueue) {
+		FanoutExchange exchange = new FanoutExchange(paymentMadeExchange);
+		exchange.setIgnoreDeclarationExceptions(true);
+		return BindingBuilder.bind(paymentMadeQueue).to(exchange);
 	}
 	
 	@Bean

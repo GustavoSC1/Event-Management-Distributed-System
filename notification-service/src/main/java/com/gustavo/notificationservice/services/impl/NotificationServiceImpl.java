@@ -31,7 +31,7 @@ public class NotificationServiceImpl implements NotificationService {
 		
 		return notificationResponseDto;
 	}
-	
+		
 	@Override
 	public Page<NotificationResponseDTO> findByUser(UUID userId, Pageable pageable) {
 		
@@ -57,6 +57,5 @@ public class NotificationServiceImpl implements NotificationService {
 		
 		notificationRepository.save(notification);
 	}
-	
 
 }
