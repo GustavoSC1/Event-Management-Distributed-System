@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.gustavo.userservice.dtos.UserRequestDTO;
 import com.gustavo.userservice.dtos.UserResponseDTO;
+import com.gustavo.userservice.entities.User;
 
 public interface UserService {
 	
@@ -23,5 +24,7 @@ public interface UserService {
 	void updatePassword(UUID userId, UserRequestDTO userRequestDto);
 	
 	UserResponseDTO updateImage(UUID userId, UserRequestDTO userRequestDto);
+	
+	User findById(UUID userId);
 
 }

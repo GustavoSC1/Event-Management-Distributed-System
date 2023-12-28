@@ -8,9 +8,11 @@ import java.util.UUID;
 
 import org.springframework.hateoas.RepresentationModel;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.gustavo.userservice.entities.Role;
 import com.gustavo.userservice.entities.enums.UserStatus;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserResponseDTO extends RepresentationModel<UserResponseDTO> implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

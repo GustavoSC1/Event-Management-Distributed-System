@@ -174,6 +174,7 @@ public class UserServiceImpl implements UserService {
 		return userResponseDto;
 	}
 	
+	@Override
 	public User findById(UUID userId) {
 		
 		Optional<User> userOptional = userRepository.findById(userId);

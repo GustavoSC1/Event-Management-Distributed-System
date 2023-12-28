@@ -3,8 +3,10 @@ package com.gustavo.eventservice.dtos;
 import java.io.Serializable;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.gustavo.eventservice.entities.enums.UserStatus;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserResponseDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
