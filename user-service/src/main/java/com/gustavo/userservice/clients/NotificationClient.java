@@ -13,7 +13,7 @@ import com.gustavo.userservice.dtos.clientsDtos.NotificationResponseDTO;
 @FeignClient(name = "notification-service")
 public interface NotificationClient {
 	
-	@GetMapping(value = "/users/{userId}/notifications")
+	@GetMapping(value = "/notifications/users/{userId}")
 	Page<NotificationResponseDTO> findAllNotificationsByUser(
 			@PathVariable(value = "userId") UUID userId,
 			Pageable page);

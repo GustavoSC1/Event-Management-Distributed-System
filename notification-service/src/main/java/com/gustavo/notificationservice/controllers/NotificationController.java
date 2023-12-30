@@ -25,7 +25,7 @@ public class NotificationController {
 	@Autowired
 	private NotificationService notificationService;
 	
-	@GetMapping("/users/{userId}/notifications")
+	@GetMapping("/notifications/users/{userId}")
 	public ResponseEntity<Page<NotificationResponseDTO>> findByUser(
 			@PathVariable(value = "userId")
             UUID userId,
@@ -37,7 +37,7 @@ public class NotificationController {
 		return ResponseEntity.status(HttpStatus.OK).body(notificationResponseDtoPage);
 	}
 	
-	@PatchMapping("/users/{userId}/notifications/{notificationId}")
+	@PatchMapping("/notifications/{notificationId}/users/{userId}")
 	public ResponseEntity<String> markAsRead(@PathVariable(value = "userId") UUID userId, 
 			@PathVariable(value = "notificationId") UUID notificationId) {
 		notificationService.markAsRead(userId, notificationId);
