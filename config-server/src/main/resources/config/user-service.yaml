@@ -18,6 +18,30 @@ spring:
     port: 5672
     username: user
     password: password
+    
+resilience4j:
+  circuitbreaker:
+    instances:
+      ticketsByUserCB:
+      #https://resilience4j.readme.io/docs/circuitbreaker
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+                
+      notificationsByUserCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
 
 eureka:
   client:
