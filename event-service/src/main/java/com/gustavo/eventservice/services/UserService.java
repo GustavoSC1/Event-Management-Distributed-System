@@ -15,5 +15,5 @@ public interface UserService {
 	User findById(UUID userId);
 	
 	Page<UserResponseDTO> findStaffEvent(UUID eventId, Pageable pageable);
-
+	
 }

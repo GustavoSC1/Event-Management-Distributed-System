@@ -4,12 +4,16 @@ import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 
+import com.gustavo.userservice.dtos.LoginResponseDTO;
 import com.gustavo.userservice.dtos.UserRequestDTO;
 import com.gustavo.userservice.dtos.UserResponseDTO;
 import com.gustavo.userservice.entities.User;
 
 public interface UserService {
+		
+	LoginResponseDTO login(Authentication authentication);
 	
 	UserResponseDTO insert(UserRequestDTO userRequestDto);
 	
@@ -26,5 +30,5 @@ public interface UserService {
 	UserResponseDTO updateImage(UUID userId, UserRequestDTO userRequestDto);
 	
 	User findById(UUID userId);
-
+			
 }

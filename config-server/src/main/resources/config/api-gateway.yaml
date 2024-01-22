@@ -8,7 +8,7 @@ spring:
       - id: user-service
         uri: lb://user-service
         predicates:
-        - Path=/users/**
+        - Path=/users/**, /auth/**
       - id: event-service
         uri: lb://event-service
         predicates:

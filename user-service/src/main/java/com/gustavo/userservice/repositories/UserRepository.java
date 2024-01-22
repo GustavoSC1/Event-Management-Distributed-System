@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gustavo.userservice.entities.User;
 
@@ -17,6 +18,9 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 	boolean existsByUsername(String username);
 	
 	boolean existsByEmail(String email);
+	
+	@Transactional(readOnly=true)
+	Optional<User> findByUsername(String username);
 	
 	// O módulo Spring Data aplicará a estratégia FetchType.EAGER nos nós de 
 	// atributos especificados, mesmo que nossa entidade declare uma estratégia de carregamento LAZY. 

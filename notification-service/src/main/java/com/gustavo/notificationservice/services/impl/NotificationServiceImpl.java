@@ -7,6 +7,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import com.gustavo.notificationservice.dtos.NotificationResponseDTO;
@@ -34,6 +38,10 @@ public class NotificationServiceImpl implements NotificationService {
 		
 	@Override
 	public Page<NotificationResponseDTO> findByUser(UUID userId, Pageable pageable) {
+				
+		if(!userId.toString().equals(userID())) {
+			throw new AccessDeniedException("Access denied!");
+		}
 		
 		Page<Notification> notificationPage = notificationRepository.findAllByUserIdAndNotificationStatus(userId, NotificationStatus.CREATED, pageable);
 	
@@ -56,6 +64,15 @@ public class NotificationServiceImpl implements NotificationService {
 		notification.setNotificationStatus(NotificationStatus.READ);
 		
 		notificationRepository.save(notification);
+	}
+	
+	public String userID() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if(authentication.getPrincipal() instanceof Jwt authToken){
+	        return authToken.getClaimAsString("userId");
+	    } else {
+	    	return "";
+	    }
 	}
 
 }

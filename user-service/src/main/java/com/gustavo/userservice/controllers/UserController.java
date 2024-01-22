@@ -12,11 +12,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,21 +29,12 @@ import com.gustavo.userservice.dtos.UserResponseDTO;
 import com.gustavo.userservice.services.UserService;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("/users")
 public class UserController {
 	
 	@Autowired
 	private UserService userService;
-	
-	@PostMapping
-	// A anotação @Validated oferece suporte a "grupos de validação"
-	public ResponseEntity<UserResponseDTO> insert(@RequestBody @Validated(UserRequestDTO.UserView.UserPost.class)  
-									@JsonView(UserRequestDTO.UserView.UserPost.class) UserRequestDTO userRequestDto) {
-		UserResponseDTO userResponseDto = userService.insert(userRequestDto);
-		
-		return ResponseEntity.status(HttpStatus.CREATED).body(userResponseDto);
-	}
-	
+			
 	@GetMapping("/{userId}")
 	public ResponseEntity<UserResponseDTO> getOneUser(@PathVariable UUID userId) {
 		UserResponseDTO userResponseDto = userService.getOneUser(userId);
@@ -51,6 +42,7 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
 	}
 	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@GetMapping
 	public ResponseEntity<Page<UserResponseDTO>> getAllUsers(
 			@RequestParam(value="name", defaultValue="") String name,

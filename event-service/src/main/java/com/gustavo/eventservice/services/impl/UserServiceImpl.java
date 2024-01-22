@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
 	public User findById(UUID userId) {
 		Optional<User> userOptional = userRepository.findById(userId);
 		
-		return userOptional.orElseThrow(() -> new ObjectNotFoundException("User not found! Id: " + userId));
+		return userOptional.orElseThrow(() -> new ObjectNotFoundException("Error: User not found! Id: " + userId));
 	}
 	
 	@Override
@@ -48,5 +48,5 @@ public class UserServiceImpl implements UserService {
 			BeanUtils.copyProperties(obj, userResponseDto);
 			return userResponseDto;});		
 	}
-
+		
 }

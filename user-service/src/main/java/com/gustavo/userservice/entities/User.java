@@ -62,7 +62,7 @@ public class User implements Serializable {
 	@Column(nullable = false)
 	private LocalDateTime lastUpdateDate;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "TB_USER_ROLE",
 			joinColumns = @JoinColumn(name = "user_id"),

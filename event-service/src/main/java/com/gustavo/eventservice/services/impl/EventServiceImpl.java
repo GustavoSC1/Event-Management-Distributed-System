@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import com.gustavo.eventservice.dtos.EventRequestDTO;
@@ -21,6 +22,7 @@ import com.gustavo.eventservice.entities.User;
 import com.gustavo.eventservice.entities.enums.EventStatus;
 import com.gustavo.eventservice.producers.NotificationProducer;
 import com.gustavo.eventservice.repositories.EventRepository;
+import com.gustavo.eventservice.services.CurrentUserService;
 import com.gustavo.eventservice.services.EventService;
 import com.gustavo.eventservice.services.UserService;
 import com.gustavo.eventservice.services.exceptions.BusinessException;
@@ -34,6 +36,9 @@ public class EventServiceImpl implements EventService {
 	
 	@Autowired
 	private UserService userService;	
+	
+	@Autowired
+	private CurrentUserService currentUserService;
 	
 	@Autowired
 	private NotificationProducer notificationProducer;
@@ -98,8 +103,17 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public EventResponseDTO update(UUID eventId, EventRequestDTO eventRequestDto) {
 				
+		UUID userAuthenticatedId = currentUserService.getCurrentUser().getId();
+				
 		Event event = findById(eventId);
 		
+		User user = userService.findById(userAuthenticatedId);
+		
+		if(!event.getCreationUser().getUserId().equals(userAuthenticatedId) && 
+			!event.getStaffUsers().contains(user)) {
+			throw new AccessDeniedException("Error: Access denied!");
+		}
+
 		event.setName(eventRequestDto.getName());
 		event.setDescription(eventRequestDto.getDescription());
 		event.setImageUrl(eventRequestDto.getImageUrl());		
@@ -115,13 +129,13 @@ public class EventServiceImpl implements EventService {
         notificationEventDto.setMessage("The " + event.getName() + " event has been updated.");
         
 		for(Ticket eventTicket: event.getTickets()) {
-    		User user = eventTicket.getUser();
-    		notificationEventDto.setUserId(user.getUserId());
+    		User userTicket = eventTicket.getUser();
+    		notificationEventDto.setUserId(userTicket.getUserId());
     		notificationProducer.produceNotificationEvent(notificationEventDto);
     	}
 		
-		for(User user: event.getStaffUsers()) {
-    		notificationEventDto.setUserId(user.getUserId());
+		for(User userStaff: event.getStaffUsers()) {
+    		notificationEventDto.setUserId(userStaff.getUserId());
     		notificationProducer.produceNotificationEvent(notificationEventDto);
     	}
 		
@@ -141,8 +155,14 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public void closeRegistrations(UUID eventId) {
 		
+		UUID userAuthenticatedId = currentUserService.getCurrentUser().getId();
+				
 		Event event = findById(eventId);
 		
+		if(!event.getCreationUser().getUserId().equals(userAuthenticatedId)) {
+			throw new AccessDeniedException("Error: Access denied!");
+		}
+
 		if(!event.getEventStatus().equals(EventStatus.CLOSED_TO_REGISTRATIONS) &&
 		   !event.getEventStatus().equals(EventStatus.CANCELED) &&
 		   !event.getEventStatus().equals(EventStatus.PAST)) {
@@ -150,7 +170,7 @@ public class EventServiceImpl implements EventService {
 			event.setEventStatus(EventStatus.CLOSED_TO_REGISTRATIONS);
 			
 		} else {
-			new BusinessException("It is not possible to close registrations for this event!");
+			new BusinessException("Error: It is not possible to close registrations for this event!");
 		}
 		
 		eventRepository.save(event);
@@ -166,7 +186,13 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public void cancelEvent(UUID eventId) {
 		
+		UUID userAuthenticatedId = currentUserService.getCurrentUser().getId();
+		
 		Event event = findById(eventId);
+		
+		if(!event.getCreationUser().getUserId().equals(userAuthenticatedId)) {
+			throw new AccessDeniedException("Error: Access denied!");
+		}
 		
 		if(!event.getEventStatus().equals(EventStatus.CANCELED) &&
 		   !event.getEventStatus().equals(EventStatus.PAST)) {
@@ -174,7 +200,7 @@ public class EventServiceImpl implements EventService {
 			event.setEventStatus(EventStatus.CANCELED);
 			
 		} else {
-			new BusinessException("It is not possible to cancel this event!");
+			new BusinessException("Error: It is not possible to cancel this event!");
 		}
         
         eventRepository.save(event);
@@ -206,25 +232,29 @@ public class EventServiceImpl implements EventService {
         notificationEventDto.setMessage("You canceled the " + event.getName() + " event.");
         notificationEventDto.setUserId(event.getCreationUser().getUserId());
 
-        notificationProducer.produceNotificationEvent(notificationEventDto);
-        
-        
+        notificationProducer.produceNotificationEvent(notificationEventDto);        
 	}
 	
 	@Override
 	public void insertStaff(UUID eventId, StaffRequestDTO staffRequestDTO) {
 		
+		UUID userAuthenticatedId = currentUserService.getCurrentUser().getId();
+		
 		Event event = findById(eventId);
+		
+		if(!event.getCreationUser().getUserId().equals(userAuthenticatedId)) {
+			throw new AccessDeniedException("Error: Access denied!");
+		}
 		
 		User user = userService.findById(staffRequestDTO.getUserId());
 		
 		if(event.getEventStatus().equals(EventStatus.PAST) || 
 		   event.getEventStatus().equals(EventStatus.CANCELED)) {
-			throw new BusinessException("It is not possible to add new users to the staff!");
+			throw new BusinessException("Error: It is not possible to add new users to the staff!");
 		}
 		
 		if(event.getStaffUsers().contains(user)) {
-			throw new BusinessException("This user is already on staff!");
+			throw new BusinessException("Error: This user is already on staff!");
 		}
 		
 		event.getStaffUsers().add(user);
@@ -241,6 +271,12 @@ public class EventServiceImpl implements EventService {
 	
 	@Override
 	public Page<EventResponseDTO> findStaffUsers(UUID userId, Pageable pageable) {
+				
+		UUID userAuthenticatedId = currentUserService.getCurrentUser().getId();
+		
+		if(!userAuthenticatedId.equals(userId)) {
+			throw new AccessDeniedException("Error: Access denied!");
+		}
 		
 		Page<Event> eventPage = eventRepository.findAllByStaffUsersUserId(userId, pageable);
 		
@@ -255,25 +291,25 @@ public class EventServiceImpl implements EventService {
 		
 		Optional<Event> eventOptional = eventRepository.findById(eventId);
 		
-		return eventOptional.orElseThrow(() -> new ObjectNotFoundException("Event not found! Id: " + eventId));
+		return eventOptional.orElseThrow(() -> new ObjectNotFoundException("Error: Event not found! Id: " + eventId));
 	}
 	
 	public void checkDates(Event event, EventRequestDTO eventRequestDto) {
 				
 		if(eventRequestDto.getStartDateTime().isBefore(eventRequestDto.getRegistrationStartDate())) {
-			new BusinessException("An event cannot start before ticket sales begin!");
+			new BusinessException("Error: An event cannot start before ticket sales begin!");
 		}
 				
 		if(eventRequestDto.getEndDateTime().isBefore(eventRequestDto.getStartDateTime())) {
-			throw new BusinessException("The end date and Time of the event cannot be earlier than the start d and time!");
+			throw new BusinessException("Error: The end date and Time of the event cannot be earlier than the start d and time!");
 		}
 		
 		if(eventRequestDto.getRegistrationEndDate().isBefore(eventRequestDto.getRegistrationStartDate())) {
-			throw new BusinessException("The registration end date cannot be earlier than the registration start date!");
+			throw new BusinessException("Error: The registration end date cannot be earlier than the registration start date!");
 		}
 		
 		if(eventRequestDto.getEndDateTime().isBefore(eventRequestDto.getRegistrationEndDate())) {
-			throw new BusinessException("The registration end date cannot be later than the event end date and time!");
+			throw new BusinessException("Error: The registration end date cannot be later than the event end date and time!");
 		}
 	}
 	

@@ -25,13 +25,14 @@ public class TicketClient {
 	public WebClient.Builder webClientTickets;
 	
 	@CircuitBreaker(name = "ticketsByUserCB", fallbackMethod = "fallbackMethod")
-	public Page<TicketResponseDTO> findAllTicketsByUser(UUID userId, Pageable pageable) {
+	public Page<TicketResponseDTO> findAllTicketsByUser(UUID userId, Pageable pageable, String token) {
 
 		String uri = createUri(userId, pageable);
 
 		Mono<PageImplResponseDTO<TicketResponseDTO>> ticketMono = webClientTickets.build()
 			.get()
-			.uri(uri)			
+			.uri(uri)		
+			.headers(h -> h.setBearerAuth(token))
 			.retrieve()
 			.bodyToMono(new ParameterizedTypeReference<PageImplResponseDTO<TicketResponseDTO>>() {});
 

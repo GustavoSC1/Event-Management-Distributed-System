@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import com.gustavo.userservice.clients.NotificationClient;
 import com.gustavo.userservice.dtos.clientsDtos.NotificationResponseDTO;
+import com.gustavo.userservice.services.CurrentUserService;
 import com.gustavo.userservice.services.UserNotificationService;
 import com.gustavo.userservice.services.UserService;
 
@@ -22,13 +24,22 @@ public class UserNotificationServiceImpl implements UserNotificationService {
 	
 	@Autowired
 	private UserService userService;
+		
+	@Autowired
+	private CurrentUserService currentUserService;
 	
 	@Autowired
 	private NotificationClient notificationClient;
-	
+		
 	@Override
 	@CircuitBreaker(name = "notificationsByUserCB", fallbackMethod = "fallbackMethod")
 	public Page<NotificationResponseDTO> findAllNotificationsByUser(UUID userId, Pageable pageable) {
+		
+		UUID userAuthenticatedId = currentUserService.getCurrentUser().getId();
+		
+		if(!userAuthenticatedId.equals(userId)) {
+			throw new AccessDeniedException("Error: Access denied!");
+		}
 		
 		userService.findById(userId);
 		

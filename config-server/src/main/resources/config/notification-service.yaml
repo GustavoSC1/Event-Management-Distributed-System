@@ -33,4 +33,9 @@ rabbitmq:
     paymentMadeQueue: payments.v1.payment_made.send_confirmation_to_notification
   key:
     notificationKey: notifications.v1.notification_created.send_notification.key
-
+    
+jwt:
+  expiration: 3600000
+  refreshExpiration: 86400000
+  public:
+    key: 'classpath:app.pub'

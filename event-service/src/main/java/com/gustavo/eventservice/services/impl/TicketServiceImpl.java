@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import com.gustavo.eventservice.dtos.EventResponseDTO;
@@ -25,6 +26,7 @@ import com.gustavo.eventservice.entities.enums.EventStatus;
 import com.gustavo.eventservice.producers.NotificationProducer;
 import com.gustavo.eventservice.producers.PaymentProducer;
 import com.gustavo.eventservice.repositories.TicketRepository;
+import com.gustavo.eventservice.services.CurrentUserService;
 import com.gustavo.eventservice.services.EventService;
 import com.gustavo.eventservice.services.TicketService;
 import com.gustavo.eventservice.services.UserService;
@@ -42,6 +44,9 @@ public class TicketServiceImpl implements TicketService {
 	
 	@Autowired
 	private EventService eventService;
+	
+	@Autowired
+	private CurrentUserService currentUserService;
 
 	@Autowired
 	private NotificationProducer notificationProducer;
@@ -58,15 +63,15 @@ public class TicketServiceImpl implements TicketService {
 		
 		if(!event.getEventStatus().equals(EventStatus.OPEN_TO_REGISTRATIONS) && 
 		   !event.getEventStatus().equals(EventStatus.ONGOING)) {
-			throw new BusinessException("It is not possible to register for this event!");
+			throw new BusinessException("Error: It is not possible to register for this event!");
 		}
 		
 		if(ticketRepository.existsByUserAndEvent(user, event)) {
-			throw new BusinessException("Registration already exists!");
+			throw new BusinessException("Error: Registration already exists!");
 		}
 		
 		if(ticketRepository.countByEvent(event) >= event.getCapacity()) {
-			throw new BusinessException("The event has reached maximum capacity!");
+			throw new BusinessException("Error: The event has reached maximum capacity!");
 		}
 				
 		Ticket eventTicket = new Ticket();
@@ -117,17 +122,10 @@ public class TicketServiceImpl implements TicketService {
 
 		ticketRepository.save(ticket);
 	}
-
-	@Override
-	public Ticket findById(UUID ticketId) {
-		Optional<Ticket> ticketOptional = ticketRepository.findById(ticketId);
-		
-		return ticketOptional.orElseThrow(() -> new ObjectNotFoundException("Ticket not found! Id: " + ticketId));
-	}
 	
 	@Override
 	public Page<TicketResponseDTO> findByEvent(UUID eventId, Pageable pageable) {
-		
+				
 		Event event = eventService.findById(eventId);
 		
 		Page<Ticket> eventTicket = ticketRepository.findAllByEvent(event, pageable);
@@ -146,6 +144,12 @@ public class TicketServiceImpl implements TicketService {
 	@Override
 	public Page<TicketResponseDTO> findByUser(UUID userId, Pageable pageable) {
 		
+		UUID userAuthenticatedId = currentUserService.getCurrentUser().getId();
+		
+		if(!userAuthenticatedId.equals(userId)) {
+			throw new AccessDeniedException("Error: Access denied!");
+		}
+		
 		User user = userService.findById(userId);
 		
 		Page<Ticket> eventTicket = ticketRepository.findAllByUser(user, pageable);
@@ -159,6 +163,13 @@ public class TicketServiceImpl implements TicketService {
 			return ticketResponseDto;});
 		
 		return ticketResponseDtoPage;		
+	}
+
+	@Override
+	public Ticket findById(UUID ticketId) {
+		Optional<Ticket> ticketOptional = ticketRepository.findById(ticketId);
+		
+		return ticketOptional.orElseThrow(() -> new ObjectNotFoundException("Error: Ticket not found! Id: " + ticketId));
 	}
 	
 }
