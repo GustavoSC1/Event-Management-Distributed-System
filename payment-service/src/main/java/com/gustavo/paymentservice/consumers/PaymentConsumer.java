@@ -1,5 +1,7 @@
 package com.gustavo.paymentservice.consumers;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.UUID;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -24,6 +26,8 @@ public class PaymentConsumer {
 		Payment payment = new Payment();
 		BeanUtils.copyProperties(paymentEventDto, payment);
 		payment.setPaymentCode(UUID.randomUUID().toString());
+		payment.setPaymentRequestDate(LocalDateTime.now(ZoneId.of("UTC")));
+		payment.setDueDate(LocalDateTime.now(ZoneId.of("UTC")).plusDays(2));
 		payment.setPaid(false);
 		payment.setPaymentDate(null);
 		

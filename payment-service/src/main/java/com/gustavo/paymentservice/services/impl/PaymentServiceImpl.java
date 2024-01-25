@@ -2,9 +2,13 @@ package com.gustavo.paymentservice.services.impl;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.gustavo.paymentservice.dtos.PaymentRequestDTO;
@@ -42,11 +46,15 @@ public class PaymentServiceImpl implements PaymentService {
 		Payment payment = paymentRepository.findByPaymentCode(paymentRequestDto.getPaymentCode());
 		
 		if(payment == null) {
-			throw new ObjectNotFoundException("Payment not found! Code: " + paymentRequestDto.getPaymentCode());
+			throw new ObjectNotFoundException("Error: Payment not found! Code: " + paymentRequestDto.getPaymentCode());
 		}
 		
 		if(payment.isPaid() == true) {
 			throw new BusinessException("This payment has already been made!");
+		}
+		LocalDateTime currentDate = LocalDateTime.now(ZoneId.of("UTC"));
+		if(currentDate.isAfter(payment.getDueDate())) {
+			throw new BusinessException("It is not possible to make the payment because the due date has passed!");
 		}
 		
 		payment.setPaid(true);
@@ -60,6 +68,36 @@ public class PaymentServiceImpl implements PaymentService {
 		paymentMadeEventDto.setPaymentDate(LocalDateTime.now(ZoneId.of("UTC")));
 		
 		paymentMadeProducer.produceUserEvent(paymentMadeEventDto);
+	}
+	
+	@Override
+	public PaymentResponseDTO getOnePayment(UUID paymentId) {
+		
+		Payment payment = findById(paymentId);      
+		PaymentResponseDTO paymentResponseDto = new PaymentResponseDTO();      
+		BeanUtils.copyProperties(payment, paymentResponseDto);      
+		return paymentResponseDto; 
+	}
+	
+	@Override
+	public Page<PaymentResponseDTO> findByUser(UUID userId, Pageable pageable) {
+		
+		Page<Payment> paymentPage = paymentRepository.findAllByUserId(userId, pageable);
+		
+		Page<PaymentResponseDTO> paymentResponseDtoPage = paymentPage.map(obj -> {    
+			PaymentResponseDTO paymentResponseDto = new PaymentResponseDTO();    
+			BeanUtils.copyProperties(obj, paymentResponseDto);    
+			return paymentResponseDto;});
+		
+		return paymentResponseDtoPage;
+	}
+	
+	@Override
+	public Payment findById(UUID paymentId) {
+		
+		Optional<Payment> paymentOptional = paymentRepository.findById(paymentId);
+		
+		return paymentOptional.orElseThrow(() -> new ObjectNotFoundException("Error: Payment not found! Id: " + paymentId));
 	}
 	
 }

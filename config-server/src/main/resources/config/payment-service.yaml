@@ -32,4 +32,10 @@ rabbitmq:
     paymentQueue: payments.v1.payment_created.send_payment
   key:
     paymentKey: payments.v1.payment_created.send_payment.key
+    
+jwt:
+  expiration: 3600000
+  refreshExpiration: 86400000
+  public:
+    key: 'classpath:app.pub'
 

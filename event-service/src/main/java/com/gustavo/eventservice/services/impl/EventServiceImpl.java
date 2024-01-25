@@ -93,6 +93,10 @@ public class EventServiceImpl implements EventService {
 		
 		Event event = findById(eventId);
 		
+		updateStatus(event);
+		
+		eventRepository.save(event);
+		
 		EventResponseDTO eventResponseDto = new EventResponseDTO();
 		
 		BeanUtils.copyProperties(event, eventResponseDto);

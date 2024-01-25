@@ -15,6 +15,8 @@ public class PaymentResponseDTO implements Serializable {
 	private UUID ticketId;
 	private String eventName;
 	private Double amount;
+	private LocalDateTime paymentRequestDate;
+	private LocalDateTime dueDate;
 	private boolean isPaid;
 	private LocalDateTime paymentDate;
 	
@@ -23,12 +25,14 @@ public class PaymentResponseDTO implements Serializable {
 	}
 
 	public PaymentResponseDTO(UUID paymentId, String paymentCode, UUID ticketId, String eventName, Double amount,
-			boolean isPaid, LocalDateTime paymentDate) {
+			LocalDateTime paymentRequestDate, LocalDateTime dueDate, boolean isPaid, LocalDateTime paymentDate) {
 		this.paymentId = paymentId;
 		this.paymentCode = paymentCode;
 		this.ticketId = ticketId;
 		this.eventName = eventName;
 		this.amount = amount;
+		this.paymentRequestDate = paymentRequestDate;
+		this.dueDate = dueDate;
 		this.isPaid = isPaid;
 		this.paymentDate = paymentDate;
 	}
@@ -71,6 +75,22 @@ public class PaymentResponseDTO implements Serializable {
 
 	public void setAmount(Double amount) {
 		this.amount = amount;
+	}
+	
+	public LocalDateTime getPaymentRequestDate() {
+		return paymentRequestDate;
+	}
+
+	public void setPaymentRequestDate(LocalDateTime paymentRequestDate) {
+		this.paymentRequestDate = paymentRequestDate;
+	}
+
+	public LocalDateTime getDueDate() {
+		return dueDate;
+	}
+
+	public void setDueDate(LocalDateTime dueDate) {
+		this.dueDate = dueDate;
 	}
 
 	public boolean isPaid() {
