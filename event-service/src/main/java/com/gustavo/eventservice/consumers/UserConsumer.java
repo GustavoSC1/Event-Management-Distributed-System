@@ -34,7 +34,8 @@ public class UserConsumer {
 			case UPDATE:
 				userService.insert(user);				
 				break;
-			case DELETE:				
+			case DELETE:
+				userService.delete(user.getUserId());
 				break;
 		}
 		

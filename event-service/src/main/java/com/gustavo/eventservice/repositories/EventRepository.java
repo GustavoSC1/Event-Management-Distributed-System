@@ -1,6 +1,7 @@
 package com.gustavo.eventservice.repositories;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -24,5 +25,8 @@ public interface EventRepository extends JpaRepository<Event, UUID> {
 		
 	@Transactional(readOnly = true)
 	Page<Event> findAllByStaffUsersUserId(UUID userId, Pageable pageable);
+	
+	@Query("SELECT e FROM Event e LEFT JOIN FETCH e.staffUsers LEFT JOIN FETCH e.tickets WHERE e.creationUser.userId = :userId")
+	List<Event> findAllCreatedEventsByUser(@Param("userId") UUID userId);
 	
 }

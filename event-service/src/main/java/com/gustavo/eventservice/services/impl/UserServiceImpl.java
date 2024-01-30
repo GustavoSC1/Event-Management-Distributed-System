@@ -1,5 +1,6 @@
 package com.gustavo.eventservice.services.impl;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -10,7 +11,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.gustavo.eventservice.dtos.UserResponseDTO;
+import com.gustavo.eventservice.dtos.rabbitmqDtos.NotificationEventDTO;
+import com.gustavo.eventservice.entities.Event;
+import com.gustavo.eventservice.entities.Ticket;
 import com.gustavo.eventservice.entities.User;
+import com.gustavo.eventservice.entities.enums.EventStatus;
+import com.gustavo.eventservice.producers.NotificationProducer;
+import com.gustavo.eventservice.repositories.EventRepository;
 import com.gustavo.eventservice.repositories.UserRepository;
 import com.gustavo.eventservice.services.UserService;
 import com.gustavo.eventservice.services.exceptions.ObjectNotFoundException;
@@ -20,6 +27,12 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private UserRepository userRepository;
+		
+	@Autowired
+	private EventRepository eventRepository;
+	
+	@Autowired
+	private NotificationProducer notificationProducer;
 	
 	@Override
 	public UserResponseDTO insert(User user) {
@@ -47,6 +60,49 @@ public class UserServiceImpl implements UserService {
 			UserResponseDTO userResponseDto = new UserResponseDTO();
 			BeanUtils.copyProperties(obj, userResponseDto);
 			return userResponseDto;});		
+	}
+
+	@Override
+	public void delete(UUID userId) {
+		User user = findById(userId);
+
+		NotificationEventDTO notificationEventDto = new NotificationEventDTO();
+		notificationEventDto.setTitle("An event you are registered for has been canceled.");
+
+		List<Event> createdEvents = eventRepository.findAllCreatedEventsByUser(userId);
+		
+		for(Event event: createdEvents) {
+			notificationEventDto.setMessage("The " + event.getName() + " event has been cancelled.");
+		
+			if(!event.getEventStatus().equals(EventStatus.CANCELED) &&
+					   !event.getEventStatus().equals(EventStatus.PAST)) {
+		
+				if(event.getPrice().equals(0.0)) {
+					notificationEventDto.setMessage("The " + event.getName() + " event has been cancelled.");
+		        } else {		   
+		        	notificationEventDto.setMessage("The " + event.getName() + " event has been cancelled. "
+		        			+ "If you have already made the payment, please contact " + event.getCreationUser().getEmail() + 
+		        			" to request a refund.");
+		        }
+				
+				for(Ticket eventTicket: event.getTickets()) {
+		    		notificationEventDto.setUserId(eventTicket.getUser().getUserId());
+		    		notificationProducer.produceNotificationEvent(notificationEventDto);
+		    	}
+				
+				notificationEventDto.setTitle("Event canceled");
+				notificationEventDto.setMessage("The " + event.getName() + " event has been canceled.");
+				for(User staffUser: event.getStaffUsers()) {
+		    		notificationEventDto.setUserId(staffUser.getUserId());
+		    		notificationProducer.produceNotificationEvent(notificationEventDto);
+		    	}						
+						
+			} 
+
+			eventRepository.deleteById(event.getEventId());	
+		}
+		
+		userRepository.delete(user);	
 	}
 		
 }

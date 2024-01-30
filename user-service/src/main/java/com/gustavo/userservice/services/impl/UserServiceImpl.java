@@ -149,7 +149,7 @@ public class UserServiceImpl implements UserService {
 		
 		User user = findById(userId);
 	
-		user.setFullName(userRequestDto.getFullName());
+		user.setName(userRequestDto.getName());
 		user.setPhone(userRequestDto.getPhone());
 		user.setCpf(userRequestDto.getCpf());
 		user.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));

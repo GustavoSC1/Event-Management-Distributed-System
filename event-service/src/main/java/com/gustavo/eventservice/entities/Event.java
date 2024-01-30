@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import com.gustavo.eventservice.entities.enums.EventStatus;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -83,7 +84,7 @@ public class Event implements Serializable {
 			inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> staffUsers = new HashSet<>();
     
-    @OneToMany(mappedBy="event", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="event", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Ticket> tickets = new HashSet<>();
     
 	public Event() {		

@@ -33,9 +33,9 @@ public class EventServiceImpl implements EventService {
 	
 	@Autowired
 	private EventRepository eventRepository;
-	
+			
 	@Autowired
-	private UserService userService;	
+	private UserService userService;
 	
 	@Autowired
 	private CurrentUserService currentUserService;
@@ -188,8 +188,7 @@ public class EventServiceImpl implements EventService {
 	}
 	
 	@Override
-	public void cancelEvent(UUID eventId) {
-		
+	public void cancelEvent(UUID eventId) {		
 		UUID userAuthenticatedId = currentUserService.getCurrentUser().getId();
 		
 		Event event = findById(eventId);
@@ -200,7 +199,6 @@ public class EventServiceImpl implements EventService {
 		
 		if(!event.getEventStatus().equals(EventStatus.CANCELED) &&
 		   !event.getEventStatus().equals(EventStatus.PAST)) {
-			
 			event.setEventStatus(EventStatus.CANCELED);
 			
 		} else {
@@ -208,7 +206,7 @@ public class EventServiceImpl implements EventService {
 		}
         
         eventRepository.save(event);
-		
+
         NotificationEventDTO notificationEventDto = new NotificationEventDTO();
         notificationEventDto.setTitle("An event you are registered for has been canceled.");
 		if(event.getPrice().equals(0.0)) {
@@ -218,25 +216,25 @@ public class EventServiceImpl implements EventService {
         			+ "If you have already made the payment, please contact " + event.getCreationUser().getEmail() + 
         			" to request a refund.");
         }
-		
+
 		for(Ticket eventTicket: event.getTickets()) {
     		User user = eventTicket.getUser();
     		notificationEventDto.setUserId(user.getUserId());
     		notificationProducer.produceNotificationEvent(notificationEventDto);
     	}
-		
+
 		notificationEventDto.setTitle("Event canceled");
 		notificationEventDto.setMessage("The " + event.getName() + " event has been canceled.");
 		for(User user: event.getStaffUsers()) {
     		notificationEventDto.setUserId(user.getUserId());
     		notificationProducer.produceNotificationEvent(notificationEventDto);
     	}
-				
+
         notificationEventDto.setTitle("Event successfully canceled");
         notificationEventDto.setMessage("You canceled the " + event.getName() + " event.");
         notificationEventDto.setUserId(event.getCreationUser().getUserId());
 
-        notificationProducer.produceNotificationEvent(notificationEventDto);        
+        notificationProducer.produceNotificationEvent(notificationEventDto);  
 	}
 	
 	@Override

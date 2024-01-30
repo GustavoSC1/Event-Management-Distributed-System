@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import com.gustavo.eventservice.entities.enums.UserStatus;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -42,13 +43,13 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus;
     
-    @OneToMany(mappedBy = "creationUser", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "creationUser", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Event> createdEvents = new HashSet<>();
     
-    @ManyToMany(mappedBy = "staffUsers", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "staffUsers", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Event> staffEvents = new HashSet<>();
     
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Ticket> tickets = new HashSet<>();
     
 	public User() {

@@ -36,6 +36,7 @@ public class SecurityConfig {
 		http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 		.csrf(csrf -> csrf.disable())
 		.authorizeHttpRequests(authorize -> authorize
+				.requestMatchers("/h2-console/**").permitAll()
 				.anyRequest().authenticated())
 		.oauth2ResourceServer(
 	            conf -> conf

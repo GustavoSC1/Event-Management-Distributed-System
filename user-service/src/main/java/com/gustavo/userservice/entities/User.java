@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import com.gustavo.userservice.entities.enums.UserStatus;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -20,6 +21,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -69,6 +71,9 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id")
 	)
 	private Set<Role> roles = new HashSet<>();
+	
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+	private RefreshToken refreshToken;
 
 	public User() {
 
@@ -102,7 +107,7 @@ public class User implements Serializable {
 		return name;
 	}
 
-	public void setFullName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -184,6 +189,14 @@ public class User implements Serializable {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+	
+	public RefreshToken getRefreshToken() {
+		return refreshToken;
+	}
+
+	public void setRefreshToken(RefreshToken refreshToken) {
+		this.refreshToken = refreshToken;
 	}
 
 	@Override

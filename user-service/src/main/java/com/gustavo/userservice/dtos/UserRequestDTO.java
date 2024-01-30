@@ -28,7 +28,7 @@ public class UserRequestDTO implements Serializable {
 	@Size(min=8, max=150, message="The length must be between 8 and 150 characters", groups = {UserView.UserPost.class, UserView.UserPut.class})
 	// Usado para mapear campos para uma ou mais views.
 	@JsonView({UserView.UserPost.class, UserView.UserPut.class})
-	private String fullName;
+	private String name;
 	
 	@NotEmpty(message="The phone field is required", groups = {UserView.UserPost.class, UserView.UserPut.class})
 	@JsonView({UserView.UserPost.class, UserView.UserPut.class})
@@ -67,9 +67,9 @@ public class UserRequestDTO implements Serializable {
 		
 	}
 
-	public UserRequestDTO(String fullName, String phone, String cpf, String username, String imageUrl, String email, String password) {
+	public UserRequestDTO(String name, String phone, String cpf, String username, String imageUrl, String email, String password) {
 		super();
-		this.fullName = fullName;
+		this.name = name;
 		this.phone = phone;
 		this.cpf = cpf;
 		this.username = username;
@@ -78,12 +78,12 @@ public class UserRequestDTO implements Serializable {
 		this.password = password;
 	}
 
-	public String getFullName() {
-		return fullName;
+	public String getName() {
+		return name;
 	}
 
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getPhone() {
