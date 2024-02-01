@@ -22,6 +22,7 @@ import com.gustavo.eventservice.entities.User;
 import com.gustavo.eventservice.entities.enums.EventStatus;
 import com.gustavo.eventservice.producers.NotificationProducer;
 import com.gustavo.eventservice.repositories.EventRepository;
+import com.gustavo.eventservice.repositories.TicketRepository;
 import com.gustavo.eventservice.services.CurrentUserService;
 import com.gustavo.eventservice.services.EventService;
 import com.gustavo.eventservice.services.UserService;
@@ -33,6 +34,9 @@ public class EventServiceImpl implements EventService {
 	
 	@Autowired
 	private EventRepository eventRepository;
+	
+	@Autowired
+	private TicketRepository ticketRepository;
 			
 	@Autowired
 	private UserService userService;
@@ -199,6 +203,7 @@ public class EventServiceImpl implements EventService {
 		
 		if(!event.getEventStatus().equals(EventStatus.CANCELED) &&
 		   !event.getEventStatus().equals(EventStatus.PAST)) {
+			
 			event.setEventStatus(EventStatus.CANCELED);
 			
 		} else {
@@ -316,18 +321,24 @@ public class EventServiceImpl implements EventService {
 	}
 	
 	public void updateStatus(Event event) {
-		LocalDateTime currentDate = LocalDateTime.now(ZoneId.of("UTC"));
-				
-		if(event.getStartDateTime().isBefore(currentDate) && currentDate.isBefore(event.getEndDateTime())) {
-			event.setEventStatus(EventStatus.ONGOING);
-		} else if(currentDate.isAfter(event.getRegistrationStartDate()) && currentDate.isBefore(event.getRegistrationEndDate())) {
-			event.setEventStatus(EventStatus.OPEN_TO_REGISTRATIONS);
-		} else if(currentDate.isAfter(event.getRegistrationEndDate()) && currentDate.isBefore(event.getEndDateTime())) {
-			event.setEventStatus(EventStatus.CLOSED_TO_REGISTRATIONS);			
-		} else if(currentDate.isBefore(event.getRegistrationStartDate())) {
-			event.setEventStatus(EventStatus.CLOSED_TO_REGISTRATIONS);
-		} else if(currentDate.isAfter(event.getEndDateTime())) {
-			event.setEventStatus(EventStatus.PAST);	
+		
+		if(!event.getEventStatus().equals(EventStatus.CANCELED) &&
+				   !event.getEventStatus().equals(EventStatus.PAST)) {
+			LocalDateTime currentDate = LocalDateTime.now(ZoneId.of("UTC"));
+			
+			if(ticketRepository.countByEvent(event) >= event.getCapacity()) {
+				event.setEventStatus(EventStatus.CLOSED_TO_REGISTRATIONS);
+			} else if(event.getStartDateTime().isBefore(currentDate) && currentDate.isBefore(event.getEndDateTime())) {
+				event.setEventStatus(EventStatus.ONGOING);
+			} else if(currentDate.isAfter(event.getRegistrationStartDate()) && currentDate.isBefore(event.getRegistrationEndDate())) {
+				event.setEventStatus(EventStatus.OPEN_TO_REGISTRATIONS);
+			} else if(currentDate.isAfter(event.getRegistrationEndDate()) && currentDate.isBefore(event.getEndDateTime())) {
+				event.setEventStatus(EventStatus.CLOSED_TO_REGISTRATIONS);			
+			} else if(currentDate.isBefore(event.getRegistrationStartDate())) {
+				event.setEventStatus(EventStatus.CLOSED_TO_REGISTRATIONS);
+			} else if(currentDate.isAfter(event.getEndDateTime())) {
+				event.setEventStatus(EventStatus.PAST);	
+			}
 		}
 	}
 

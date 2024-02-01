@@ -20,10 +20,7 @@ public class UserConsumer {
 	
 	@RabbitListener(queues = "${rabbitmq.queue.userQueue}")
 	public void onUserCreated(@Payload UserEventDTO userEventDto) {
-		/*				
-		User user = new User(userEventDto.getUserId(), userEventDto.getName(), userEventDto.getCpf(), 
-				userEventDto.getImageUrl(), userEventDto.getEmail(), UserStatus.valueOf(userEventDto.getUserStatus()));
-		*/
+		
 		User user = new User();
 				
 		BeanUtils.copyProperties(userEventDto, user);
