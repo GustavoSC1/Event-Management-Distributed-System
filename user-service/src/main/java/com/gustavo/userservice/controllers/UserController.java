@@ -28,13 +28,24 @@ import com.gustavo.userservice.dtos.UserRequestDTO;
 import com.gustavo.userservice.dtos.UserResponseDTO;
 import com.gustavo.userservice.services.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/users")
+@Tag(name = "User endpoint")
 public class UserController {
 	
 	@Autowired
 	private UserService userService;
-			
+	
+	@Operation(summary = "Obtains a user details by id")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "User obtained successfully"),
+			@ApiResponse(responseCode = "404", description = "Could not find the requested data")
+	})
 	@GetMapping("/{userId}")
 	public ResponseEntity<UserResponseDTO> getOneUser(@PathVariable UUID userId) {
 		UserResponseDTO userResponseDto = userService.getOneUser(userId);
@@ -42,6 +53,11 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
 	}
 	
+	@Operation(summary = "Find all Users")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Users found successfully"),
+			@ApiResponse(responseCode = "403", description = "You are not allowed to make this request")
+	})
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@GetMapping
 	public ResponseEntity<Page<UserResponseDTO>> getAllUsers(
@@ -62,6 +78,13 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body(urserResponseDtoPage);
 	}
 	
+	@Operation(summary = "Updates a user")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Successfully edited user"),
+			@ApiResponse(responseCode = "403", description = "You are not allowed to make this request"),
+			@ApiResponse(responseCode = "404", description = "Could not find the requested data"),
+			@ApiResponse(responseCode = "422", description = "Data validation error")
+	})
 	@PutMapping("/{userId}")
 	public ResponseEntity<UserResponseDTO> update(@PathVariable UUID userId, 
 			@RequestBody @Validated(UserRequestDTO.UserView.UserPut.class) 
@@ -71,6 +94,12 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
 	}
 	
+	@Operation(summary = "Deletes a user by id")
+	@ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "User succesfully deleted"),
+            @ApiResponse(responseCode = "403", description = "You are not allowed to make this request"),
+            @ApiResponse(responseCode = "404", description = "Could not find the requested data")
+    })
 	@DeleteMapping("/{userId}")
 	public ResponseEntity<String> delete(@PathVariable UUID userId) {
 		userService.delete(userId);
@@ -78,6 +107,14 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body("User deleted successfully.");
 	}
 	
+	@Operation(summary = "Updates a user password")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Successfully edited user password"),
+			@ApiResponse(responseCode = "400", description = "This request can be processed"),
+			@ApiResponse(responseCode = "403", description = "You are not allowed to make this request"),
+			@ApiResponse(responseCode = "404", description = "Could not find the requested data"),
+			@ApiResponse(responseCode = "422", description = "Data validation error")
+	})
 	@PutMapping("/{userId}/password")
 	public ResponseEntity<String> updatePassword(@PathVariable UUID userId, 
 			@RequestBody @Validated(UserRequestDTO.UserView.PasswordPut.class) 
@@ -87,6 +124,13 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body("Password updated successfully.");
 	}
 	
+	@Operation(summary = "Updates a user image")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Successfully edited user image"),
+			@ApiResponse(responseCode = "403", description = "You are not allowed to make this request"),
+			@ApiResponse(responseCode = "404", description = "Could not find the requested data"),
+			@ApiResponse(responseCode = "422", description = "Data validation error")
+	})
 	@PutMapping("/{userId}/image")
 	public ResponseEntity<UserResponseDTO> updateImage(@PathVariable UUID userId, 
 			@RequestBody @Validated(UserRequestDTO.UserView.ImagePut.class) 

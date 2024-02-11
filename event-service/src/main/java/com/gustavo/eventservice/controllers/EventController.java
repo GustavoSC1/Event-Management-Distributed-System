@@ -29,13 +29,26 @@ import com.gustavo.eventservice.dtos.EventRequestDTO;
 import com.gustavo.eventservice.dtos.EventResponseDTO;
 import com.gustavo.eventservice.services.EventService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/events")
+@Tag(name = "Event endpoint")
 public class EventController {
 	
 	@Autowired
 	private EventService eventService;
 	
+	@Operation(summary = "Save a event")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Event successfully saved"),
+			@ApiResponse(responseCode = "400", description = "This request can be processed"),
+			@ApiResponse(responseCode = "403", description = "You are not allowed to make this request"),
+			@ApiResponse(responseCode = "422", description = "Data validation error")
+	})
 	@PostMapping
 	public ResponseEntity<EventResponseDTO> insert(@RequestBody @Validated(EventRequestDTO.EventView.EventPost.class) 
 									EventRequestDTO eventRequestDto) {
@@ -44,6 +57,11 @@ public class EventController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(eventResponseDto);
 	}
 	
+	@Operation(summary = "Obtains a event details by id")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Event obtained successfully"),
+			@ApiResponse(responseCode = "404", description = "Could not find the requested data")
+	})
 	@GetMapping("/{eventId}")
 	public ResponseEntity<EventResponseDTO> getOneEvent(@PathVariable UUID eventId) {
 		EventResponseDTO eventResponseDto = eventService.getOneEvent(eventId);
@@ -51,6 +69,10 @@ public class EventController {
 		return ResponseEntity.status(HttpStatus.OK).body(eventResponseDto);
 	}
 	
+	@Operation(summary = "Find all Events")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Events found successfully")
+	})
 	@GetMapping
 	public ResponseEntity<Page<EventResponseDTO>> getAllEvents(
 			@RequestParam(value="search", defaultValue="") String search,
@@ -75,6 +97,13 @@ public class EventController {
 		return ResponseEntity.status(HttpStatus.OK).body(eventResponseDtoPage);
 	}
 	
+	@Operation(summary = "Updates a event")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Successfully edited event"),
+			@ApiResponse(responseCode = "403", description = "You are not allowed to make this request"),
+			@ApiResponse(responseCode = "404", description = "Could not find the requested data"),
+			@ApiResponse(responseCode = "422", description = "Data validation error")
+	})
 	@PutMapping("/{eventId}")
 	public ResponseEntity<EventResponseDTO> update(@PathVariable UUID eventId, 
 			@RequestBody @Validated(EventRequestDTO.EventView.EventPut.class) EventRequestDTO eventRequestDto) {
@@ -83,6 +112,13 @@ public class EventController {
 		return ResponseEntity.status(HttpStatus.OK).body(eventResponseDto);
 	}
 	
+	@Operation(summary = "Close a event")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Successfully closed event"),
+			@ApiResponse(responseCode = "400", description = "This request can be processed"),
+			@ApiResponse(responseCode = "403", description = "You are not allowed to make this request"),
+			@ApiResponse(responseCode = "404", description = "Could not find the requested data")
+	})
 	@PatchMapping("/{eventId}/close")
 	public ResponseEntity<String> closeRegistrations(@PathVariable UUID eventId) {
 		eventService.closeRegistrations(eventId);
@@ -90,6 +126,13 @@ public class EventController {
 		return ResponseEntity.status(HttpStatus.OK).body("Registrations closed successfully.");
 	}
 	
+	@Operation(summary = "Cancel a event")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Event successfully canceled"),
+			@ApiResponse(responseCode = "400", description = "This request can be processed"),
+			@ApiResponse(responseCode = "403", description = "You are not allowed to make this request"),
+			@ApiResponse(responseCode = "404", description = "Could not find the requested data")
+	})
 	@PatchMapping("/{eventId}/cancel")
 	public ResponseEntity<String> cancelEvent(@PathVariable UUID eventId) {
 		eventService.cancelEvent(eventId);

@@ -19,8 +19,15 @@ import com.gustavo.userservice.dtos.UserResponseDTO;
 import com.gustavo.userservice.services.RefreshTokenService;
 import com.gustavo.userservice.services.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "Auth endpoint")
 public class AuthController {
 	
 	@Autowired
@@ -29,6 +36,12 @@ public class AuthController {
 	@Autowired
 	private RefreshTokenService refreshTokenService;
 	
+	@Operation(summary = "Save a user")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "User successfully saved"),
+			@ApiResponse(responseCode = "400", description = "This request can be processed"),
+			@ApiResponse(responseCode = "422", description = "Data validation error")
+	})
 	@PostMapping("/register")
 	// A anotação @Validated oferece suporte a "grupos de validação"
 	public ResponseEntity<UserResponseDTO> insert(@RequestBody @Validated(UserRequestDTO.UserView.UserPost.class)  
@@ -38,14 +51,25 @@ public class AuthController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(userResponseDto);
 	}
 	
-	@PostMapping("/login")
+	@Operation(summary = "Login user", security = {@SecurityRequirement(name = "basicAuth")})
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "User successfully saved"),
+			@ApiResponse(responseCode = "400", description = "This request can be processed"),
+			@ApiResponse(responseCode = "422", description = "Data validation error")
+	})
+	@PostMapping("/login")	
 	public ResponseEntity<LoginResponseDTO> login(Authentication authentication) {
 		LoginResponseDTO token = userService.login(authentication);
 		
 		return ResponseEntity.ok().body(token);
 	}
 	
-	
+	@Operation(summary = "Generate a new token")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Token generated successfully"),
+			@ApiResponse(responseCode = "403", description = "Invalid refresh token"),
+			@ApiResponse(responseCode = "422", description = "Data validation error")
+	})
 	@PostMapping("/refreshtoken")
 	public ResponseEntity<TokenRefreshResponseDTO> refreshtoken(@RequestBody @Validated TokenRefreshRequestDTO request) {
 		TokenRefreshResponseDTO token = refreshTokenService.refreshToken(request);
@@ -53,6 +77,11 @@ public class AuthController {
 		return ResponseEntity.ok().body(token);
 	}
 	
+	@Operation(summary = "Log out of account")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Log out completed successfully"),
+			@ApiResponse(responseCode = "400", description = "This request can be processed")
+	})
 	@PostMapping("/signout")
 	public ResponseEntity<String> logoutUser() {
 		refreshTokenService.logoutUser();

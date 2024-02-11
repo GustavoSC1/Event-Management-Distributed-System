@@ -23,8 +23,14 @@ import com.gustavo.eventservice.dtos.UserResponseDTO;
 import com.gustavo.eventservice.services.EventService;
 import com.gustavo.eventservice.services.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping
+@Tag(name = "Staff endpoint")
 public class StaffController {
 	
 	@Autowired
@@ -33,6 +39,13 @@ public class StaffController {
 	@Autowired
 	private UserService userService;
 	
+	@Operation(summary = "Save a staff")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Staff successfully saved"),
+			@ApiResponse(responseCode = "400", description = "This request can be processed"),
+			@ApiResponse(responseCode = "403", description = "You are not allowed to make this request"),
+			@ApiResponse(responseCode = "422", description = "Data validation error")
+	})
 	@PostMapping("/staffs/events/{eventId}/users")
 	public ResponseEntity<String> insert(@PathVariable UUID eventId, @Validated
             @RequestBody StaffRequestDTO staffRequestDto) {
@@ -41,6 +54,11 @@ public class StaffController {
 		return ResponseEntity.status(HttpStatus.CREATED).body("Staff successfully registered!"); 
 	}
 	
+	@Operation(summary = "Find all staff by event")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Staff found successfully"),
+			@ApiResponse(responseCode = "403", description = "You are not allowed to make this request")
+	})
 	@GetMapping("/staffs/events/{eventId}/users")
 	public ResponseEntity<Page<UserResponseDTO>> findStaffEvent(@PathVariable UUID eventId,
 			@PageableDefault(page = 0, size = 10, sort = "userId", direction = Sort.Direction.ASC) Pageable pageable) {
@@ -49,6 +67,11 @@ public class StaffController {
 		return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
 	}
 	
+	@Operation(summary = "Find all events in which the user is part of the staff")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Staff found successfully"),
+			@ApiResponse(responseCode = "403", description = "You are not allowed to make this request")
+	})
 	@GetMapping("/staffs/users/{userId}/events")
 	public ResponseEntity<Page<EventResponseDTO>> findStaffUsers(@PathVariable UUID userId,
 			@PageableDefault(page = 0, size = 10, sort = "eventId", direction = Sort.Direction.ASC) Pageable pageable) {

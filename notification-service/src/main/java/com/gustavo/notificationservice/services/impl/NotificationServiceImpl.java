@@ -28,6 +28,7 @@ public class NotificationServiceImpl implements NotificationService {
 	
 	@Override
 	public NotificationResponseDTO insert(Notification notification) {
+				
 		notificationRepository.save(notification);
 		
 		NotificationResponseDTO notificationResponseDto = new NotificationResponseDTO();
@@ -38,23 +39,27 @@ public class NotificationServiceImpl implements NotificationService {
 		
 	@Override
 	public Page<NotificationResponseDTO> findByUser(UUID userId, Pageable pageable) {
-				
+		
 		if(!userId.toString().equals(userID())) {
 			throw new AccessDeniedException("Access denied!");
 		}
 		
 		Page<Notification> notificationPage = notificationRepository.findAllByUserIdAndNotificationStatus(userId, NotificationStatus.CREATED, pageable);
-	
+		
 		Page<NotificationResponseDTO> notificationResponseDtoPage = notificationPage.map(obj -> {
 			NotificationResponseDTO notificationResponseDto = new NotificationResponseDTO();
 			BeanUtils.copyProperties(obj, notificationResponseDto);
 			return notificationResponseDto;});
-		
+
 		return notificationResponseDtoPage;
 	}
 	
 	@Override
 	public void markAsRead(UUID userId, UUID notificationId) {
+		
+		if(!userId.toString().equals(userID())) {
+			throw new AccessDeniedException("Access denied!");
+		}
 		
 		Optional<Notification> notificationOptional = notificationRepository.findByNotificationIdAndUserId(notificationId, userId);
 		

@@ -19,7 +19,6 @@ public class ResourceExceptionHandler {
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<StandardError> validation(MethodArgumentNotValidException e, HttpServletRequest request) {
-		System.out.println("Passou no MethodArgumentNotValidException");
 		String mensage = "Parameters entered are invalid";
 		ValidationError err = new ValidationError(System.currentTimeMillis(), HttpStatus.UNPROCESSABLE_ENTITY.value(), "Validation error", mensage, request.getRequestURI());
 		for(FieldError x : e.getFieldErrors()) {
@@ -31,14 +30,12 @@ public class ResourceExceptionHandler {
 	
 	@ExceptionHandler(BusinessException.class)
 	public ResponseEntity<StandardError> business(BusinessException e, HttpServletRequest request) {
-		System.out.println("Passou no BusinessException");
 		StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Business exception", e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
 	
 	@ExceptionHandler(ObjectNotFoundException.class)
 	public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException e, HttpServletRequest request) {
-		System.out.println("Passou no ObjectNotFoundException");
 		StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(), "Not found", e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
 	}

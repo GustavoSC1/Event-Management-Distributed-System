@@ -21,13 +21,26 @@ import com.gustavo.eventservice.dtos.TicketRequestDTO;
 import com.gustavo.eventservice.dtos.TicketResponseDTO;
 import com.gustavo.eventservice.services.TicketService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping
+@Tag(name = "Ticket endpoint")
 public class TicketController {
 	
 	@Autowired
 	private TicketService ticketService;
 	
+	@Operation(summary = "Save a ticket")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Ticket successfully saved"),
+			@ApiResponse(responseCode = "400", description = "This request can be processed"),
+			@ApiResponse(responseCode = "403", description = "You are not allowed to make this request"),
+			@ApiResponse(responseCode = "422", description = "Data validation error")
+	})
 	@PostMapping("/tickets/events/{eventId}/users")
 	public ResponseEntity<String> insert(@PathVariable UUID eventId, @Validated
             @RequestBody TicketRequestDTO ticketRequestDto) {
@@ -37,6 +50,11 @@ public class TicketController {
 		return ResponseEntity.status(HttpStatus.CREATED).body("Registration completed successfully!"); 
 	}
 	
+	@Operation(summary = "Find all tickets by event")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Staff found successfully"),
+			@ApiResponse(responseCode = "403", description = "You are not allowed to make this request")
+	})
 	@GetMapping("/tickets/events/{eventId}/users")
 	public ResponseEntity<Page<TicketResponseDTO>> findByEvent(
 			@PathVariable UUID eventId,
@@ -47,6 +65,11 @@ public class TicketController {
 		return ResponseEntity.status(HttpStatus.OK).body(ticketResponseDtoPage);
 	}
 	
+	@Operation(summary = "Find all tickets by user")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Staff found successfully"),
+			@ApiResponse(responseCode = "403", description = "You are not allowed to make this request")
+	})
 	@GetMapping("/tickets/users/{userId}/events")
 	public ResponseEntity<Page<TicketResponseDTO>> findByUser(
 			@PathVariable UUID userId,

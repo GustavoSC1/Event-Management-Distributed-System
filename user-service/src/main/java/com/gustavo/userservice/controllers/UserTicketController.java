@@ -16,12 +16,23 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gustavo.userservice.dtos.clientsDtos.TicketResponseDTO;
 import com.gustavo.userservice.services.UserTicketService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "User Ticket endpoint")
 @RestController
 public class UserTicketController {
 	
 	@Autowired
 	private UserTicketService userTicketService;
 	
+	@Operation(summary = "Find tickets by user")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Tickets found successfully"),
+			@ApiResponse(responseCode = "403", description = "You are not allowed to make this request")
+	})
 	@GetMapping("/users/{userId}/tickets")
 	public ResponseEntity<Page<TicketResponseDTO>> findAllTicketsByUser(
 			@PathVariable UUID userId,

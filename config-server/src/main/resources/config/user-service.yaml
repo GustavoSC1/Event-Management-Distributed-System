@@ -61,3 +61,7 @@ jwt:
     key: classpath:app.key
   public:
     key: classpath:app.pub
+    
+#springdoc:
+  #api-docs:
+    #path: /user-service/v3/api-docs

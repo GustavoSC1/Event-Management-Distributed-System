@@ -16,12 +16,23 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gustavo.userservice.dtos.clientsDtos.NotificationResponseDTO;
 import com.gustavo.userservice.services.UserNotificationService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "User Notification endpoint")
 @RestController
 public class UserNotificationController {
 	
 	@Autowired
 	private UserNotificationService userNotificationService;
 	
+	@Operation(summary = "Find notifications by user")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Notifications found successfully"),
+			@ApiResponse(responseCode = "403", description = "You are not allowed to make this request"),
+	})
 	@GetMapping("/users/{userId}/notifications")
 	public ResponseEntity<Page<NotificationResponseDTO>> findAllNotificationsByUser(
 			@PathVariable UUID userId,
