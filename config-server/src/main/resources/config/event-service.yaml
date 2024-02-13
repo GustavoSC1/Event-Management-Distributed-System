@@ -43,3 +43,8 @@ jwt:
   refreshExpiration: 86400000
   public:
     key: 'classpath:app.pub'
+    
+management:
+  tracing:
+    sampling:
+      probability: 1.0
