@@ -2,6 +2,8 @@ package com.gustavo.eventservice.controllers;
 
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +35,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Staff endpoint")
 public class StaffController {
 	
+	Logger log = LogManager.getLogger(StaffController.class);
+	
 	@Autowired
 	private EventService eventService;
 	
@@ -49,6 +53,7 @@ public class StaffController {
 	@PostMapping("/staffs/events/{eventId}/users")
 	public ResponseEntity<String> insert(@PathVariable UUID eventId, @Validated
             @RequestBody StaffRequestDTO staffRequestDto) {
+		log.debug("POST staffController insert eventId: {} staffRequestDto received {}", eventId, staffRequestDto.toString());
 		eventService.insertStaff(eventId, staffRequestDto);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body("Staff successfully registered!"); 
@@ -62,6 +67,7 @@ public class StaffController {
 	@GetMapping("/staffs/events/{eventId}/users")
 	public ResponseEntity<Page<UserResponseDTO>> findStaffEvent(@PathVariable UUID eventId,
 			@PageableDefault(page = 0, size = 10, sort = "userId", direction = Sort.Direction.ASC) Pageable pageable) {
+		log.debug("GET staffController findStaffEvent eventId: {} received", eventId);
 		Page<UserResponseDTO> userResponseDto = userService.findStaffEvent(eventId, pageable);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
@@ -75,6 +81,7 @@ public class StaffController {
 	@GetMapping("/staffs/users/{userId}/events")
 	public ResponseEntity<Page<EventResponseDTO>> findStaffUsers(@PathVariable UUID userId,
 			@PageableDefault(page = 0, size = 10, sort = "eventId", direction = Sort.Direction.ASC) Pageable pageable) {
+		log.debug("GET staffController findStaffUsers userId: {} received", userId);
 		Page<EventResponseDTO> eventResponseDto = eventService.findStaffUsers(userId, pageable);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(eventResponseDto);

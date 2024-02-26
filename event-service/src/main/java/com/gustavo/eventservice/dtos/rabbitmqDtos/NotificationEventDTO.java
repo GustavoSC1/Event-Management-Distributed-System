@@ -42,4 +42,9 @@ public class NotificationEventDTO {
 		this.userId = userId;
 	}
 
+	@Override
+	public String toString() {
+		return "NotificationEventDTO [title=" + title + ", message=" + message + ", userId=" + userId + "]";
+	}
+
 }

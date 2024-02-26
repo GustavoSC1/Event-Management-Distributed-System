@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,6 +42,8 @@ import com.gustavo.userservice.utils.UserAuthenticated;
 @Service
 public class UserServiceImpl implements UserService {
 	
+	Logger log = LogManager.getLogger(UserServiceImpl.class);
+	
 	@Autowired
 	private UserRepository userRepository;
 	
@@ -72,7 +76,10 @@ public class UserServiceImpl implements UserService {
 		UserAuthenticated userAuthenticated = currentUserService.getCurrentUser();
 		
 		RefreshToken refreshToken = refreshTokenService.createRefreshToken(userAuthenticated.getId());
-
+		
+		log.debug("POST userServiceImpl login userId: {} logged", userAuthenticated.getId());
+        log.info("User successfully logged userId: {}", userAuthenticated.getId());
+		
 		return new LoginResponseDTO(token, refreshToken.getToken(), userAuthenticated.getId(), userAuthenticated.getUsername(), roles);
 	}
 		
@@ -80,10 +87,12 @@ public class UserServiceImpl implements UserService {
 	public UserResponseDTO insert(UserRequestDTO userRequestDto) {
 		
 		if(userRepository.existsByUsername(userRequestDto.getUsername())) {
+			log.warn("Username {} is Already Taken!", userRequestDto.getUsername());
 			throw new BusinessException("Error: Username is already taken!");
 		}
 		
 		if(userRepository.existsByEmail(userRequestDto.getEmail())) {
+			log.warn("Email {} is Already Taken!", userRequestDto.getEmail());
 			throw new BusinessException("Error: Email is already taken!");
 		}
 		
@@ -110,6 +119,9 @@ public class UserServiceImpl implements UserService {
 		
 		BeanUtils.copyProperties(user, userResponseDto);
 		
+		log.debug("POST userServiceImpl insert userId: {} saved", userResponseDto.getUserId());
+        log.info("User saved successfully userId: {}", userResponseDto.getUserId());
+        
 		return userResponseDto;
 	}
 	
@@ -121,6 +133,9 @@ public class UserServiceImpl implements UserService {
 		UserResponseDTO userResponseDto = new UserResponseDTO();
 		
 		BeanUtils.copyProperties(user, userResponseDto);
+		
+		log.debug("GET userServiceImpl getOneUser userId: {} found", userResponseDto.getUserId());
+        log.info("User found successfully userId: {}", userResponseDto.getUserId());
 		
 		return userResponseDto;		
 	}
@@ -134,7 +149,10 @@ public class UserServiceImpl implements UserService {
 			UserResponseDTO userResponseDto = new UserResponseDTO();		
 			BeanUtils.copyProperties(obj, userResponseDto);
 			return userResponseDto;});
-								
+		
+		log.debug("GET userServiceImpl findAll name: {} email: {} found", name, email);
+        log.info("Users found successfully name: {} email: {}", name, email);
+        
 		return urserResponseDtoPage;		
 	}
 	
@@ -144,6 +162,7 @@ public class UserServiceImpl implements UserService {
 		UUID userAuthenticatedId = currentUserService.getCurrentUser().getId();
 		
 		if(!userAuthenticatedId.equals(userId)) {
+			log.warn("Access denied! userId: {}", userId);
 			throw new AccessDeniedException("Error: Access denied!");
 		}
 		
@@ -165,6 +184,9 @@ public class UserServiceImpl implements UserService {
 		
 		BeanUtils.copyProperties(user, userResponseDto);
 		
+		log.debug("PUT userServiceImpl update userId: {} updated", userResponseDto.getUserId());
+        log.info("User updated successfully userId: {}", userResponseDto.getUserId());
+		
 		return userResponseDto;
 	}
 	
@@ -174,6 +196,7 @@ public class UserServiceImpl implements UserService {
 		UserAuthenticated userAuthenticated = currentUserService.getCurrentUser();
 		
 		if(!userAuthenticated.getId().equals(userId) && !userAuthenticated.hasRole(RoleType.ROLE_ADMIN)) {
+			log.warn("Access denied! userId: {}", userId);
 			throw new AccessDeniedException("Error: Access denied!");
 		}
 				
@@ -183,8 +206,11 @@ public class UserServiceImpl implements UserService {
 		
 		UserEventDTO userEventDto = new UserEventDTO(user);
 		userEventDto.setActionType(ActionType.DELETE.toString());
-		
+						
 		userProducer.produceUserEvent(userEventDto);
+		
+		log.debug("DELETE userServiceImpl delete userId: {} deleted", userId);
+        log.info("User successfully deleted userId: {}", userId);
 	}
 	
 	@Override
@@ -193,18 +219,23 @@ public class UserServiceImpl implements UserService {
 		UUID userAuthenticatedId = currentUserService.getCurrentUser().getId();
 		
 		if(!userAuthenticatedId.equals(userId)) {
+			log.warn("Access denied! userId: {}", userId);
 			throw new AccessDeniedException("Error: Access denied!");
 		}
 
 		User user = findById(userId);
 		
 		if(!user.getPassword().equals(userRequestDto.getOldPassword())) {
+			log.warn("Mismatched old password! userId: {}", userId);
 			throw new BusinessException("Error: Mismatched old password");
 		} else {
 			user.setPassword(userRequestDto.getPassword());
 			user.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
 			
 			userRepository.save(user);
+			
+			log.debug("PATCH userServiceImpl updatePassword userId: {} updated", user.getUserId());
+	        log.info("User password updated successfully userId: {}", user.getUserId());
 		}
 	}
 	
@@ -214,6 +245,7 @@ public class UserServiceImpl implements UserService {
 		UUID userAuthenticatedId = currentUserService.getCurrentUser().getId();
 		
 		if(!userAuthenticatedId.equals(userId)) {
+			log.warn("Access denied! userId: {}", userId);
 			throw new AccessDeniedException("Error: Access denied!");
 		}
 		
@@ -233,6 +265,9 @@ public class UserServiceImpl implements UserService {
 		
 		BeanUtils.copyProperties(user, userResponseDto);
 		
+		log.debug("PATCH userServiceImpl updateImage userId: {} updated", user.getUserId());
+        log.info("User image updated successfully userId: {}", user.getUserId());
+		
 		return userResponseDto;
 	}
 	
@@ -241,7 +276,14 @@ public class UserServiceImpl implements UserService {
 		
 		Optional<User> userOptional = userRepository.findById(userId);
 		
-		return userOptional.orElseThrow(() -> new ObjectNotFoundException("Error: User not found! Id: " + userId));
+		User user = userOptional.orElseThrow(() -> {
+			log.warn("User not found! userId: {}", userId);
+			return new ObjectNotFoundException("Error: User not found! Id: " + userId);
+			});
+		
+		log.debug("GET userServiceImpl findById userId: {} found", userId);
+		
+		return user;
 	}
 	
 }

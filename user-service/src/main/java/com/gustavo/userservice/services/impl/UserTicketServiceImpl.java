@@ -2,6 +2,8 @@ package com.gustavo.userservice.services.impl;
 
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +22,8 @@ import com.gustavo.userservice.services.UserTicketService;
 @Service
 public class UserTicketServiceImpl implements UserTicketService {
 	
+	Logger log = LogManager.getLogger(UserTicketServiceImpl.class);
+	
 	@Autowired
 	private UserService userService;
 	
@@ -35,6 +39,7 @@ public class UserTicketServiceImpl implements UserTicketService {
 		UUID userAuthenticatedId = currentUserService.getCurrentUser().getId();
 		
 		if(!userAuthenticatedId.equals(userId)) {
+			log.warn("Access denied! userId:{}", userId);
 			throw new AccessDeniedException("Error: Access denied!");
 		}
 		
@@ -45,6 +50,10 @@ public class UserTicketServiceImpl implements UserTicketService {
 		if(authentication.getPrincipal() instanceof Jwt authToken){			
 			token = authToken.getTokenValue();			
 	    }
+		
+		log.debug("GET userTicketServiceImpl findAllTicketsByUser userId: {} found", userId);
+        log.info("Tickets found successfully userId: {}", userId);
+        
 		return ticketClient.findAllTicketsByUser(userId, pageable, token);		
 	}
 

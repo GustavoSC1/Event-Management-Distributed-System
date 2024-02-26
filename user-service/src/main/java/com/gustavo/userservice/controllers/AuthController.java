@@ -1,5 +1,8 @@
 package com.gustavo.userservice.controllers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +33,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Auth endpoint")
 public class AuthController {
 	
+	Logger log = LogManager.getLogger(AuthController.class);
+	
 	@Autowired
 	private UserService userService;
 	
@@ -46,6 +51,7 @@ public class AuthController {
 	// A anotação @Validated oferece suporte a "grupos de validação"
 	public ResponseEntity<UserResponseDTO> insert(@RequestBody @Validated(UserRequestDTO.UserView.UserPost.class)  
 									@JsonView(UserRequestDTO.UserView.UserPost.class) UserRequestDTO userRequestDto) {
+		log.debug("POST authController insert userRequestDto received {}", userRequestDto.toString());
 		UserResponseDTO userResponseDto = userService.insert(userRequestDto);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(userResponseDto);
@@ -59,6 +65,7 @@ public class AuthController {
 	})
 	@PostMapping("/login")	
 	public ResponseEntity<LoginResponseDTO> login(Authentication authentication) {
+		log.debug("POST authController login authentication received {}", authentication.toString());
 		LoginResponseDTO token = userService.login(authentication);
 		
 		return ResponseEntity.ok().body(token);
@@ -72,6 +79,7 @@ public class AuthController {
 	})
 	@PostMapping("/refreshtoken")
 	public ResponseEntity<TokenRefreshResponseDTO> refreshtoken(@RequestBody @Validated TokenRefreshRequestDTO request) {
+		log.debug("POST authController refreshtoken request received {}", request.toString());
 		TokenRefreshResponseDTO token = refreshTokenService.refreshToken(request);
 		 
 		return ResponseEntity.ok().body(token);
@@ -83,7 +91,7 @@ public class AuthController {
 			@ApiResponse(responseCode = "400", description = "This request can be processed")
 	})
 	@PostMapping("/signout")
-	public ResponseEntity<String> logoutUser() {
+	public ResponseEntity<String> logoutUser() {		
 		refreshTokenService.logoutUser();
 		String message = "Log out successful!";
 		

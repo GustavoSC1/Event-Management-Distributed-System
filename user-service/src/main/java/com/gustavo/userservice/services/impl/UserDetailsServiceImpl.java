@@ -2,6 +2,8 @@ package com.gustavo.userservice.services.impl;
 
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,10 +15,12 @@ import com.gustavo.userservice.entities.User;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
+	
+	Logger log = LogManager.getLogger(UserDetailsServiceImpl.class);
+	
 	private final UserRepository userRepository;
 			
 	public UserDetailsServiceImpl(UserRepository userRepository) {
-		super();
 		this.userRepository = userRepository;
 	}
 
@@ -25,7 +29,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		
 		Optional<User> userOptional = userRepository.findByUsername(username);
 		
-		User user = userOptional.orElseThrow(() -> new UsernameNotFoundException(username));
+		User user = userOptional.orElseThrow(() -> {
+			log.warn("User not found! username: {}", username);
+			return new UsernameNotFoundException(username);}
+		);
+		
+		log.debug("GET userDetailsServiceImpl loadUserByUsername username: {} found", username);
 				
 		return new UserAuthenticated(user.getUserId(), user.getUsername(), user.getPassword(), user.getUserStatus(), user.getRoles());
 	}

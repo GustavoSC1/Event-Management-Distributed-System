@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,6 +41,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Event endpoint")
 public class EventController {
 	
+	Logger log = LogManager.getLogger(EventController.class);
+	
 	@Autowired
 	private EventService eventService;
 	
@@ -52,6 +56,7 @@ public class EventController {
 	@PostMapping
 	public ResponseEntity<EventResponseDTO> insert(@RequestBody @Validated(EventRequestDTO.EventView.EventPost.class) 
 									EventRequestDTO eventRequestDto) {
+		log.debug("POST eventController insert eventRequestDto received {}", eventRequestDto.toString());
 		EventResponseDTO eventResponseDto =  eventService.insert(eventRequestDto);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(eventResponseDto);
@@ -64,6 +69,7 @@ public class EventController {
 	})
 	@GetMapping("/{eventId}")
 	public ResponseEntity<EventResponseDTO> getOneEvent(@PathVariable UUID eventId) {
+		log.debug("GET eventController getOneEvent eventId: {} received", eventId);
 		EventResponseDTO eventResponseDto = eventService.getOneEvent(eventId);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(eventResponseDto);
@@ -83,7 +89,7 @@ public class EventController {
 			@PageableDefault(page = 0, size = 10, sort = "eventId", direction = Sort.Direction.ASC) Pageable pageable) {
 		
 		LocalDateTime date = ("".equals(eventDate)) ? LocalDateTime.now(ZoneId.of("UTC")) : LocalDateTime.parse(eventDate);
-		
+		log.debug("GET eventController getAllEvents search: {} place: {} minPrice: {} maxPrice: {} eventDate: {} received", search, place, minPrice, maxPrice, date);
 		Page<EventResponseDTO> eventResponseDtoPage = eventService.findAll(search.replace(" ", "%"), place.replace(" ", "%"), minPrice, maxPrice, date, pageable);
 		
 		if(!eventResponseDtoPage.isEmpty()) {
@@ -107,6 +113,7 @@ public class EventController {
 	@PutMapping("/{eventId}")
 	public ResponseEntity<EventResponseDTO> update(@PathVariable UUID eventId, 
 			@RequestBody @Validated(EventRequestDTO.EventView.EventPut.class) EventRequestDTO eventRequestDto) {
+		log.debug("PUT eventController update eventId: {} eventRequestDto received {}", eventId, eventRequestDto.toString());
 		EventResponseDTO eventResponseDto = eventService.update(eventId, eventRequestDto);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(eventResponseDto);
@@ -121,6 +128,7 @@ public class EventController {
 	})
 	@PatchMapping("/{eventId}/close")
 	public ResponseEntity<String> closeRegistrations(@PathVariable UUID eventId) {
+		log.debug("PATCH eventController closeRegistrations eventId: {} received", eventId);
 		eventService.closeRegistrations(eventId);
 		
 		return ResponseEntity.status(HttpStatus.OK).body("Registrations closed successfully.");
@@ -135,6 +143,7 @@ public class EventController {
 	})
 	@PatchMapping("/{eventId}/cancel")
 	public ResponseEntity<String> cancelEvent(@PathVariable UUID eventId) {
+		log.debug("PATCH eventController cancelEvent eventId: {} received", eventId);
 		eventService.cancelEvent(eventId);
 		
 		return ResponseEntity.status(HttpStatus.OK).body("Event canceled successfully.");

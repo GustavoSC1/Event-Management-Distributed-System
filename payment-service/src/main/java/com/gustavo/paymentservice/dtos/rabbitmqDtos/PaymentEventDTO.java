@@ -51,5 +51,11 @@ public class PaymentEventDTO {
 	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "PaymentEventDTO [ticketId=" + ticketId + ", userId=" + userId + ", eventName=" + eventName + ", amount="
+				+ amount + "]";
+	}
+		
 }

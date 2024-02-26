@@ -4,6 +4,8 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ import com.gustavo.userservice.utils.UserAuthenticated;
 
 @Service
 public class RefreshTokenServiceImpl implements RefreshTokenService {
+	
+	Logger log = LogManager.getLogger(RefreshTokenServiceImpl.class);
 	
 	@Value("${jwt.refreshExpiration}")
 	private Long refreshTokenDurationMs;
@@ -41,19 +45,30 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 	public TokenRefreshResponseDTO refreshToken(TokenRefreshRequestDTO request) {
 		String requestRefreshToken = request.getRefreshToken();
 		
-		return findByToken(requestRefreshToken).map(x -> verifyExpiration(x))
+		TokenRefreshResponseDTO tokenRefreshResponseDto = findByToken(requestRefreshToken).map(x -> verifyExpiration(x))
 				.map(RefreshToken::getUser)
 				.map(user -> {
 					String token = jwtUtil.generateTokenFromUser(user);
+					log.debug("POST refreshTokenServiceImpl refreshToken userId: {} refresh", user.getUserId());
+			        log.info("Token updated successfully userId {}", user.getUserId());
 					return new TokenRefreshResponseDTO(token, requestRefreshToken);
-				}).orElseThrow(() -> new TokenRefreshException("Error: Refresh token is not in database!"));				
+				}).orElseThrow(() -> {
+					log.warn("Refresh token is not in database! refreshToken: {}", request.getRefreshToken());
+					return new TokenRefreshException("Error: Refresh token is not in database!");					
+				});		
+				
+		return tokenRefreshResponseDto;
 	}
 	
 	@Override
 	public void logoutUser() {
 		UserAuthenticated userAuthenticated = currentUserService.getCurrentUser();
+		log.debug("POST refreshTokenServiceImpl logoutUser userId: {} received", userAuthenticated.getId());		
 		UUID userId = userAuthenticated.getId();
 		deleteByUserId(userId);
+		
+		log.debug("DELETE refreshTokenServiceImpl logoutUser userId: {} logout", userId);
+        log.info("Logout completed successfully userId {}", userId);
 	}
 	
 	@Override
@@ -65,6 +80,10 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 		refreshToken.setToken(UUID.randomUUID().toString());
 		
 		refreshToken = refreshTokenRepository.save(refreshToken);
+		
+		log.debug("POST refreshTokenServiceImpl createRefreshToken userId: {} received", userId);
+        log.info("Refresh token created successfully userId {}", userId);
+        
 		return refreshToken;
 	}
 	
@@ -77,6 +96,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 	public RefreshToken verifyExpiration(RefreshToken token) {
 		if(token.getExpiryDate().compareTo(Instant.now()) < 0) {
 			refreshTokenRepository.delete(token);
+			log.warn("Refresh token was expired! refreshToken: {}", token);
 			throw new TokenRefreshException("Error: Refresh token was expired. Please make a new signin request");
 		}
 		
@@ -86,6 +106,8 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 	@Override
 	public void deleteByUserId(UUID userId) {
 		refreshTokenRepository.deleteByUser(userRepository.findById(userId).get());
+		log.debug("DELETE refreshTokenServiceImpl deleteByUserId userId: {} deleted", userId);
+        log.info("Refresh Token successfully deleted userId {}", userId);
 	}
 
 }

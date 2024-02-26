@@ -5,6 +5,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +19,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,6 +42,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "User endpoint")
 public class UserController {
 	
+	Logger log = LogManager.getLogger(UserController.class);
+	
 	@Autowired
 	private UserService userService;
 	
@@ -48,6 +54,7 @@ public class UserController {
 	})
 	@GetMapping("/{userId}")
 	public ResponseEntity<UserResponseDTO> getOneUser(@PathVariable UUID userId) {
+		log.debug("GET userController getOneUser userId: {} received", userId);
 		UserResponseDTO userResponseDto = userService.getOneUser(userId);
 				
 		return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
@@ -64,7 +71,7 @@ public class UserController {
 			@RequestParam(value="name", defaultValue="") String name,
 			@RequestParam(value="email", defaultValue="") String email,
 			@PageableDefault(page = 0, size = 10, sort = "userId", direction = Sort.Direction.ASC) Pageable pageable) {
-		
+		log.debug("GET userController getAllUsers name: {} email: {} received", name, email);
 		Page<UserResponseDTO> urserResponseDtoPage = userService.findAll(name, email, pageable);
 		
 		if(!urserResponseDtoPage.isEmpty()) {
@@ -89,6 +96,7 @@ public class UserController {
 	public ResponseEntity<UserResponseDTO> update(@PathVariable UUID userId, 
 			@RequestBody @Validated(UserRequestDTO.UserView.UserPut.class) 
 			@JsonView(UserRequestDTO.UserView.UserPut.class) UserRequestDTO userRequestDto) {
+		log.debug("PUT userController update userId: {} userRequestDto received {}", userId, userRequestDto.toString());
 		UserResponseDTO userResponseDto = userService.update(userId, userRequestDto);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
@@ -102,6 +110,7 @@ public class UserController {
     })
 	@DeleteMapping("/{userId}")
 	public ResponseEntity<String> delete(@PathVariable UUID userId) {
+		log.debug("DELETE userController delete userId: {} received", userId);
 		userService.delete(userId);
 		
 		return ResponseEntity.status(HttpStatus.OK).body("User deleted successfully.");
@@ -115,10 +124,11 @@ public class UserController {
 			@ApiResponse(responseCode = "404", description = "Could not find the requested data"),
 			@ApiResponse(responseCode = "422", description = "Data validation error")
 	})
-	@PutMapping("/{userId}/password")
+	@PatchMapping("/{userId}/password")
 	public ResponseEntity<String> updatePassword(@PathVariable UUID userId, 
 			@RequestBody @Validated(UserRequestDTO.UserView.PasswordPut.class) 
 			@JsonView(UserRequestDTO.UserView.PasswordPut.class) UserRequestDTO userRequestDto) {
+		log.debug("PATCH userController updatePassword userId: {} userRequestDto received {}", userId, userRequestDto.toString());
 		userService.updatePassword(userId, userRequestDto);
 		
 		return ResponseEntity.status(HttpStatus.OK).body("Password updated successfully.");
@@ -131,10 +141,11 @@ public class UserController {
 			@ApiResponse(responseCode = "404", description = "Could not find the requested data"),
 			@ApiResponse(responseCode = "422", description = "Data validation error")
 	})
-	@PutMapping("/{userId}/image")
+	@PatchMapping("/{userId}/image")
 	public ResponseEntity<UserResponseDTO> updateImage(@PathVariable UUID userId, 
 			@RequestBody @Validated(UserRequestDTO.UserView.ImagePut.class) 
 			@JsonView(UserRequestDTO.UserView.ImagePut.class) UserRequestDTO userRequestDto) {
+		log.debug("PATCH userController updateImage userId: {} userRequestDto received {}", userId, userRequestDto.toString());
 		UserResponseDTO userResponseDto = userService.updateImage(userId, userRequestDto);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);

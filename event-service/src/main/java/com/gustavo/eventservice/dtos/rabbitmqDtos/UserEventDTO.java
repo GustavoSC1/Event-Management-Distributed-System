@@ -103,4 +103,11 @@ public class UserEventDTO {
 		this.actionType = actionType;
 	}
 
+	@Override
+	public String toString() {
+		return "UserEventDTO [userId=" + userId + ", name=" + name + ", phone=" + phone + ", cpf=" + cpf + ", imageUrl="
+				+ imageUrl + ", username=" + username + ", email=" + email + ", userStatus=" + userStatus
+				+ ", actionType=" + actionType + "]";
+	}
+
 }

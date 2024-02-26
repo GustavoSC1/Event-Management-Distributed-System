@@ -27,4 +27,9 @@ public class TicketRequestDTO implements Serializable {
 		this.userId = userId;
 	}
 
+	@Override
+	public String toString() {
+		return "TicketRequestDTO [userId=" + userId + "]";
+	}
+	
 }

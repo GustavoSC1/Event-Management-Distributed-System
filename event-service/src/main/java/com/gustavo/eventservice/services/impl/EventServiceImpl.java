@@ -5,6 +5,8 @@ import java.time.ZoneId;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,6 +33,8 @@ import com.gustavo.eventservice.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class EventServiceImpl implements EventService {
+	
+	Logger log = LogManager.getLogger(EventServiceImpl.class);
 	
 	@Autowired
 	private EventRepository eventRepository;
@@ -76,6 +80,9 @@ public class EventServiceImpl implements EventService {
 		
 		BeanUtils.copyProperties(event, eventResponseDto);
 		
+		log.debug("POST eventServiceImpl insert eventId: {} saved", eventResponseDto.getEventId());
+        log.info("Event saved successfully eventId: {}", eventResponseDto.getEventId());
+		
 		return eventResponseDto;		
 	}
 	
@@ -88,6 +95,9 @@ public class EventServiceImpl implements EventService {
 			EventResponseDTO eventResponseDto = new EventResponseDTO();
 			BeanUtils.copyProperties(obj, eventResponseDto);
 			return eventResponseDto;});
+		
+		log.debug("GET eventServiceImpl findAll search: {} place: {} minPrice: {} maxPrice: {} date: {} found", search, place, minPrice, maxPrice, date);
+        log.info("Events found successfully search: {} place: {} minPrice: {} maxPrice: {} date: {}", search, place, minPrice, maxPrice, date);
 		
 		return eventResponseDtoPage;
 	}
@@ -105,6 +115,9 @@ public class EventServiceImpl implements EventService {
 		
 		BeanUtils.copyProperties(event, eventResponseDto);
 		
+		log.debug("GET eventServiceImpl getOneEvent eventId: {} found", eventResponseDto.getEventId());
+        log.info("Event found successfully eventId: {}", eventResponseDto.getEventId());
+		
 		return eventResponseDto;		
 	}
 	
@@ -119,6 +132,7 @@ public class EventServiceImpl implements EventService {
 		
 		if(!event.getCreationUser().getUserId().equals(userAuthenticatedId) && 
 			!event.getStaffUsers().contains(user)) {
+			log.warn("Access denied! userAuthenticatedId: {}", userAuthenticatedId);
 			throw new AccessDeniedException("Error: Access denied!");
 		}
 
@@ -157,6 +171,9 @@ public class EventServiceImpl implements EventService {
 		
 		BeanUtils.copyProperties(event, eventResponseDto);
 		
+		log.debug("PUT eventServiceImpl update eventId: {} updated", eventResponseDto.getEventId());
+        log.info("Event updated successfully eventId: {}", eventResponseDto.getEventId());
+		
 		return eventResponseDto;
 	}
 	
@@ -168,6 +185,7 @@ public class EventServiceImpl implements EventService {
 		Event event = findById(eventId);
 		
 		if(!event.getCreationUser().getUserId().equals(userAuthenticatedId)) {
+			log.warn("Access denied! userAuthenticatedId: {}", userAuthenticatedId);
 			throw new AccessDeniedException("Error: Access denied!");
 		}
 
@@ -178,15 +196,20 @@ public class EventServiceImpl implements EventService {
 			event.setEventStatus(EventStatus.CLOSED_TO_REGISTRATIONS);
 			
 		} else {
+			log.warn("It is not possible to close registrations for this event eventId: {}", eventId);
 			new BusinessException("Error: It is not possible to close registrations for this event!");
 		}
-		
+				
 		eventRepository.save(event);
 		
 		NotificationEventDTO notificationEventDto = new NotificationEventDTO();
         notificationEventDto.setTitle("Registrations closed successfully.");
         notificationEventDto.setMessage("You have closed registrations for the " + event.getName() + " event.");
         notificationEventDto.setUserId(event.getCreationUser().getUserId());
+        
+
+		log.debug("PUT eventServiceImpl closeRegistrations eventId: {} closed", eventId);
+        log.info("Event closed successfully eventId: {}", eventId);
 
         notificationProducer.produceNotificationEvent(notificationEventDto);
 	}
@@ -198,6 +221,7 @@ public class EventServiceImpl implements EventService {
 		Event event = findById(eventId);
 		
 		if(!event.getCreationUser().getUserId().equals(userAuthenticatedId)) {
+			log.warn("Access denied! userAuthenticatedId: {}", userAuthenticatedId);
 			throw new AccessDeniedException("Error: Access denied!");
 		}
 		
@@ -207,6 +231,7 @@ public class EventServiceImpl implements EventService {
 			event.setEventStatus(EventStatus.CANCELED);
 			
 		} else {
+			log.warn("It is not possible to cancel this event! eventId: {}", eventId);
 			new BusinessException("Error: It is not possible to cancel this event!");
 		}
         
@@ -238,6 +263,9 @@ public class EventServiceImpl implements EventService {
         notificationEventDto.setTitle("Event successfully canceled");
         notificationEventDto.setMessage("You canceled the " + event.getName() + " event.");
         notificationEventDto.setUserId(event.getCreationUser().getUserId());
+        
+        log.debug("PUT eventServiceImpl cancelEvent eventId: {} canceled", eventId);
+        log.info("Event canceled successfully eventId: {}", eventId);
 
         notificationProducer.produceNotificationEvent(notificationEventDto);  
 	}
@@ -250,6 +278,7 @@ public class EventServiceImpl implements EventService {
 		Event event = findById(eventId);
 		
 		if(!event.getCreationUser().getUserId().equals(userAuthenticatedId)) {
+			log.warn("Access denied! userAuthenticatedId: {}", userAuthenticatedId);
 			throw new AccessDeniedException("Error: Access denied!");
 		}
 		
@@ -257,10 +286,12 @@ public class EventServiceImpl implements EventService {
 		
 		if(event.getEventStatus().equals(EventStatus.PAST) || 
 		   event.getEventStatus().equals(EventStatus.CANCELED)) {
+			log.warn("It is not possible to add new users to the staff eventId: {}", eventId);
 			throw new BusinessException("Error: It is not possible to add new users to the staff!");
 		}
 		
 		if(event.getStaffUsers().contains(user)) {
+			log.warn("This user is already on staff userId: {} eventId: {}", staffRequestDTO.getUserId(), eventId);
 			throw new BusinessException("Error: This user is already on staff!");
 		}
 		
@@ -272,6 +303,9 @@ public class EventServiceImpl implements EventService {
         notificationEventDto.setTitle("You have been added to an event staff.");
         notificationEventDto.setMessage("You are now part of the " + event.getName() + " event staff.");
         notificationEventDto.setUserId(user.getUserId());
+        
+        log.debug("POST eventServiceImpl insertStaff userId: {} eventId: {} saved", staffRequestDTO.getUserId(), eventId);
+        log.info("Staff saved successfully userId: {} eventId: {}", staffRequestDTO.getUserId(), eventId);
 
         notificationProducer.produceNotificationEvent(notificationEventDto);				
 	}
@@ -282,11 +316,15 @@ public class EventServiceImpl implements EventService {
 		UUID userAuthenticatedId = currentUserService.getCurrentUser().getId();
 		
 		if(!userAuthenticatedId.equals(userId)) {
+			log.warn("Access denied! userId: {}", userId);
 			throw new AccessDeniedException("Error: Access denied!");
 		}
 		
 		Page<Event> eventPage = eventRepository.findAllByStaffUsersUserId(userId, pageable);
 		
+		log.debug("GET eventServiceImpl findStaffUsers userId: {} found", userId);
+        log.info("Staffs found successfully userId: {}", userId);
+        		
 		return eventPage.map(obj -> {
 			EventResponseDTO eventResponseDto = new EventResponseDTO();
 			BeanUtils.copyProperties(obj, eventResponseDto);
@@ -298,7 +336,15 @@ public class EventServiceImpl implements EventService {
 		
 		Optional<Event> eventOptional = eventRepository.findById(eventId);
 		
-		return eventOptional.orElseThrow(() -> new ObjectNotFoundException("Error: Event not found! Id: " + eventId));
+		Event event = eventOptional.orElseThrow(() -> {
+			log.warn("Event not found! eventId: {}", eventId);
+			return new ObjectNotFoundException("Error: Event not found! Id: " + eventId);
+			});
+		
+		log.debug("GET eventServiceImpl findById eventId: {} found", eventId);
+		log.info("Event found successfully eventId: {}", eventId);
+		
+		return event;
 	}
 	
 	public void checkDates(Event event, EventRequestDTO eventRequestDto) {
@@ -322,11 +368,11 @@ public class EventServiceImpl implements EventService {
 	
 	public void updateStatus(Event event) {
 		
-		if(!event.getEventStatus().equals(EventStatus.CANCELED) &&
-				   !event.getEventStatus().equals(EventStatus.PAST)) {
+		if(event.getEventStatus() == null || (!event.getEventStatus().equals(EventStatus.CANCELED) &&
+				   !event.getEventStatus().equals(EventStatus.PAST))) {
 			LocalDateTime currentDate = LocalDateTime.now(ZoneId.of("UTC"));
-			
-			if(ticketRepository.countByEvent(event) >= event.getCapacity()) {
+
+			if(event.getEventId() != null && ticketRepository.countByEvent(event) >= event.getCapacity()) {
 				event.setEventStatus(EventStatus.CLOSED_TO_REGISTRATIONS);
 			} else if(event.getStartDateTime().isBefore(currentDate) && currentDate.isBefore(event.getEndDateTime())) {
 				event.setEventStatus(EventStatus.ONGOING);

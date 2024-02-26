@@ -5,6 +5,8 @@ import java.time.ZoneId;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,6 +38,8 @@ import com.gustavo.eventservice.services.exceptions.ObjectNotFoundException;
 @Service
 public class TicketServiceImpl implements TicketService {
 	
+	Logger log = LogManager.getLogger(TicketServiceImpl.class);
+	
 	@Autowired
 	private TicketRepository ticketRepository;
 	
@@ -63,14 +67,17 @@ public class TicketServiceImpl implements TicketService {
 		
 		if(!event.getEventStatus().equals(EventStatus.OPEN_TO_REGISTRATIONS) && 
 		   !event.getEventStatus().equals(EventStatus.ONGOING)) {
+			log.warn("It is not possible to register for this event! eventId: {}", eventId);
 			throw new BusinessException("Error: It is not possible to register for this event!");
 		}
 		
 		if(ticketRepository.existsByUserAndEvent(user, event)) {
+			log.warn("Registration already exists! userId: {} eventId: {}", user.getUserId(), eventId);
 			throw new BusinessException("Error: Registration already exists!");
 		}
 		
 		if(ticketRepository.countByEvent(event) >= event.getCapacity()) {
+			log.warn("The event has reached maximum capacity! eventId: {}", eventId);
 			throw new BusinessException("Error: The event has reached maximum capacity!");
 		}
 				
@@ -109,6 +116,9 @@ public class TicketServiceImpl implements TicketService {
 		notificationEventDto.setTitle("You registered for a new event");
         notificationEventDto.setMessage(message);
         notificationEventDto.setUserId(user.getUserId());
+        
+        log.debug("POST ticketServiceImpl insert ticketId: {} saved", eventTicket.getTicketId());
+        log.info("Ticket saved successfully ticketId: {}", eventTicket.getTicketId());
 
         notificationProducer.produceNotificationEvent(notificationEventDto);		
 	}	
@@ -119,6 +129,9 @@ public class TicketServiceImpl implements TicketService {
 		
 		ticket.setIsPaid(paymentMadeEventDto.isPaid());
 		ticket.setPaymentDate(paymentMadeEventDto.getPaymentDate());
+		
+		log.debug("PUT ticketServiceImpl setTicketPaid ticketId: {} paid", paymentMadeEventDto.getTicketId());
+        log.info("Ticket paid successfully ticketId: {}", paymentMadeEventDto.getTicketId());
 
 		ticketRepository.save(ticket);
 	}
@@ -138,6 +151,9 @@ public class TicketServiceImpl implements TicketService {
 			ticketResponseDto.setUserResponseDto(userResponseDto);
 			return ticketResponseDto;});
 		
+		log.debug("GET ticketServiceImpl findByEvent eventId: {} found", eventId);
+        log.info("Tickets found successfully eventId: {}", eventId);
+		
 		return ticketResponseDtoPage;		
 	}
 	
@@ -147,6 +163,7 @@ public class TicketServiceImpl implements TicketService {
 		UUID userAuthenticatedId = currentUserService.getCurrentUser().getId();
 		
 		if(!userAuthenticatedId.equals(userId)) {
+			log.warn("Access denied! userId: {}", userId);
 			throw new AccessDeniedException("Error: Access denied!");
 		}
 		
@@ -162,6 +179,9 @@ public class TicketServiceImpl implements TicketService {
 			ticketResponseDto.setEventResponseDto(eventResponseDto);
 			return ticketResponseDto;});
 		
+		log.debug("GET ticketServiceImpl findByUser userId: {} found", userId);
+        log.info("Tickets found successfully userId: {}", userId);
+		
 		return ticketResponseDtoPage;		
 	}
 
@@ -169,7 +189,15 @@ public class TicketServiceImpl implements TicketService {
 	public Ticket findById(UUID ticketId) {
 		Optional<Ticket> ticketOptional = ticketRepository.findById(ticketId);
 		
-		return ticketOptional.orElseThrow(() -> new ObjectNotFoundException("Error: Ticket not found! Id: " + ticketId));
+		Ticket ticket = ticketOptional.orElseThrow(() -> {
+			log.warn("Ticket not found! ticketId: {}", ticketId);
+			return new ObjectNotFoundException("Error: Ticket not found! Id: " + ticketId);
+			});
+		
+		log.debug("GET ticketServiceImpl findById ticketId: {} found", ticketId);
+		log.info("Ticket found successfully ticketId: {}", ticketId);
+		
+		return ticket;
 	}
 	
 }

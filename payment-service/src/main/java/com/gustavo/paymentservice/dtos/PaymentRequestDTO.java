@@ -26,4 +26,9 @@ public class PaymentRequestDTO implements Serializable {
 		this.paymentCode = paymentCode;
 	}
 
+	@Override
+	public String toString() {
+		return "PaymentRequestDTO [paymentCode=" + paymentCode + "]";
+	}
+
 }

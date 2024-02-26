@@ -1,5 +1,7 @@
 package com.gustavo.eventservice.consumers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import com.gustavo.eventservice.services.UserService;
 
 @Component
 public class UserConsumer {
+	
+	Logger log = LogManager.getLogger(UserConsumer.class);
 		
 	@Autowired
 	private UserService userService;
@@ -36,6 +40,7 @@ public class UserConsumer {
 				break;
 		}
 		
+		log.debug("CONSUMER userConsumer onUserCreated userEventDto consumed {}", userEventDto.toString());
 	}
 
 }

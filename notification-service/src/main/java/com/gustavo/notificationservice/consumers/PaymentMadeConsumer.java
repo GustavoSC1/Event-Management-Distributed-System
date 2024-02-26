@@ -3,6 +3,8 @@ package com.gustavo.notificationservice.consumers;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -15,6 +17,8 @@ import com.gustavo.notificationservice.services.NotificationService;
 
 @Component
 public class PaymentMadeConsumer {
+	
+	Logger log = LogManager.getLogger(PaymentMadeConsumer.class);
 	
 	@Autowired
 	private NotificationService notificationService;
@@ -31,6 +35,7 @@ public class PaymentMadeConsumer {
 		notification.setNotificationStatus(NotificationStatus.CREATED);
 
 		notificationService.insert(notification);		
+		log.debug("CONSUMER paymentMadeConsumer onPaymentMade paymentMadeEventDto consumed {}", paymentMadeEventDto.toString());
 	}
 
 }

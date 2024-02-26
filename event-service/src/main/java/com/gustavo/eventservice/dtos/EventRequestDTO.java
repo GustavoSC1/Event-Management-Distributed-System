@@ -183,4 +183,12 @@ public class EventRequestDTO implements Serializable {
 		this.creationUser = creationUser;
 	}
 
+	@Override
+	public String toString() {
+		return "EventRequestDTO [name=" + name + ", description=" + description + ", imageUrl=" + imageUrl
+				+ ", registrationStartDate=" + registrationStartDate + ", registrationEndDate=" + registrationEndDate
+				+ ", startDateTime=" + startDateTime + ", endDateTime=" + endDateTime + ", place=" + place
+				+ ", capacity=" + capacity + ", price=" + price + ", creationUser=" + creationUser + "]";
+	}
+
 }

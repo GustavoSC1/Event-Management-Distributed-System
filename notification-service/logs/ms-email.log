@@ -1,0 +1,415 @@
+2024-02-26T10:51:06,080 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-02-26T10:51:06,184 INFO  com.gustavo.notificationservice.NotificationServiceApplication - Starting NotificationServiceApplication using Java 17.0.7 with PID 12046 (/home/gustavo/Documentos/Workspaces/ws-sts/Event-Management-Distributed-System/notification-service/target/classes started by gustavo in /home/gustavo/Documentos/Workspaces/ws-sts/Event-Management-Distributed-System/notification-service)
+2024-02-26T10:51:06,189 DEBUG com.gustavo.notificationservice.NotificationServiceApplication - Running with Spring Boot v3.1.7, Spring v6.0.15
+2024-02-26T10:51:06,190 INFO  com.gustavo.notificationservice.NotificationServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2024-02-26T10:51:06,272 INFO  org.springframework.cloud.config.client.ConfigServerConfigDataLoader - Fetching config from server at : http://localhost:8888/
+2024-02-26T10:51:06,272 INFO  org.springframework.cloud.config.client.ConfigServerConfigDataLoader - Located environment: name=notification-service, profiles=[default], label=null, version=null, state=null
+2024-02-26T10:51:08,148 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-02-26T10:51:08,429 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 263 ms. Found 1 JPA repository interface.
+2024-02-26T10:51:08,949 INFO  org.springframework.cloud.context.scope.GenericScope - BeanFactory id=aa9636d7-e5dd-3c9f-a095-e27420e69c47
+2024-02-26T10:51:09,625 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8200 (http)
+2024-02-26T10:51:09,642 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8200"]
+2024-02-26T10:51:09,645 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2024-02-26T10:51:09,646 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+2024-02-26T10:51:09,793 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-02-26T10:51:09,794 INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3517 ms
+2024-02-26T10:51:10,356 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-02-26T10:51:10,758 INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2024-02-26T10:51:10,760 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-02-26T10:51:10,777 INFO  org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2024-02-26T10:51:11,244 INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-02-26T10:51:11,350 INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.17.Final
+2024-02-26T10:51:11,354 INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2024-02-26T10:51:11,813 INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-02-26T10:51:11,880 WARN  org.hibernate.orm.deprecation - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-02-26T10:51:13,122 INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-02-26T10:51:13,197 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-02-26T10:51:14,244 WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-02-26T10:51:15,019 INFO  org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+2024-02-26T10:51:15,132 INFO  org.springframework.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6a28f67a, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4d4ae76, org.springframework.security.web.context.SecurityContextHolderFilter@abce494, org.springframework.security.web.header.HeaderWriterFilter@65daaa95, org.springframework.security.web.authentication.logout.LogoutFilter@260f8704, org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter@411db18d, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7f55e1b9, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@c35b83c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@28e9f6b8, org.springframework.security.web.session.SessionManagementFilter@70d3e710, org.springframework.security.web.access.ExceptionTranslationFilter@6291d30, org.springframework.security.web.access.intercept.AuthorizationFilter@6b8f0b64]
+2024-02-26T10:51:15,884 INFO  org.springframework.cloud.netflix.eureka.config.DiscoveryClientOptionalArgsConfiguration - Eureka HTTP Client uses RestTemplate.
+2024-02-26T10:51:15,999 WARN  org.springframework.cloud.loadbalancer.config.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2024-02-26T10:51:16,169 WARN  org.springframework.core.LocalVariableTableParameterNameDiscoverer - Using deprecated '-debug' fallback for parameter name resolution. Compile the affected code with '-parameters' instead or avoid its introspection: org.springframework.amqp.rabbit.core.RabbitAdmin
+2024-02-26T10:51:16,302 INFO  org.springframework.cloud.netflix.eureka.InstanceInfoFactory - Setting initial instance status as: STARTING
+2024-02-26T10:51:16,348 INFO  com.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+2024-02-26T10:51:16,355 INFO  com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-02-26T10:51:16,392 INFO  com.netflix.discovery.DiscoveryClient - Disable delta property : false
+2024-02-26T10:51:16,392 INFO  com.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+2024-02-26T10:51:16,393 INFO  com.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+2024-02-26T10:51:16,393 INFO  com.netflix.discovery.DiscoveryClient - Application is null : false
+2024-02-26T10:51:16,393 INFO  com.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+2024-02-26T10:51:16,394 INFO  com.netflix.discovery.DiscoveryClient - Application version is -1: true
+2024-02-26T10:51:16,394 INFO  com.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+2024-02-26T10:51:16,718 INFO  com.netflix.discovery.DiscoveryClient - The response status is 200
+2024-02-26T10:51:16,725 INFO  com.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+2024-02-26T10:51:16,737 INFO  com.netflix.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+2024-02-26T10:51:16,753 INFO  com.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1708944676752 with initial instances count: 3
+2024-02-26T10:51:16,761 INFO  org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry - Registering application NOTIFICATION-SERVICE with eureka with status UP
+2024-02-26T10:51:16,762 INFO  com.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1708944676762, current=UP, previous=STARTING]
+2024-02-26T10:51:16,767 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200: registering service...
+2024-02-26T10:51:16,776 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8200"]
+2024-02-26T10:51:16,839 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8200 (http) with context path ''
+2024-02-26T10:51:16,841 INFO  org.springframework.cloud.netflix.eureka.serviceregistry.EurekaAutoServiceRegistration - Updating port to 8200
+2024-02-26T10:51:16,855 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200 - registration status: 204
+2024-02-26T10:51:16,926 INFO  org.springframework.amqp.rabbit.connection.CachingConnectionFactory - Attempting to connect to: [localhost:5672]
+2024-02-26T10:51:16,992 INFO  org.springframework.amqp.rabbit.connection.CachingConnectionFactory - Created new connection: rabbitConnectionFactory#1dad97ed:0/SimpleConnection@78ec5e18 [delegate=amqp://user@127.0.0.1:5672/, localPort=51554]
+2024-02-26T10:51:17,130 INFO  com.gustavo.notificationservice.NotificationServiceApplication - Started NotificationServiceApplication in 13.276 seconds (process running for 14.771)
+2024-02-26T10:51:18,743 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-02-26T10:51:18,743 INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-02-26T10:51:18,747 INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2024-02-26T10:56:16,397 INFO  com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-02-26T11:01:16,398 INFO  com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-02-26T11:06:16,399 INFO  com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-02-26T11:11:16,444 INFO  com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-02-26T11:16:16,460 INFO  com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-02-26T11:21:16,490 INFO  com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-02-26T11:26:16,491 INFO  com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-02-26T11:29:12,928 INFO  org.springframework.boot.admin.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+2024-02-26T11:29:12,969 INFO  org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry - Unregistering application NOTIFICATION-SERVICE with eureka with status DOWN
+2024-02-26T11:29:12,970 INFO  com.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1708946952970, current=DOWN, previous=UP]
+2024-02-26T11:29:12,970 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200: registering service...
+2024-02-26T11:29:12,985 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200 - registration status: 204
+2024-02-26T11:29:13,498 INFO  org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer - Waiting for workers to finish.
+2024-02-26T11:29:13,500 INFO  org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer - Waiting for workers to finish.
+2024-02-26T11:29:13,765 INFO  org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer - Successfully waited for workers to finish.
+2024-02-26T11:29:14,425 INFO  org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer - Successfully waited for workers to finish.
+2024-02-26T11:29:14,782 INFO  org.apache.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-8200"]
+2024-02-26T11:29:14,782 INFO  org.apache.catalina.core.StandardService - Stopping service [Tomcat]
+2024-02-26T11:29:15,025 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Destroying Spring FrameworkServlet 'dispatcherServlet'
+2024-02-26T11:29:15,078 INFO  org.apache.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8200"]
+2024-02-26T11:29:15,081 INFO  org.apache.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-8200"]
+2024-02-26T11:29:15,269 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-02-26T11:29:15,486 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-02-26T11:29:15,496 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-02-26T11:29:16,497 INFO  com.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...
+2024-02-26T11:29:19,498 WARN  com.netflix.discovery.TimedSupervisorTask - task supervisor shutting down, can't accept the task
+2024-02-26T11:29:19,500 INFO  com.netflix.discovery.DiscoveryClient - Unregistering ...
+2024-02-26T11:29:19,582 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200 - deregister  status: 200
+2024-02-26T11:29:19,587 INFO  com.netflix.discovery.DiscoveryClient - Completed shut down of DiscoveryClient
+2024-02-26T11:48:02,696 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-02-26T11:48:04,540 INFO  com.gustavo.notificationservice.NotificationServiceApplication - Starting NotificationServiceApplication using Java 17.0.7 with PID 46058 (/home/gustavo/Documentos/Workspaces/ws-sts/Event-Management-Distributed-System/notification-service/target/classes started by gustavo in /home/gustavo/Documentos/Workspaces/ws-sts/Event-Management-Distributed-System/notification-service)
+2024-02-26T11:48:04,556 DEBUG com.gustavo.notificationservice.NotificationServiceApplication - Running with Spring Boot v3.1.7, Spring v6.0.15
+2024-02-26T11:48:04,558 INFO  com.gustavo.notificationservice.NotificationServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2024-02-26T11:48:05,687 INFO  org.springframework.cloud.config.client.ConfigServerConfigDataLoader - Fetching config from server at : http://localhost:8888/
+2024-02-26T11:48:05,687 INFO  org.springframework.cloud.config.client.ConfigServerConfigDataLoader - Located environment: name=notification-service, profiles=[default], label=null, version=null, state=null
+2024-02-26T11:48:21,794 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-02-26T11:48:22,154 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 346 ms. Found 1 JPA repository interface.
+2024-02-26T11:48:23,688 INFO  org.springframework.cloud.context.scope.GenericScope - BeanFactory id=aa9636d7-e5dd-3c9f-a095-e27420e69c47
+2024-02-26T11:48:31,320 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8200 (http)
+2024-02-26T11:48:31,408 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8200"]
+2024-02-26T11:48:31,410 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2024-02-26T11:48:31,411 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+2024-02-26T11:48:36,521 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-02-26T11:48:36,523 INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 30807 ms
+2024-02-26T11:48:39,624 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-02-26T11:48:40,235 INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2024-02-26T11:48:40,237 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-02-26T11:48:40,253 INFO  org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2024-02-26T11:48:42,661 INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-02-26T11:48:42,895 INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.17.Final
+2024-02-26T11:48:42,898 INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2024-02-26T11:48:43,726 INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-02-26T11:48:43,992 WARN  org.hibernate.orm.deprecation - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-02-26T11:48:51,638 INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-02-26T11:48:51,734 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-02-26T11:48:54,701 WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-02-26T11:48:56,986 INFO  org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+2024-02-26T11:48:57,212 INFO  org.springframework.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@75dc1d5a, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1946d235, org.springframework.security.web.context.SecurityContextHolderFilter@66a97b79, org.springframework.security.web.header.HeaderWriterFilter@a426150, org.springframework.security.web.authentication.logout.LogoutFilter@14170abd, org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter@17765082, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@685e398, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@27bf05af, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3c9163df, org.springframework.security.web.session.SessionManagementFilter@16ea544e, org.springframework.security.web.access.ExceptionTranslationFilter@5a8a50b8, org.springframework.security.web.access.intercept.AuthorizationFilter@ea2f3a]
+2024-02-26T11:48:58,218 INFO  org.springframework.cloud.netflix.eureka.config.DiscoveryClientOptionalArgsConfiguration - Eureka HTTP Client uses RestTemplate.
+2024-02-26T11:48:58,525 WARN  org.springframework.cloud.loadbalancer.config.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2024-02-26T11:48:58,705 WARN  org.springframework.core.LocalVariableTableParameterNameDiscoverer - Using deprecated '-debug' fallback for parameter name resolution. Compile the affected code with '-parameters' instead or avoid its introspection: org.springframework.amqp.rabbit.core.RabbitAdmin
+2024-02-26T11:48:58,885 INFO  org.springframework.cloud.netflix.eureka.InstanceInfoFactory - Setting initial instance status as: STARTING
+2024-02-26T11:48:59,009 INFO  com.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+2024-02-26T11:48:59,116 INFO  com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-02-26T11:48:59,175 INFO  com.netflix.discovery.DiscoveryClient - Disable delta property : false
+2024-02-26T11:48:59,175 INFO  com.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+2024-02-26T11:48:59,176 INFO  com.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+2024-02-26T11:48:59,176 INFO  com.netflix.discovery.DiscoveryClient - Application is null : false
+2024-02-26T11:48:59,176 INFO  com.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+2024-02-26T11:48:59,177 INFO  com.netflix.discovery.DiscoveryClient - Application version is -1: true
+2024-02-26T11:48:59,177 INFO  com.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+2024-02-26T11:48:59,574 INFO  com.netflix.discovery.DiscoveryClient - The response status is 200
+2024-02-26T11:48:59,577 INFO  com.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+2024-02-26T11:48:59,581 INFO  com.netflix.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+2024-02-26T11:48:59,588 INFO  com.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1708948139588 with initial instances count: 4
+2024-02-26T11:48:59,592 INFO  org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry - Registering application NOTIFICATION-SERVICE with eureka with status UP
+2024-02-26T11:48:59,593 INFO  com.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1708948139593, current=UP, previous=STARTING]
+2024-02-26T11:48:59,596 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200: registering service...
+2024-02-26T11:48:59,597 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8200"]
+2024-02-26T11:48:59,623 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8200 (http) with context path ''
+2024-02-26T11:48:59,624 INFO  org.springframework.cloud.netflix.eureka.serviceregistry.EurekaAutoServiceRegistration - Updating port to 8200
+2024-02-26T11:48:59,730 INFO  org.springframework.amqp.rabbit.connection.CachingConnectionFactory - Attempting to connect to: [localhost:5672]
+2024-02-26T11:48:59,984 INFO  org.springframework.amqp.rabbit.connection.CachingConnectionFactory - Created new connection: rabbitConnectionFactory#765650e4:0/SimpleConnection@30336205 [delegate=amqp://user@127.0.0.1:5672/, localPort=35620]
+2024-02-26T11:49:00,116 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200 - registration status: 204
+2024-02-26T11:49:00,151 INFO  com.gustavo.notificationservice.NotificationServiceApplication - Started NotificationServiceApplication in 62.353 seconds (process running for 66.216)
+2024-02-26T11:49:00,958 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-02-26T11:49:00,958 INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-02-26T11:49:00,963 INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 4 ms
+2024-02-26T11:53:59,180 INFO  com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-02-26T11:54:11,857 INFO  org.springframework.boot.admin.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+2024-02-26T11:54:11,858 INFO  org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry - Unregistering application NOTIFICATION-SERVICE with eureka with status DOWN
+2024-02-26T11:54:11,858 INFO  com.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1708948451858, current=DOWN, previous=UP]
+2024-02-26T11:54:11,859 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200: registering service...
+2024-02-26T11:54:11,864 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200 - registration status: 204
+2024-02-26T11:54:11,889 INFO  org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer - Waiting for workers to finish.
+2024-02-26T11:54:11,891 INFO  org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer - Waiting for workers to finish.
+2024-02-26T11:54:12,177 INFO  org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer - Successfully waited for workers to finish.
+2024-02-26T11:54:12,177 INFO  org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer - Successfully waited for workers to finish.
+2024-02-26T11:54:12,198 INFO  org.apache.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-8200"]
+2024-02-26T11:54:12,198 INFO  org.apache.catalina.core.StandardService - Stopping service [Tomcat]
+2024-02-26T11:54:12,220 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Destroying Spring FrameworkServlet 'dispatcherServlet'
+2024-02-26T11:54:12,225 INFO  org.apache.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8200"]
+2024-02-26T11:54:12,227 INFO  org.apache.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-8200"]
+2024-02-26T11:54:12,247 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-02-26T11:54:12,450 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-02-26T11:54:12,460 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-02-26T11:54:13,462 INFO  com.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...
+2024-02-26T11:54:16,465 INFO  com.netflix.discovery.DiscoveryClient - Unregistering ...
+2024-02-26T11:54:16,505 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200 - deregister  status: 200
+2024-02-26T11:54:16,514 INFO  com.netflix.discovery.DiscoveryClient - Completed shut down of DiscoveryClient
+2024-02-26T11:58:10,567 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-02-26T11:58:12,144 INFO  com.gustavo.notificationservice.NotificationServiceApplication - Starting NotificationServiceApplication using Java 17.0.7 with PID 50715 (/home/gustavo/Documentos/Workspaces/ws-sts/Event-Management-Distributed-System/notification-service/target/classes started by gustavo in /home/gustavo/Documentos/Workspaces/ws-sts/Event-Management-Distributed-System/notification-service)
+2024-02-26T11:58:12,200 DEBUG com.gustavo.notificationservice.NotificationServiceApplication - Running with Spring Boot v3.1.7, Spring v6.0.15
+2024-02-26T11:58:12,201 INFO  com.gustavo.notificationservice.NotificationServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2024-02-26T11:58:16,419 INFO  org.springframework.cloud.config.client.ConfigServerConfigDataLoader - Fetching config from server at : http://localhost:8888/
+2024-02-26T11:58:16,420 INFO  org.springframework.cloud.config.client.ConfigServerConfigDataLoader - Located environment: name=notification-service, profiles=[default], label=null, version=null, state=null
+2024-02-26T11:58:28,964 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-02-26T11:58:29,524 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 489 ms. Found 1 JPA repository interface.
+2024-02-26T11:58:30,497 INFO  org.springframework.cloud.context.scope.GenericScope - BeanFactory id=aa9636d7-e5dd-3c9f-a095-e27420e69c47
+2024-02-26T11:58:32,157 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8200 (http)
+2024-02-26T11:58:32,175 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8200"]
+2024-02-26T11:58:32,177 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2024-02-26T11:58:32,178 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+2024-02-26T11:58:34,017 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-02-26T11:58:34,019 INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 17508 ms
+2024-02-26T11:58:35,003 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-02-26T11:58:35,427 INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2024-02-26T11:58:35,429 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-02-26T11:58:35,445 INFO  org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2024-02-26T11:58:36,112 INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-02-26T11:58:36,336 INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.17.Final
+2024-02-26T11:58:36,350 INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2024-02-26T11:58:37,210 INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-02-26T11:58:37,498 WARN  org.hibernate.orm.deprecation - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-02-26T11:58:40,018 INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-02-26T11:58:40,071 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-02-26T11:58:41,473 WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-02-26T11:58:42,655 INFO  org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+2024-02-26T11:58:42,902 INFO  org.springframework.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4f5c55a8, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2d198533, org.springframework.security.web.context.SecurityContextHolderFilter@7a63c618, org.springframework.security.web.header.HeaderWriterFilter@787f97b, org.springframework.security.web.authentication.logout.LogoutFilter@2a153531, org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter@78c7d992, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@8dbe78f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@54610a47, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6bd4d24b, org.springframework.security.web.session.SessionManagementFilter@41a56594, org.springframework.security.web.access.ExceptionTranslationFilter@3387d45e, org.springframework.security.web.access.intercept.AuthorizationFilter@75eed00f]
+2024-02-26T11:58:43,912 INFO  org.springframework.cloud.netflix.eureka.config.DiscoveryClientOptionalArgsConfiguration - Eureka HTTP Client uses RestTemplate.
+2024-02-26T11:58:44,017 WARN  org.springframework.cloud.loadbalancer.config.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2024-02-26T11:58:44,127 WARN  org.springframework.core.LocalVariableTableParameterNameDiscoverer - Using deprecated '-debug' fallback for parameter name resolution. Compile the affected code with '-parameters' instead or avoid its introspection: org.springframework.amqp.rabbit.core.RabbitAdmin
+2024-02-26T11:58:44,242 INFO  org.springframework.cloud.netflix.eureka.InstanceInfoFactory - Setting initial instance status as: STARTING
+2024-02-26T11:58:44,351 INFO  com.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+2024-02-26T11:58:44,369 INFO  com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-02-26T11:58:44,405 INFO  com.netflix.discovery.DiscoveryClient - Disable delta property : false
+2024-02-26T11:58:44,405 INFO  com.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+2024-02-26T11:58:44,405 INFO  com.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+2024-02-26T11:58:44,405 INFO  com.netflix.discovery.DiscoveryClient - Application is null : false
+2024-02-26T11:58:44,406 INFO  com.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+2024-02-26T11:58:44,406 INFO  com.netflix.discovery.DiscoveryClient - Application version is -1: true
+2024-02-26T11:58:44,406 INFO  com.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+2024-02-26T11:58:44,942 INFO  com.netflix.discovery.DiscoveryClient - The response status is 200
+2024-02-26T11:58:44,946 INFO  com.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+2024-02-26T11:58:44,950 INFO  com.netflix.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+2024-02-26T11:58:44,956 INFO  com.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1708948724955 with initial instances count: 4
+2024-02-26T11:58:44,959 INFO  org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry - Registering application NOTIFICATION-SERVICE with eureka with status UP
+2024-02-26T11:58:44,960 INFO  com.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1708948724960, current=UP, previous=STARTING]
+2024-02-26T11:58:44,978 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200: registering service...
+2024-02-26T11:58:44,980 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8200"]
+2024-02-26T11:58:45,001 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8200 (http) with context path ''
+2024-02-26T11:58:45,003 INFO  org.springframework.cloud.netflix.eureka.serviceregistry.EurekaAutoServiceRegistration - Updating port to 8200
+2024-02-26T11:58:45,083 INFO  org.springframework.amqp.rabbit.connection.CachingConnectionFactory - Attempting to connect to: [localhost:5672]
+2024-02-26T11:58:45,562 INFO  org.springframework.amqp.rabbit.connection.CachingConnectionFactory - Created new connection: rabbitConnectionFactory#5f5caea5:0/SimpleConnection@1b2234a5 [delegate=amqp://user@127.0.0.1:5672/, localPort=57522]
+2024-02-26T11:58:45,672 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200 - registration status: 204
+2024-02-26T11:58:45,706 INFO  com.gustavo.notificationservice.NotificationServiceApplication - Started NotificationServiceApplication in 43.977 seconds (process running for 46.281)
+2024-02-26T11:58:46,559 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-02-26T11:58:46,559 INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-02-26T11:58:46,563 INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2024-02-26T12:03:44,409 INFO  com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-02-26T12:07:13,391 INFO  org.springframework.boot.admin.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+2024-02-26T12:07:13,465 INFO  org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry - Unregistering application NOTIFICATION-SERVICE with eureka with status DOWN
+2024-02-26T12:07:13,466 INFO  com.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1708949233466, current=DOWN, previous=UP]
+2024-02-26T12:07:13,466 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200: registering service...
+2024-02-26T12:07:13,487 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200 - registration status: 204
+2024-02-26T12:07:13,519 INFO  org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer - Waiting for workers to finish.
+2024-02-26T12:07:13,520 INFO  org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer - Waiting for workers to finish.
+2024-02-26T12:07:13,931 INFO  org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer - Successfully waited for workers to finish.
+2024-02-26T12:07:13,931 INFO  org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer - Successfully waited for workers to finish.
+2024-02-26T12:07:14,150 INFO  org.apache.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-8200"]
+2024-02-26T12:07:14,150 INFO  org.apache.catalina.core.StandardService - Stopping service [Tomcat]
+2024-02-26T12:07:14,215 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Destroying Spring FrameworkServlet 'dispatcherServlet'
+2024-02-26T12:07:14,282 INFO  org.apache.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8200"]
+2024-02-26T12:07:14,284 INFO  org.apache.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-8200"]
+2024-02-26T12:07:14,505 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-02-26T12:07:14,834 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-02-26T12:07:14,836 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-02-26T12:07:15,838 INFO  com.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...
+2024-02-26T12:07:18,841 INFO  com.netflix.discovery.DiscoveryClient - Unregistering ...
+2024-02-26T12:07:19,014 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200 - deregister  status: 200
+2024-02-26T12:07:19,036 INFO  com.netflix.discovery.DiscoveryClient - Completed shut down of DiscoveryClient
+2024-02-26T12:12:28,144 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-02-26T12:12:28,203 INFO  com.gustavo.notificationservice.NotificationServiceApplication - Starting NotificationServiceApplication using Java 17.0.7 with PID 56718 (/home/gustavo/Documentos/Workspaces/ws-sts/Event-Management-Distributed-System/notification-service/target/classes started by gustavo in /home/gustavo/Documentos/Workspaces/ws-sts/Event-Management-Distributed-System/notification-service)
+2024-02-26T12:12:28,207 DEBUG com.gustavo.notificationservice.NotificationServiceApplication - Running with Spring Boot v3.1.7, Spring v6.0.15
+2024-02-26T12:12:28,209 INFO  com.gustavo.notificationservice.NotificationServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2024-02-26T12:12:28,262 INFO  org.springframework.cloud.config.client.ConfigServerConfigDataLoader - Fetching config from server at : http://localhost:8888/
+2024-02-26T12:12:28,262 INFO  org.springframework.cloud.config.client.ConfigServerConfigDataLoader - Located environment: name=notification-service, profiles=[default], label=null, version=null, state=null
+2024-02-26T12:12:29,919 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-02-26T12:12:30,135 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 206 ms. Found 1 JPA repository interface.
+2024-02-26T12:12:30,533 INFO  org.springframework.cloud.context.scope.GenericScope - BeanFactory id=aa9636d7-e5dd-3c9f-a095-e27420e69c47
+2024-02-26T12:12:31,111 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8200 (http)
+2024-02-26T12:12:31,124 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8200"]
+2024-02-26T12:12:31,126 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2024-02-26T12:12:31,127 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+2024-02-26T12:12:33,407 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-02-26T12:12:33,407 INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 5142 ms
+2024-02-26T12:12:34,217 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-02-26T12:12:34,504 INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2024-02-26T12:12:34,506 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-02-26T12:12:34,521 INFO  org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2024-02-26T12:12:34,935 INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-02-26T12:12:35,011 INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.17.Final
+2024-02-26T12:12:35,014 INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2024-02-26T12:12:35,363 INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-02-26T12:12:35,416 WARN  org.hibernate.orm.deprecation - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-02-26T12:12:36,416 INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-02-26T12:12:36,492 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-02-26T12:12:37,466 WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-02-26T12:12:38,403 INFO  org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+2024-02-26T12:12:38,513 INFO  org.springframework.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@12a9889e, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5fcc792f, org.springframework.security.web.context.SecurityContextHolderFilter@1582dfec, org.springframework.security.web.header.HeaderWriterFilter@f0a6b04, org.springframework.security.web.authentication.logout.LogoutFilter@75952723, org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter@201ac0ef, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@352bccf, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@abce494, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2927d781, org.springframework.security.web.session.SessionManagementFilter@45e97963, org.springframework.security.web.access.ExceptionTranslationFilter@6c3a3d87, org.springframework.security.web.access.intercept.AuthorizationFilter@30ee1a38]
+2024-02-26T12:12:39,536 INFO  org.springframework.cloud.netflix.eureka.config.DiscoveryClientOptionalArgsConfiguration - Eureka HTTP Client uses RestTemplate.
+2024-02-26T12:12:39,603 WARN  org.springframework.cloud.loadbalancer.config.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2024-02-26T12:12:39,717 WARN  org.springframework.core.LocalVariableTableParameterNameDiscoverer - Using deprecated '-debug' fallback for parameter name resolution. Compile the affected code with '-parameters' instead or avoid its introspection: org.springframework.amqp.rabbit.core.RabbitAdmin
+2024-02-26T12:12:39,836 INFO  org.springframework.cloud.netflix.eureka.InstanceInfoFactory - Setting initial instance status as: STARTING
+2024-02-26T12:12:39,882 INFO  com.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+2024-02-26T12:12:39,914 INFO  com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-02-26T12:12:39,945 INFO  com.netflix.discovery.DiscoveryClient - Disable delta property : false
+2024-02-26T12:12:39,945 INFO  com.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+2024-02-26T12:12:39,946 INFO  com.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+2024-02-26T12:12:39,946 INFO  com.netflix.discovery.DiscoveryClient - Application is null : false
+2024-02-26T12:12:39,946 INFO  com.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+2024-02-26T12:12:39,946 INFO  com.netflix.discovery.DiscoveryClient - Application version is -1: true
+2024-02-26T12:12:39,947 INFO  com.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+2024-02-26T12:12:40,675 INFO  com.netflix.discovery.DiscoveryClient - The response status is 200
+2024-02-26T12:12:40,678 INFO  com.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+2024-02-26T12:12:40,682 INFO  com.netflix.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+2024-02-26T12:12:40,688 INFO  com.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1708949560687 with initial instances count: 4
+2024-02-26T12:12:40,691 INFO  org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry - Registering application NOTIFICATION-SERVICE with eureka with status UP
+2024-02-26T12:12:40,692 INFO  com.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1708949560692, current=UP, previous=STARTING]
+2024-02-26T12:12:40,694 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200: registering service...
+2024-02-26T12:12:40,695 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8200"]
+2024-02-26T12:12:40,745 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8200 (http) with context path ''
+2024-02-26T12:12:40,747 INFO  org.springframework.cloud.netflix.eureka.serviceregistry.EurekaAutoServiceRegistration - Updating port to 8200
+2024-02-26T12:12:40,814 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200 - registration status: 204
+2024-02-26T12:12:40,827 INFO  org.springframework.amqp.rabbit.connection.CachingConnectionFactory - Attempting to connect to: [localhost:5672]
+2024-02-26T12:12:40,909 INFO  org.springframework.amqp.rabbit.connection.CachingConnectionFactory - Created new connection: rabbitConnectionFactory#3adbfd16:0/SimpleConnection@734df10b [delegate=amqp://user@127.0.0.1:5672/, localPort=46464]
+2024-02-26T12:12:41,011 INFO  com.gustavo.notificationservice.NotificationServiceApplication - Started NotificationServiceApplication in 14.346 seconds (process running for 15.587)
+2024-02-26T12:12:41,673 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-02-26T12:12:41,673 INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-02-26T12:12:41,676 INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2024-02-26T12:17:39,949 INFO  com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-02-26T12:22:39,950 INFO  com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-02-26T12:27:32,228 INFO  org.springframework.boot.admin.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+2024-02-26T12:27:32,230 INFO  org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry - Unregistering application NOTIFICATION-SERVICE with eureka with status DOWN
+2024-02-26T12:27:32,230 INFO  com.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1708950452230, current=DOWN, previous=UP]
+2024-02-26T12:27:32,231 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200: registering service...
+2024-02-26T12:27:32,241 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200 - registration status: 204
+2024-02-26T12:27:32,279 INFO  org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer - Waiting for workers to finish.
+2024-02-26T12:27:32,281 INFO  org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer - Waiting for workers to finish.
+2024-02-26T12:27:33,345 INFO  org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer - Successfully waited for workers to finish.
+2024-02-26T12:27:33,345 INFO  org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer - Successfully waited for workers to finish.
+2024-02-26T12:27:33,431 INFO  org.apache.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-8200"]
+2024-02-26T12:27:33,432 INFO  org.apache.catalina.core.StandardService - Stopping service [Tomcat]
+2024-02-26T12:27:33,530 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Destroying Spring FrameworkServlet 'dispatcherServlet'
+2024-02-26T12:27:33,596 INFO  org.apache.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8200"]
+2024-02-26T12:27:33,600 INFO  org.apache.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-8200"]
+2024-02-26T12:27:33,732 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-02-26T12:27:34,180 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-02-26T12:27:34,183 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-02-26T12:27:35,186 INFO  com.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...
+2024-02-26T12:27:38,188 INFO  com.netflix.discovery.DiscoveryClient - Unregistering ...
+2024-02-26T12:27:38,218 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200 - deregister  status: 200
+2024-02-26T12:27:38,228 INFO  com.netflix.discovery.DiscoveryClient - Completed shut down of DiscoveryClient
+2024-02-26T12:32:13,447 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-02-26T12:32:13,540 INFO  com.gustavo.notificationservice.NotificationServiceApplication - Starting NotificationServiceApplication using Java 17.0.7 with PID 64608 (/home/gustavo/Documentos/Workspaces/ws-sts/Event-Management-Distributed-System/notification-service/target/classes started by gustavo in /home/gustavo/Documentos/Workspaces/ws-sts/Event-Management-Distributed-System/notification-service)
+2024-02-26T12:32:13,544 DEBUG com.gustavo.notificationservice.NotificationServiceApplication - Running with Spring Boot v3.1.7, Spring v6.0.15
+2024-02-26T12:32:13,548 INFO  com.gustavo.notificationservice.NotificationServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2024-02-26T12:32:13,610 INFO  org.springframework.cloud.config.client.ConfigServerConfigDataLoader - Fetching config from server at : http://localhost:8888/
+2024-02-26T12:32:13,610 INFO  org.springframework.cloud.config.client.ConfigServerConfigDataLoader - Located environment: name=notification-service, profiles=[default], label=null, version=null, state=null
+2024-02-26T12:32:15,592 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-02-26T12:32:15,857 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 255 ms. Found 1 JPA repository interface.
+2024-02-26T12:32:16,426 INFO  org.springframework.cloud.context.scope.GenericScope - BeanFactory id=aa9636d7-e5dd-3c9f-a095-e27420e69c47
+2024-02-26T12:32:17,157 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8200 (http)
+2024-02-26T12:32:17,174 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8200"]
+2024-02-26T12:32:17,178 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2024-02-26T12:32:17,180 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+2024-02-26T12:32:17,351 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-02-26T12:32:17,351 INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3735 ms
+2024-02-26T12:32:18,023 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-02-26T12:32:18,294 INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2024-02-26T12:32:18,296 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-02-26T12:32:18,312 INFO  org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2024-02-26T12:32:18,628 INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-02-26T12:32:18,690 INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.17.Final
+2024-02-26T12:32:18,693 INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2024-02-26T12:32:19,032 INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-02-26T12:32:19,086 WARN  org.hibernate.orm.deprecation - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-02-26T12:32:20,089 INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-02-26T12:32:20,146 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-02-26T12:32:20,983 WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-02-26T12:32:21,770 INFO  org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+2024-02-26T12:32:21,880 INFO  org.springframework.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6b8f0b64, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@331d651b, org.springframework.security.web.context.SecurityContextHolderFilter@4518bffd, org.springframework.security.web.header.HeaderWriterFilter@1752ab9b, org.springframework.security.web.authentication.logout.LogoutFilter@25082311, org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter@bcecdd, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7e6bfd2, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4b9be679, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@54a0ada1, org.springframework.security.web.session.SessionManagementFilter@5a1f4fa4, org.springframework.security.web.access.ExceptionTranslationFilter@4ca62855, org.springframework.security.web.access.intercept.AuthorizationFilter@58a2c6a]
+2024-02-26T12:32:22,512 INFO  org.springframework.cloud.netflix.eureka.config.DiscoveryClientOptionalArgsConfiguration - Eureka HTTP Client uses RestTemplate.
+2024-02-26T12:32:22,586 WARN  org.springframework.cloud.loadbalancer.config.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2024-02-26T12:32:22,696 WARN  org.springframework.core.LocalVariableTableParameterNameDiscoverer - Using deprecated '-debug' fallback for parameter name resolution. Compile the affected code with '-parameters' instead or avoid its introspection: org.springframework.amqp.rabbit.core.RabbitAdmin
+2024-02-26T12:32:22,787 INFO  org.springframework.cloud.netflix.eureka.InstanceInfoFactory - Setting initial instance status as: STARTING
+2024-02-26T12:32:22,834 INFO  com.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+2024-02-26T12:32:22,840 INFO  com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-02-26T12:32:22,871 INFO  com.netflix.discovery.DiscoveryClient - Disable delta property : false
+2024-02-26T12:32:22,871 INFO  com.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+2024-02-26T12:32:22,871 INFO  com.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+2024-02-26T12:32:22,871 INFO  com.netflix.discovery.DiscoveryClient - Application is null : false
+2024-02-26T12:32:22,871 INFO  com.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+2024-02-26T12:32:22,872 INFO  com.netflix.discovery.DiscoveryClient - Application version is -1: true
+2024-02-26T12:32:22,872 INFO  com.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+2024-02-26T12:32:23,049 INFO  com.netflix.discovery.DiscoveryClient - The response status is 200
+2024-02-26T12:32:23,054 INFO  com.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+2024-02-26T12:32:23,058 INFO  com.netflix.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+2024-02-26T12:32:23,067 INFO  com.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1708950743066 with initial instances count: 4
+2024-02-26T12:32:23,073 INFO  org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry - Registering application NOTIFICATION-SERVICE with eureka with status UP
+2024-02-26T12:32:23,074 INFO  com.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1708950743074, current=UP, previous=STARTING]
+2024-02-26T12:32:23,077 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200: registering service...
+2024-02-26T12:32:23,079 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8200"]
+2024-02-26T12:32:23,107 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8200 (http) with context path ''
+2024-02-26T12:32:23,108 INFO  org.springframework.cloud.netflix.eureka.serviceregistry.EurekaAutoServiceRegistration - Updating port to 8200
+2024-02-26T12:32:23,186 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200 - registration status: 204
+2024-02-26T12:32:23,190 INFO  org.springframework.amqp.rabbit.connection.CachingConnectionFactory - Attempting to connect to: [localhost:5672]
+2024-02-26T12:32:23,250 INFO  org.springframework.amqp.rabbit.connection.CachingConnectionFactory - Created new connection: rabbitConnectionFactory#6ac49084:0/SimpleConnection@55be2608 [delegate=amqp://user@127.0.0.1:5672/, localPort=56722]
+2024-02-26T12:32:23,344 INFO  com.gustavo.notificationservice.NotificationServiceApplication - Started NotificationServiceApplication in 11.704 seconds (process running for 13.092)
+2024-02-26T12:32:24,138 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-02-26T12:32:24,139 INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-02-26T12:32:24,142 INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2024-02-26T12:34:21,727 DEBUG com.gustavo.notificationservice.services.impl.NotificationServiceImpl - POST notificationServiceImpl insert notificationId saved 7ab46843-3d8e-403a-bc38-e6984e2bfd9c
+2024-02-26T12:34:21,727 INFO  com.gustavo.notificationservice.services.impl.NotificationServiceImpl - Notification saved successfully notificationId 7ab46843-3d8e-403a-bc38-e6984e2bfd9c
+2024-02-26T12:34:21,728 DEBUG com.gustavo.notificationservice.consumers.NotificationConsumer - CONSUMER notificationConsumer onNotificationCreated notificationEventDto consumed NotificationEventDTO [title=Event created successfully, message=You have just created a new event called Secomp – Semana de Computação., userId=d91c48f3-3573-4a21-ac05-2d5ce4880df1]
+2024-02-26T12:36:41,644 INFO  org.springframework.boot.admin.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+2024-02-26T12:36:41,645 INFO  org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry - Unregistering application NOTIFICATION-SERVICE with eureka with status DOWN
+2024-02-26T12:36:41,645 INFO  com.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1708951001645, current=DOWN, previous=UP]
+2024-02-26T12:36:41,645 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200: registering service...
+2024-02-26T12:36:41,652 INFO  org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer - Waiting for workers to finish.
+2024-02-26T12:36:41,652 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200 - registration status: 204
+2024-02-26T12:36:41,653 INFO  org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer - Waiting for workers to finish.
+2024-02-26T12:36:41,760 INFO  org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer - Successfully waited for workers to finish.
+2024-02-26T12:36:42,363 INFO  org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer - Successfully waited for workers to finish.
+2024-02-26T12:36:42,369 INFO  org.apache.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-8200"]
+2024-02-26T12:36:42,369 INFO  org.apache.catalina.core.StandardService - Stopping service [Tomcat]
+2024-02-26T12:36:42,371 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Destroying Spring FrameworkServlet 'dispatcherServlet'
+2024-02-26T12:36:42,376 INFO  org.apache.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8200"]
+2024-02-26T12:36:42,379 INFO  org.apache.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-8200"]
+2024-02-26T12:36:42,401 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-02-26T12:36:42,592 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-02-26T12:36:42,600 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-02-26T12:36:43,602 INFO  com.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...
+2024-02-26T12:36:46,605 INFO  com.netflix.discovery.DiscoveryClient - Unregistering ...
+2024-02-26T12:36:46,610 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_NOTIFICATION-SERVICE/192.168.1.6:notification-service:8200 - deregister  status: 200
+2024-02-26T12:36:46,620 INFO  com.netflix.discovery.DiscoveryClient - Completed shut down of DiscoveryClient

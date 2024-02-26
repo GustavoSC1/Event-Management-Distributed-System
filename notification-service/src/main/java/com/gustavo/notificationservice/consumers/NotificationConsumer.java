@@ -3,6 +3,8 @@ package com.gustavo.notificationservice.consumers;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import com.gustavo.notificationservice.services.NotificationService;
 @Component
 public class NotificationConsumer {
 	
+	Logger log = LogManager.getLogger(NotificationConsumer.class);
+		
 	@Autowired
 	private NotificationService notificationService;
 	
@@ -27,8 +31,9 @@ public class NotificationConsumer {
 		BeanUtils.copyProperties(notificationEventDto, notification);
 		notification.setCreationDate(LocalDateTime.now(ZoneId.of("UTC")));
 		notification.setNotificationStatus(NotificationStatus.CREATED);
-
-		notificationService.insert(notification);		
+		
+		notificationService.insert(notification);
+		log.debug("CONSUMER notificationConsumer onNotificationCreated notificationEventDto consumed {}", notificationEventDto.toString());
 	}
 
 }

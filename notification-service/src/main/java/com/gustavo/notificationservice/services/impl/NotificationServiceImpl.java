@@ -3,6 +3,8 @@ package com.gustavo.notificationservice.services.impl;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +25,8 @@ import com.gustavo.notificationservice.services.exceptions.ObjectNotFoundExcepti
 @Service
 public class NotificationServiceImpl implements NotificationService {
 	
+	Logger log = LogManager.getLogger(NotificationServiceImpl.class);
+	
 	@Autowired
 	private NotificationRepository notificationRepository;
 	
@@ -34,6 +38,9 @@ public class NotificationServiceImpl implements NotificationService {
 		NotificationResponseDTO notificationResponseDto = new NotificationResponseDTO();
 		BeanUtils.copyProperties(notification, notificationResponseDto);
 		
+		log.debug("POST notificationServiceImpl insert notificationId saved {}", notificationResponseDto.getNotificationId());
+        log.info("Notification saved successfully notificationId {}", notificationResponseDto.getNotificationId());
+		
 		return notificationResponseDto;
 	}
 		
@@ -41,6 +48,7 @@ public class NotificationServiceImpl implements NotificationService {
 	public Page<NotificationResponseDTO> findByUser(UUID userId, Pageable pageable) {
 		
 		if(!userId.toString().equals(userID())) {
+			log.warn("Access denied! userId: {}", userId);
 			throw new AccessDeniedException("Access denied!");
 		}
 		
@@ -50,6 +58,9 @@ public class NotificationServiceImpl implements NotificationService {
 			NotificationResponseDTO notificationResponseDto = new NotificationResponseDTO();
 			BeanUtils.copyProperties(obj, notificationResponseDto);
 			return notificationResponseDto;});
+		
+		log.debug("GET userServiceImpl findByUser userId: {} found", userId);
+        log.info("Notifications found successfully userId: {}", userId);
 
 		return notificationResponseDtoPage;
 	}
@@ -58,15 +69,21 @@ public class NotificationServiceImpl implements NotificationService {
 	public void markAsRead(UUID userId, UUID notificationId) {
 		
 		if(!userId.toString().equals(userID())) {
+			log.warn("Access denied! userId: {}", userId);
 			throw new AccessDeniedException("Access denied!");
 		}
 		
 		Optional<Notification> notificationOptional = notificationRepository.findByNotificationIdAndUserId(notificationId, userId);
 		
-		Notification notification = notificationOptional.orElseThrow(() -> 
-			new ObjectNotFoundException("Notification not found! Id: " + notificationId + " User Id: " + userId));
+		Notification notification = notificationOptional.orElseThrow(() -> {
+				log.warn("Notification not found! notificationId: {} userId: {}", notificationId, userId);
+				return new ObjectNotFoundException("Notification not found! Id: " + notificationId + " User Id: " + userId);
+				});
 		
 		notification.setNotificationStatus(NotificationStatus.READ);
+		
+		log.debug("PATCH userServiceImpl updatePassword userId: {} updated", userId);
+        log.info("User password updated successfully userId {}", userId);
 		
 		notificationRepository.save(notification);
 	}
@@ -74,6 +91,7 @@ public class NotificationServiceImpl implements NotificationService {
 	public String userID() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if(authentication.getPrincipal() instanceof Jwt authToken){
+			log.debug("GET userServiceImpl userID username: {} found", authentication.getName());
 	        return authToken.getClaimAsString("userId");
 	    } else {
 	    	return "";

@@ -1,5 +1,7 @@
 package com.gustavo.eventservice.producers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +11,8 @@ import com.gustavo.eventservice.dtos.rabbitmqDtos.PaymentEventDTO;
 
 @Component
 public class PaymentProducer {
+	
+	Logger log = LogManager.getLogger(PaymentProducer.class);
 	
 	@Autowired
 	private RabbitTemplate rabbitTemplate;
@@ -21,6 +25,7 @@ public class PaymentProducer {
 	
 	public void producePaymentEvent(PaymentEventDTO paymentEventDto) {		
 		rabbitTemplate.convertAndSend(paymentExchange, paymentKey, paymentEventDto);
+		log.debug("PRODUCER paymentProducer producePaymentEvent paymentEventDto produced {}", paymentEventDto.toString());
 	}
 
 }

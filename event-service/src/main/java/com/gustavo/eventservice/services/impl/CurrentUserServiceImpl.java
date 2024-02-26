@@ -3,6 +3,8 @@ package com.gustavo.eventservice.services.impl;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +20,8 @@ import com.gustavo.eventservice.utils.UserAuthenticated;
 @Service
 public class CurrentUserServiceImpl implements CurrentUserService {
 	
+	Logger log = LogManager.getLogger(CurrentUserServiceImpl.class);
+	
 	@Autowired
 	private UserRepository userRepository;
 	
@@ -31,7 +35,12 @@ public class CurrentUserServiceImpl implements CurrentUserService {
 		
 		Optional<User> userOptional = userRepository.findById(UUID.fromString(userId));
 	
-		User user = userOptional.orElseThrow(() -> new UsernameNotFoundException(authentication.getName()));
+		User user = userOptional.orElseThrow(() -> {
+			log.warn("Authenticated user not found! username: {}", authentication.getName());
+			return new UsernameNotFoundException(authentication.getName());
+			});
+		
+		log.debug("GET currentUserServiceImpl getCurrentUser username: {} found", authentication.getName());
 	
 		return new UserAuthenticated(user.getUserId(), user.getUserStatus(), authentication.getAuthorities());
 	}

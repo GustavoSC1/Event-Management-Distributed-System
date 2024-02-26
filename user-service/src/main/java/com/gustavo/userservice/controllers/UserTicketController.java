@@ -2,6 +2,8 @@ package com.gustavo.userservice.controllers;
 
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +27,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 public class UserTicketController {
 	
+	Logger log = LogManager.getLogger(UserTicketController.class);
+	
 	@Autowired
 	private UserTicketService userTicketService;
 	
@@ -37,7 +41,7 @@ public class UserTicketController {
 	public ResponseEntity<Page<TicketResponseDTO>> findAllTicketsByUser(
 			@PathVariable UUID userId,
 			@PageableDefault(page = 0, size = 10, sort = "ticketId", direction = Sort.Direction.ASC) Pageable pageable) {
-		
+		log.debug("GET userTicketController findAllTicketsByUser userId: {} received", userId);
 		Page<TicketResponseDTO> ticketResponseDtoPage = userTicketService.findAllTicketsByUser(userId, pageable);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ticketResponseDtoPage);

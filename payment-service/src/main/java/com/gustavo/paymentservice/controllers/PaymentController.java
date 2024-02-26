@@ -2,6 +2,8 @@ package com.gustavo.paymentservice.controllers;
 
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +33,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Payment endpoint")
 public class PaymentController {
 	
+	Logger log = LogManager.getLogger(PaymentController.class);
+	
 	@Autowired
 	private PaymentService paymentService;
 	
@@ -44,7 +48,7 @@ public class PaymentController {
 	@PostMapping("/make")
 	public ResponseEntity<String> makePayment(@Validated
             @RequestBody PaymentRequestDTO paymentRequestDto) {
-		
+		log.debug("POST paymentController makePayment paymentRequestDto received {}", paymentRequestDto.toString());
 		paymentService.makePayment(paymentRequestDto);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body("Payment made successfully!"); 
@@ -58,7 +62,7 @@ public class PaymentController {
 	})
 	@GetMapping("/{paymentId}")
 	public ResponseEntity<PaymentResponseDTO> getOnePayment(@PathVariable UUID paymentId) {
-		
+		log.debug("GET paymentController getOnePayment paymentId: {} received", paymentId);
 		PaymentResponseDTO paymentResponseDto = paymentService.getOnePayment(paymentId);      
 		
 		return ResponseEntity.status(HttpStatus.OK).body(paymentResponseDto);
@@ -75,7 +79,7 @@ public class PaymentController {
             UUID userId,
             @PageableDefault(page = 0, size = 10, sort = "paymentRequestDate", direction = Sort.Direction.DESC)
             Pageable pageable) {
-		
+		log.debug("GET paymentController findByUser userId: {} received", userId);
 		Page<PaymentResponseDTO> paymentResponseDtoPage = paymentService.findByUser(userId, pageable);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(paymentResponseDtoPage);

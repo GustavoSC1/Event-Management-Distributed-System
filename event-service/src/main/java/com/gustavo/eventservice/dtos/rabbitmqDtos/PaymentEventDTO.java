@@ -52,4 +52,10 @@ public class PaymentEventDTO {
 		this.amount = amount;
 	}
 
+	@Override
+	public String toString() {
+		return "PaymentEventDTO [ticketId=" + ticketId + ", userId=" + userId + ", eventName=" + eventName + ", amount="
+				+ amount + "]";
+	}
+	
 }

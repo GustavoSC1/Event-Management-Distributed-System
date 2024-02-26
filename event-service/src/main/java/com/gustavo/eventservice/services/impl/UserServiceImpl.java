@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +27,8 @@ import com.gustavo.eventservice.services.exceptions.ObjectNotFoundException;
 @Service
 public class UserServiceImpl implements UserService {
 	
+	Logger log = LogManager.getLogger(UserServiceImpl.class);
+	
 	@Autowired
 	private UserRepository userRepository;
 		
@@ -41,6 +45,9 @@ public class UserServiceImpl implements UserService {
 		UserResponseDTO userResponseDto = new UserResponseDTO();
 		BeanUtils.copyProperties(user, userResponseDto);
 		
+		log.debug("POST userServiceImpl insert userId: {} saved", userResponseDto.getUserId());
+        log.info("User saved successfully userId: {}", userResponseDto.getUserId());
+		
 		return userResponseDto;
 	}
 	
@@ -48,7 +55,14 @@ public class UserServiceImpl implements UserService {
 	public User findById(UUID userId) {
 		Optional<User> userOptional = userRepository.findById(userId);
 		
-		return userOptional.orElseThrow(() -> new ObjectNotFoundException("Error: User not found! Id: " + userId));
+		User user = userOptional.orElseThrow(() -> {
+			log.warn("User not found! userId: {}", userId);
+			return new ObjectNotFoundException("Error: User not found! Id: " + userId);});
+		
+		log.debug("GET userServiceImpl findById userId: {} found", userId);
+		log.info("User found successfully userId: {}", userId);
+		
+		return user;
 	}
 	
 	@Override
@@ -56,6 +70,9 @@ public class UserServiceImpl implements UserService {
 		
 		Page<User> userPage = userRepository.findAllByStaffEventsEventId(eventId, pageable);				
 		
+		log.debug("GET userServiceImpl findStaffEvent eventId: {} found", eventId);
+        log.info("Staffs found successfully eventId: {}", eventId);
+        
 		return userPage.map(obj -> {
 			UserResponseDTO userResponseDto = new UserResponseDTO();
 			BeanUtils.copyProperties(obj, userResponseDto);
@@ -102,6 +119,8 @@ public class UserServiceImpl implements UserService {
 			eventRepository.deleteById(event.getEventId());	
 		}
 		
+		log.debug("DELETE userServiceImpl delete userId: {} deleted", userId);
+        log.info("User successfully deleted userId: {}", userId);
 		userRepository.delete(user);	
 	}
 		

@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import com.gustavo.paymentservice.services.PaymentService;
 
 @Component
 public class PaymentConsumer {
+	
+	Logger log = LogManager.getLogger(PaymentConsumer.class);
 	
 	@Autowired
 	private PaymentService paymentService;
@@ -32,6 +36,7 @@ public class PaymentConsumer {
 		payment.setPaymentDate(null);
 		
 		paymentService.insert(payment);	
+		log.debug("CONSUMER paymentConsumer onPaymentCreated paymentEventDto consumed {}", paymentEventDto.toString());
 	}
 
 }

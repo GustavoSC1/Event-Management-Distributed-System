@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -22,6 +24,8 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 @Service
 public class UserNotificationServiceImpl implements UserNotificationService {
 	
+	Logger log = LogManager.getLogger(UserNotificationServiceImpl.class);
+	
 	@Autowired
 	private UserService userService;
 		
@@ -38,15 +42,21 @@ public class UserNotificationServiceImpl implements UserNotificationService {
 		UUID userAuthenticatedId = currentUserService.getCurrentUser().getId();
 		
 		if(!userAuthenticatedId.equals(userId)) {
+			log.warn("Access denied! userId: {}", userId);
 			throw new AccessDeniedException("Error: Access denied!");
 		}
 		
 		userService.findById(userId);
 		
+		log.debug("GET userNotificationServiceImpl findAllNotificationsByUser userId: {} found", userId);
+        log.info("Notifications found successfully userId: {}", userId);
+		
 		return notificationClient.findAllNotificationsByUser(userId, pageable);
 	}
 	
-	public Page<NotificationResponseDTO> fallbackMethod(Throwable throwable) {
+	public Page<NotificationResponseDTO> fallbackMethod(UUID userId, Throwable throwable) {
+		
+		log.error("userNotificationServiceImpl fallbackMethod userId: {}, cause {}", userId, throwable.toString());
 		
 		List<NotificationResponseDTO> notificationList = new ArrayList<>();
 		return new PageImpl<>(notificationList);

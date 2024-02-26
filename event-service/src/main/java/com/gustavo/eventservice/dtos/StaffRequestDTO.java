@@ -27,4 +27,9 @@ public class StaffRequestDTO implements Serializable {
 		this.userId = userId;
 	}
 
+	@Override
+	public String toString() {
+		return "StaffRequestDTO [userId=" + userId + "]";
+	}
+
 }

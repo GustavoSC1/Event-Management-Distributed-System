@@ -1,5 +1,7 @@
 package com.gustavo.eventservice.controllers.exceptions;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -16,9 +18,12 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 public class ResourceExceptionHandler {
 	
+	Logger log = LogManager.getLogger(ResourceExceptionHandler.class);
+	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<StandardError> validation(MethodArgumentNotValidException e, HttpServletRequest request) {
 		String mensage = "Parameters entered are invalid";
+		log.error("{}: {}", "Validation error", mensage);
 		ValidationError err = new ValidationError(System.currentTimeMillis(), HttpStatus.UNPROCESSABLE_ENTITY.value(), "Validation error", mensage, request.getRequestURI());
 		for(FieldError x : e.getFieldErrors()) {
 			err.addError(x.getField(), x.getDefaultMessage());
@@ -29,18 +34,21 @@ public class ResourceExceptionHandler {
 	
 	@ExceptionHandler(BusinessException.class)
 	public ResponseEntity<StandardError> business(BusinessException e, HttpServletRequest request) {
+		log.error("{}: {}", "Business exception", e.getMessage());
 		StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Business exception", e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
 	
 	@ExceptionHandler(ObjectNotFoundException.class)
 	public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException e, HttpServletRequest request) {
+		log.error("{}: {}", "Not found", e.getMessage());
 		StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(), "Not found", e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
 	}
 	
 	@ExceptionHandler(AccessDeniedException.class)
 	public ResponseEntity<StandardError> accessDenied(AccessDeniedException e, HttpServletRequest request) {		
+		log.error("{}: {}", "Access denied", e.getMessage());
 		StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.FORBIDDEN.value(), "Access denied", e.getMessage(), request.getRequestURI());		
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
 	}

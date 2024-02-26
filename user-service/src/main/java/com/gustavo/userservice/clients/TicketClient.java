@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
@@ -21,12 +23,16 @@ import reactor.core.publisher.Mono;
 @Component
 public class TicketClient {
 	
+	Logger log = LogManager.getLogger(TicketClient.class);
+	
 	@Autowired
 	public WebClient.Builder webClientTickets;
 	
 	@CircuitBreaker(name = "ticketsByUserCB", fallbackMethod = "fallbackMethod")
 	public Page<TicketResponseDTO> findAllTicketsByUser(UUID userId, Pageable pageable, String token) {
-
+		
+		log.debug("CLIENT ticketClient findAllTicketsByUser userId: {} received", userId);
+		
 		String uri = createUri(userId, pageable);
 
 		Mono<PageImplResponseDTO<TicketResponseDTO>> ticketMono = webClientTickets.build()
@@ -37,12 +43,14 @@ public class TicketClient {
 			.bodyToMono(new ParameterizedTypeReference<PageImplResponseDTO<TicketResponseDTO>>() {});
 
 		PageImplResponseDTO<TicketResponseDTO> ticketPage = ticketMono.block();
+		
+		log.debug("CLIENT ticketClient findAllTicketsByUser userId: {} found", userId);
 
 		return ticketPage;
 	}
 	
-	public Page<TicketResponseDTO> fallbackMethod(Throwable throwable) {
-
+	public Page<TicketResponseDTO> fallbackMethod(UUID userId, Throwable throwable) {
+		log.error("CLIENT ticketClient fallbackMethod userId: {}, cause {}", userId, throwable.toString());
 		List<TicketResponseDTO> ticketList = new ArrayList<>();
 		return new PageImpl<>(ticketList);
 	}

@@ -142,4 +142,11 @@ public class UserRequestDTO implements Serializable {
 		this.oldPassword = oldPassword;
 	}
 
+	@Override
+	public String toString() {
+		return "UserRequestDTO [name=" + name + ", phone=" + phone + ", cpf=" + cpf + ", username=" + username
+				+ ", imageUrl=" + imageUrl + ", email=" + email + ", password=" + password + ", oldPassword="
+				+ oldPassword + "]";
+	}	
+
 }

@@ -1,5 +1,7 @@
 package com.gustavo.userservice.producers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +11,8 @@ import com.gustavo.userservice.dtos.rabbitmqDtos.UserEventDTO;
 
 @Component
 public class UserProducer {
+	
+	Logger log = LogManager.getLogger(UserProducer.class);
 	
 	@Autowired
 	private RabbitTemplate rabbitTemplate;
@@ -21,6 +25,7 @@ public class UserProducer {
 	
 	public void produceUserEvent(UserEventDTO userEventDto) {		
 		rabbitTemplate.convertAndSend(userExchange, userKey, userEventDto);
+		log.debug("PRODUCER userProducer produceUserEvent userEventDto produced {}", userEventDto.toString());
 	}
 
 }

@@ -2,6 +2,8 @@ package com.gustavo.notificationservice.controllers;
 
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +30,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Notification endpoint")
 public class NotificationController {
 	
+	Logger log = LogManager.getLogger(NotificationController.class);
+	
 	@Autowired
 	private NotificationService notificationService;
 	
@@ -42,7 +46,7 @@ public class NotificationController {
             UUID userId,
             @PageableDefault(page = 0, size = 10, sort = "notificationId", direction = Sort.Direction.ASC)
             Pageable pageable) {
-		
+		log.debug("GET notificationController findByUser userId: {} received", userId);
 		Page<NotificationResponseDTO> notificationResponseDtoPage = notificationService.findByUser(userId, pageable);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(notificationResponseDtoPage);
@@ -58,6 +62,7 @@ public class NotificationController {
 	@PatchMapping("/notifications/{notificationId}/users/{userId}")
 	public ResponseEntity<String> markAsRead(@PathVariable(value = "userId") UUID userId, 
 			@PathVariable(value = "notificationId") UUID notificationId) {
+		log.debug("PATCH notificationController markAsRead userId: {} notificationId: {} received", userId, notificationId);
 		notificationService.markAsRead(userId, notificationId);
 		
 		return ResponseEntity.status(HttpStatus.OK).body("Notification marked as read successfully!");

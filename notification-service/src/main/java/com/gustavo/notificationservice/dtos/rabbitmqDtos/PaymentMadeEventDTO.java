@@ -74,4 +74,10 @@ public class PaymentMadeEventDTO {
 		this.paymentDate = paymentDate;
 	}
 
+	@Override
+	public String toString() {
+		return "PaymentMadeEventDTO [eventName=" + eventName + ", paymentCode=" + paymentCode + ", ticketId=" + ticketId
+				+ ", userId=" + userId + ", isPaid=" + isPaid + ", paymentDate=" + paymentDate + "]";
+	}
+
 }

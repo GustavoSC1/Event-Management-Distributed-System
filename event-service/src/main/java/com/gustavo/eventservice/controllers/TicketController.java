@@ -2,6 +2,8 @@ package com.gustavo.eventservice.controllers;
 
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +33,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Ticket endpoint")
 public class TicketController {
 	
+	Logger log = LogManager.getLogger(TicketController.class);
+	
 	@Autowired
 	private TicketService ticketService;
 	
@@ -44,7 +48,7 @@ public class TicketController {
 	@PostMapping("/tickets/events/{eventId}/users")
 	public ResponseEntity<String> insert(@PathVariable UUID eventId, @Validated
             @RequestBody TicketRequestDTO ticketRequestDto) {
-		
+		log.debug("POST ticketController insert eventId: {} ticketRequestDto received {}", eventId, ticketRequestDto.toString());
 		ticketService.insert(eventId, ticketRequestDto);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body("Registration completed successfully!"); 
@@ -59,7 +63,7 @@ public class TicketController {
 	public ResponseEntity<Page<TicketResponseDTO>> findByEvent(
 			@PathVariable UUID eventId,
 			@PageableDefault(page = 0, size = 10, sort = "ticketId", direction = Sort.Direction.ASC) Pageable pageable) {
-		
+		log.debug("GET ticketController findByEvent eventId: {} received", eventId);
 		Page<TicketResponseDTO> ticketResponseDtoPage = ticketService.findByEvent(eventId, pageable);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(ticketResponseDtoPage);
@@ -74,7 +78,7 @@ public class TicketController {
 	public ResponseEntity<Page<TicketResponseDTO>> findByUser(
 			@PathVariable UUID userId,
 			@PageableDefault(page = 0, size = 10, sort = "ticketId", direction = Sort.Direction.ASC) Pageable pageable) {
-		
+		log.debug("GET ticketController findByUser userId: {} received", userId);
 		Page<TicketResponseDTO> ticketResponseDtoPage = ticketService.findByUser(userId, pageable);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(ticketResponseDtoPage);

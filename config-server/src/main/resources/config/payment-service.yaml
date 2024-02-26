@@ -40,6 +40,17 @@ jwt:
     key: 'classpath:app.pub'
     
 management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
   tracing:
     sampling:
       probability: 1.0
+      
+logging:
+  level:
+    com:
+      gustavo:
+        paymentservice: DEBUG

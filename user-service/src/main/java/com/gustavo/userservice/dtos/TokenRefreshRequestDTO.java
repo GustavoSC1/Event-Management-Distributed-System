@@ -26,4 +26,9 @@ public class TokenRefreshRequestDTO implements Serializable {
 		this.refreshToken = refreshToken;
 	}
 
+	@Override
+	public String toString() {
+		return "TokenRefreshRequestDTO [refreshToken=" + refreshToken + "]";
+	}	
+
 }
