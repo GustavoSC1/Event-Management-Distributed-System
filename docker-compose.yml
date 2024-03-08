@@ -15,6 +15,19 @@ services:
       - RABBITMQ_DEFAULT_PASS=password
     networks:
       - microservices-network
+      
+  zipkin:
+    image: openzipkin/zipkin:3.0.6
+    ports:
+      - 9411:9411
+    restart: always
+    depends_on:
+      - rabbitmq
+    environment:
+      RABBIT_URI: amqp://user:password@rabbitmq:5672
+    networks:
+      - microservices-network
+
      
   postgres:
     image: postgres:16.2-alpine
