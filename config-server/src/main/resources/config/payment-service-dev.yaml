@@ -1,18 +1,21 @@
 server:
-  port: 8200
+  port: 8300
   
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb
-    driverClassName: org.h2.Driver
-    username: sa
-    password: password
+    url: jdbc:postgresql://localhost:5432/db-payment
+    username: root
+    password: root
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        show_sql: true
+  output:
+    ansi:
+      enabled: Always  
   rabbitmq:
     host: localhost
     port: 5672
@@ -26,13 +29,12 @@ eureka:
       
 rabbitmq:
   exchange:
-    notificationExchange:  notifications.v1.notification_created
+    paymentExchange: payments.v1.payment_created
     paymentMadeExchange: payments.v1.payment_made
   queue:
-    notificationQueue: notifications.v1.notification_created.send_notification
-    paymentMadeQueue: payments.v1.payment_made.send_confirmation_to_notification
+    paymentQueue: payments.v1.payment_created.send_payment
   key:
-    notificationKey: notifications.v1.notification_created.send_notification.key
+    paymentKey: payments.v1.payment_created.send_payment.key
     
 jwt:
   expiration: 3600000
@@ -54,5 +56,4 @@ logging:
   level:
     com:
       gustavo:
-        notificationservice: DEBUG
-    
+        paymentservice: DEBUG

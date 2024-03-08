@@ -1,5 +1,5 @@
 server:
-  port: 8300
+  port: 8100
   
 spring:
   datasource:
@@ -13,6 +13,9 @@ spring:
     console:
       enabled: true
       path: /h2-console
+  output:
+    ansi:
+      enabled: Always
   rabbitmq:
     host: localhost
     port: 5672
@@ -26,11 +29,16 @@ eureka:
       
 rabbitmq:
   exchange:
-    paymentExchange: payments.v1.payment_created
+    userExchange: users.v1.user_event
+    notificationExchange:  notifications.v1.notification_created
+    paymentExchange:  payments.v1.payment_created
     paymentMadeExchange: payments.v1.payment_made
   queue:
-    paymentQueue: payments.v1.payment_created.send_payment
+    userQueue: users.v1.user_event.send_user
+    paymentMadeQueue: payments.v1.payment_made.send_confirmation_to_event
   key:
+    userKey: users.v1.user_event.send_user.key
+    notificationKey: notifications.v1.notification_created.send_notification.key
     paymentKey: payments.v1.payment_created.send_payment.key
     
 jwt:
@@ -53,4 +61,5 @@ logging:
   level:
     com:
       gustavo:
-        paymentservice: DEBUG
+        eventservice: DEBUG
+        

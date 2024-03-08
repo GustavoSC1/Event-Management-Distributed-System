@@ -1,0 +1,61 @@
+server:
+  port: 8200
+  
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/db-notification
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        show_sql: true
+  output:
+    ansi:
+      enabled: Always
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: password
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+      
+rabbitmq:
+  exchange:
+    notificationExchange:  notifications.v1.notification_created
+    paymentMadeExchange: payments.v1.payment_made
+  queue:
+    notificationQueue: notifications.v1.notification_created.send_notification
+    paymentMadeQueue: payments.v1.payment_made.send_confirmation_to_notification
+  key:
+    notificationKey: notifications.v1.notification_created.send_notification.key
+    
+jwt:
+  expiration: 3600000
+  refreshExpiration: 86400000
+  public:
+    key: 'classpath:app.pub'
+    
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+  tracing:
+    sampling:
+      probability: 1.0
+      
+logging:
+  level:
+    com:
+      gustavo:
+        notificationservice: DEBUG
+    
