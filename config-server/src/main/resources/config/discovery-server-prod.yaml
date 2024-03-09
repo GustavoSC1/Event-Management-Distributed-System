@@ -1,0 +1,22 @@
+server:
+  port: ${PORT}
+
+eureka:
+  instance: 
+    hostname: ${PROD_EUREKA_HOSTNAME}
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    serviceUrl:
+      defaultZone: ${PROD_EUREKA_DEFAULTZONE}
+      
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+  tracing:
+    sampling:
+      probability: 1.0
+      

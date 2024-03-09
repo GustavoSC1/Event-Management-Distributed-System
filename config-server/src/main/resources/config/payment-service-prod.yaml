@@ -1,0 +1,59 @@
+server:
+  port: ${PORT}
+  
+spring:
+  datasource:
+    url: ${PROD_DB_URL}
+    username: ${PROD_DB_USERNAME}
+    password: ${PROD_DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        show_sql: true
+  output:
+    ansi:
+      enabled: Always  
+  rabbitmq:
+    host: ${PROD_AMQP_HOST}
+    port: ${PROD_AMQP_PORT}
+    username: ${PROD_AMQP_USERNAME}
+    password: ${PROD_AMQP_PASSWORD}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${PROD_EUREKA_DEFAULTZONE}
+      
+rabbitmq:
+  exchange:
+    paymentExchange: payments.v1.payment_created
+    paymentMadeExchange: payments.v1.payment_made
+  queue:
+    paymentQueue: payments.v1.payment_created.send_payment
+  key:
+    paymentKey: payments.v1.payment_created.send_payment.key
+    
+jwt:
+  expiration: 3600000
+  refreshExpiration: 86400000
+  public:
+    key: 'classpath:app.pub'
+    
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+  tracing:
+    sampling:
+      probability: 1.0
+      
+logging:
+  level:
+    com:
+      gustavo:
+        paymentservice: DEBUG
