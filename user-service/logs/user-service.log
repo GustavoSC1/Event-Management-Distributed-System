@@ -882,3 +882,301 @@ com.netflix.discovery.shared.transport.TransportException: Cannot execute reques
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) [?:?]
 	at java.lang.Thread.run(Thread.java:833) [?:?]
 2024-03-08T22:10:06,985 INFO  com.netflix.discovery.DiscoveryClient - Completed shut down of DiscoveryClient
+2024-03-11T23:14:19,357 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-03-11T23:14:19,391 INFO  com.gustavo.userservice.UserServiceApplication - Starting UserServiceApplication using Java 17.0.7 with PID 133481 (/home/gustavo/Documentos/Workspaces/ws-sts/Event-Management-Distributed-System/user-service/target/classes started by gustavo in /home/gustavo/Documentos/Workspaces/ws-sts/Event-Management-Distributed-System/user-service)
+2024-03-11T23:14:19,399 DEBUG com.gustavo.userservice.UserServiceApplication - Running with Spring Boot v3.1.7, Spring v6.0.15
+2024-03-11T23:14:19,400 INFO  com.gustavo.userservice.UserServiceApplication - The following 1 profile is active: "test"
+2024-03-11T23:14:19,493 INFO  org.springframework.cloud.config.client.ConfigServerConfigDataLoader - Fetching config from server at : http://localhost:8888/
+2024-03-11T23:14:19,494 INFO  org.springframework.cloud.config.client.ConfigServerConfigDataLoader - Located environment: name=user-service, profiles=[default], label=null, version=494be4bf67a6040c3bde903ee35836da077f1eee, state=null
+2024-03-11T23:14:19,494 INFO  org.springframework.cloud.config.client.ConfigServerConfigDataLoader - Fetching config from server at : http://localhost:8888/
+2024-03-11T23:14:19,495 INFO  org.springframework.cloud.config.client.ConfigServerConfigDataLoader - Located environment: name=user-service, profiles=[test], label=null, version=494be4bf67a6040c3bde903ee35836da077f1eee, state=null
+2024-03-11T23:14:27,184 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-03-11T23:14:27,956 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 743 ms. Found 3 JPA repository interfaces.
+2024-03-11T23:14:29,949 INFO  org.springframework.cloud.context.scope.GenericScope - BeanFactory id=87acfdc8-5f87-38b8-bdca-af49f5991eb4
+2024-03-11T23:14:30,555 INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'com.gustavo.userservice.clients.NotificationClient' of type [org.springframework.cloud.openfeign.FeignClientFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-03-11T23:14:32,133 INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-03-11T23:14:32,139 INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-03-11T23:14:32,159 INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-03-11T23:14:32,724 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8000 (http)
+2024-03-11T23:14:32,754 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8000"]
+2024-03-11T23:14:32,757 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2024-03-11T23:14:32,758 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+2024-03-11T23:14:33,128 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-03-11T23:14:33,128 INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 13631 ms
+2024-03-11T23:14:34,808 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-03-11T23:14:35,207 INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2024-03-11T23:14:35,210 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-03-11T23:14:35,228 INFO  org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2024-03-11T23:14:35,859 INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-03-11T23:14:36,095 INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.17.Final
+2024-03-11T23:14:36,109 INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2024-03-11T23:14:37,455 INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-03-11T23:14:37,711 WARN  org.hibernate.orm.deprecation - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-03-11T23:14:39,504 INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-03-11T23:14:39,667 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-03-11T23:14:40,952 INFO  org.springframework.data.jpa.repository.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-03-11T23:14:44,079 INFO  org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+2024-03-11T23:14:44,199 WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-03-11T23:14:44,613 INFO  org.springframework.cloud.openfeign.FeignClientFactoryBean - For 'notification-service' URL not provided. Will try picking an instance via load-balancing.
+2024-03-11T23:14:45,744 INFO  org.springframework.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7c441275, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@72fdb79d, org.springframework.security.web.context.SecurityContextHolderFilter@31e1a699, org.springframework.security.web.header.HeaderWriterFilter@6aa70f5b, org.springframework.security.web.authentication.logout.LogoutFilter@19019811, org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter@617c9dd7, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@207f9843, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6ee60495, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4a256169, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@43af156a, org.springframework.security.web.session.SessionManagementFilter@6f14bc87, org.springframework.security.web.access.ExceptionTranslationFilter@44e60564, org.springframework.security.web.access.intercept.AuthorizationFilter@693d2f8d]
+2024-03-11T23:14:47,431 INFO  org.springframework.cloud.netflix.eureka.config.DiscoveryClientOptionalArgsConfiguration - Eureka HTTP Client uses RestTemplate.
+2024-03-11T23:14:47,892 WARN  org.springframework.cloud.loadbalancer.config.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2024-03-11T23:14:48,155 WARN  org.springframework.core.LocalVariableTableParameterNameDiscoverer - Using deprecated '-debug' fallback for parameter name resolution. Compile the affected code with '-parameters' instead or avoid its introspection: org.springframework.amqp.rabbit.core.RabbitAdmin
+2024-03-11T23:14:48,237 INFO  org.springframework.cloud.netflix.eureka.InstanceInfoFactory - Setting initial instance status as: STARTING
+2024-03-11T23:14:48,336 INFO  com.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+2024-03-11T23:14:48,351 INFO  com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-03-11T23:14:48,394 INFO  com.netflix.discovery.DiscoveryClient - Disable delta property : false
+2024-03-11T23:14:48,395 INFO  com.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+2024-03-11T23:14:48,395 INFO  com.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+2024-03-11T23:14:48,395 INFO  com.netflix.discovery.DiscoveryClient - Application is null : false
+2024-03-11T23:14:48,395 INFO  com.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+2024-03-11T23:14:48,395 INFO  com.netflix.discovery.DiscoveryClient - Application version is -1: true
+2024-03-11T23:14:48,395 INFO  com.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+2024-03-11T23:14:48,990 INFO  com.netflix.discovery.DiscoveryClient - The response status is 200
+2024-03-11T23:14:48,994 INFO  com.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+2024-03-11T23:14:48,999 INFO  com.netflix.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+2024-03-11T23:14:49,006 INFO  com.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1710198889005 with initial instances count: 0
+2024-03-11T23:14:49,029 INFO  org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry - Registering application USER-SERVICE with eureka with status UP
+2024-03-11T23:14:49,030 INFO  com.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1710198889030, current=UP, previous=STARTING]
+2024-03-11T23:14:49,033 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_USER-SERVICE/192.168.1.6:user-service:8000: registering service...
+2024-03-11T23:14:49,033 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8000"]
+2024-03-11T23:14:49,060 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8000 (http) with context path ''
+2024-03-11T23:14:49,062 INFO  org.springframework.cloud.netflix.eureka.serviceregistry.EurekaAutoServiceRegistration - Updating port to 8000
+2024-03-11T23:14:49,248 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_USER-SERVICE/192.168.1.6:user-service:8000 - registration status: 204
+2024-03-11T23:14:49,490 INFO  com.gustavo.userservice.UserServiceApplication - Started UserServiceApplication in 33.492 seconds (process running for 35.344)
+2024-03-11T23:14:49,536 INFO  org.springframework.amqp.rabbit.connection.CachingConnectionFactory - Attempting to connect to: [localhost:5672]
+2024-03-11T23:14:49,732 INFO  org.springframework.amqp.rabbit.connection.CachingConnectionFactory - Created new connection: rabbitConnectionFactory#4790a29a:0/SimpleConnection@4e80e1b5 [delegate=amqp://user@127.0.0.1:5672/, localPort=41178]
+2024-03-11T23:14:50,080 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-03-11T23:14:50,081 INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-03-11T23:14:50,086 INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 5 ms
+2024-03-11T23:15:18,994 INFO  com.netflix.discovery.DiscoveryClient - Disable delta property : false
+2024-03-11T23:15:18,995 INFO  com.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+2024-03-11T23:15:18,995 INFO  com.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+2024-03-11T23:15:18,995 INFO  com.netflix.discovery.DiscoveryClient - Application is null : false
+2024-03-11T23:15:18,995 INFO  com.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+2024-03-11T23:15:18,995 INFO  com.netflix.discovery.DiscoveryClient - Application version is -1: false
+2024-03-11T23:15:18,995 INFO  com.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+2024-03-11T23:15:19,031 INFO  com.netflix.discovery.DiscoveryClient - The response status is 200
+2024-03-11T23:19:09,724 INFO  org.springframework.boot.admin.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+2024-03-11T23:19:09,726 INFO  org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry - Unregistering application USER-SERVICE with eureka with status DOWN
+2024-03-11T23:19:09,726 INFO  com.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1710199149726, current=DOWN, previous=UP]
+2024-03-11T23:19:09,726 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_USER-SERVICE/192.168.1.6:user-service:8000: registering service...
+2024-03-11T23:19:09,733 INFO  org.apache.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-8000"]
+2024-03-11T23:19:09,733 INFO  org.apache.catalina.core.StandardService - Stopping service [Tomcat]
+2024-03-11T23:19:09,736 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_USER-SERVICE/192.168.1.6:user-service:8000 - registration status: 204
+2024-03-11T23:19:09,736 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Destroying Spring FrameworkServlet 'dispatcherServlet'
+2024-03-11T23:19:09,739 WARN  org.apache.catalina.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [boundedElastic-evictor-1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.7/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+2024-03-11T23:19:09,740 WARN  org.apache.catalina.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [AsyncReporter{org.springframework.boot.actuate.autoconfigure.tracing.zipkin.ZipkinWebClientSender@34a99d8}] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.7/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ app//zipkin2.reporter.ByteBoundedQueue.drainTo(ByteBoundedQueue.java:81)
+ app//zipkin2.reporter.AsyncReporter$BoundedAsyncReporter.flush(AsyncReporter.java:270)
+ app//zipkin2.reporter.AsyncReporter$Flusher.run(AsyncReporter.java:378)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+2024-03-11T23:19:09,741 WARN  org.apache.catalina.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [reactor-http-epoll-1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ app//io.netty.channel.epoll.Native.epollWait(Native Method)
+ app//io.netty.channel.epoll.Native.epollWait(Native.java:209)
+ app//io.netty.channel.epoll.Native.epollWait(Native.java:202)
+ app//io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:316)
+ app//io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:373)
+ app//io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+ app//io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+ app//io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+2024-03-11T23:19:09,741 WARN  org.apache.catalina.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [reactor-http-epoll-2] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ app//io.netty.channel.epoll.Native.epollWait(Native Method)
+ app//io.netty.channel.epoll.Native.epollWait(Native.java:209)
+ app//io.netty.channel.epoll.Native.epollWait(Native.java:202)
+ app//io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:316)
+ app//io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:373)
+ app//io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+ app//io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+ app//io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+2024-03-11T23:19:09,742 WARN  org.apache.catalina.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [reactor-http-epoll-3] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ app//io.netty.channel.epoll.Native.epollWait(Native Method)
+ app//io.netty.channel.epoll.Native.epollWait(Native.java:209)
+ app//io.netty.channel.epoll.Native.epollWait(Native.java:202)
+ app//io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:316)
+ app//io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:373)
+ app//io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+ app//io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+ app//io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+2024-03-11T23:19:09,743 WARN  org.apache.catalina.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [reactor-http-epoll-4] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ app//io.netty.channel.epoll.Native.epollWait(Native Method)
+ app//io.netty.channel.epoll.Native.epollWait(Native.java:209)
+ app//io.netty.channel.epoll.Native.epollWait(Native.java:202)
+ app//io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:316)
+ app//io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:373)
+ app//io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+ app//io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+ app//io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+2024-03-11T23:19:09,745 INFO  org.apache.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8000"]
+2024-03-11T23:19:09,748 INFO  org.apache.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-8000"]
+2024-03-11T23:19:11,823 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-03-11T23:19:12,022 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-03-11T23:19:12,031 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-03-11T23:19:12,627 INFO  com.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...
+2024-03-11T23:19:15,630 INFO  com.netflix.discovery.DiscoveryClient - Unregistering ...
+2024-03-11T23:19:15,639 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_USER-SERVICE/192.168.1.6:user-service:8000 - deregister  status: 200
+2024-03-11T23:19:15,645 INFO  com.netflix.discovery.DiscoveryClient - Completed shut down of DiscoveryClient
+2024-03-11T23:23:42,167 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2024-03-11T23:23:42,258 INFO  com.gustavo.userservice.UserServiceApplication - Starting UserServiceApplication using Java 17.0.7 with PID 137394 (/home/gustavo/Documentos/Workspaces/ws-sts/Event-Management-Distributed-System/user-service/target/classes started by gustavo in /home/gustavo/Documentos/Workspaces/ws-sts/Event-Management-Distributed-System/user-service)
+2024-03-11T23:23:42,262 DEBUG com.gustavo.userservice.UserServiceApplication - Running with Spring Boot v3.1.7, Spring v6.0.15
+2024-03-11T23:23:42,264 INFO  com.gustavo.userservice.UserServiceApplication - The following 1 profile is active: "dev"
+2024-03-11T23:23:42,323 INFO  org.springframework.cloud.config.client.ConfigServerConfigDataLoader - Fetching config from server at : http://localhost:8888/
+2024-03-11T23:23:42,323 INFO  org.springframework.cloud.config.client.ConfigServerConfigDataLoader - Located environment: name=user-service, profiles=[default], label=null, version=494be4bf67a6040c3bde903ee35836da077f1eee, state=null
+2024-03-11T23:23:42,324 INFO  org.springframework.cloud.config.client.ConfigServerConfigDataLoader - Fetching config from server at : http://localhost:8888/
+2024-03-11T23:23:42,324 INFO  org.springframework.cloud.config.client.ConfigServerConfigDataLoader - Located environment: name=user-service, profiles=[dev], label=null, version=494be4bf67a6040c3bde903ee35836da077f1eee, state=null
+2024-03-11T23:23:46,378 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-03-11T23:23:46,653 INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 261 ms. Found 3 JPA repository interfaces.
+2024-03-11T23:23:47,564 INFO  org.springframework.cloud.context.scope.GenericScope - BeanFactory id=8684fc24-53ce-3fb2-a391-af7c8384bb5a
+2024-03-11T23:23:47,836 INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'com.gustavo.userservice.clients.NotificationClient' of type [org.springframework.cloud.openfeign.FeignClientFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-03-11T23:23:48,395 INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-03-11T23:23:48,403 INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-03-11T23:23:48,410 INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-03-11T23:23:48,923 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8000 (http)
+2024-03-11T23:23:48,948 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8000"]
+2024-03-11T23:23:48,950 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2024-03-11T23:23:48,951 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+2024-03-11T23:23:49,105 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-03-11T23:23:49,106 INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 6778 ms
+2024-03-11T23:23:50,570 INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-03-11T23:23:51,020 INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.17.Final
+2024-03-11T23:23:51,052 INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2024-03-11T23:23:52,288 INFO  org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-03-11T23:23:52,429 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-03-11T23:23:52,828 INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1b3a1e42
+2024-03-11T23:23:52,831 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-03-11T23:23:56,373 INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-03-11T23:23:58,649 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-03-11T23:24:03,790 INFO  org.springframework.data.jpa.repository.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-03-11T23:24:11,549 INFO  org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+2024-03-11T23:24:11,689 WARN  org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-03-11T23:24:12,252 INFO  org.springframework.cloud.openfeign.FeignClientFactoryBean - For 'notification-service' URL not provided. Will try picking an instance via load-balancing.
+2024-03-11T23:24:14,780 INFO  org.springframework.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3ac2300f, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1172a648, org.springframework.security.web.context.SecurityContextHolderFilter@6e49d72a, org.springframework.security.web.header.HeaderWriterFilter@5e0cc49d, org.springframework.security.web.authentication.logout.LogoutFilter@30649df5, org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter@316296ae, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@325401b3, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@451029fa, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@59065952, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7eed8467, org.springframework.security.web.session.SessionManagementFilter@66f540c8, org.springframework.security.web.access.ExceptionTranslationFilter@14919b5c, org.springframework.security.web.access.intercept.AuthorizationFilter@30370ce]
+2024-03-11T23:24:17,540 INFO  org.springframework.cloud.netflix.eureka.config.DiscoveryClientOptionalArgsConfiguration - Eureka HTTP Client uses RestTemplate.
+2024-03-11T23:24:17,942 WARN  org.springframework.cloud.loadbalancer.config.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2024-03-11T23:24:18,122 WARN  org.springframework.core.LocalVariableTableParameterNameDiscoverer - Using deprecated '-debug' fallback for parameter name resolution. Compile the affected code with '-parameters' instead or avoid its introspection: org.springframework.amqp.rabbit.core.RabbitAdmin
+2024-03-11T23:24:18,199 INFO  org.springframework.cloud.netflix.eureka.InstanceInfoFactory - Setting initial instance status as: STARTING
+2024-03-11T23:24:18,284 INFO  com.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+2024-03-11T23:24:18,294 INFO  com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-03-11T23:24:18,340 INFO  com.netflix.discovery.DiscoveryClient - Disable delta property : false
+2024-03-11T23:24:18,340 INFO  com.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+2024-03-11T23:24:18,341 INFO  com.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+2024-03-11T23:24:18,341 INFO  com.netflix.discovery.DiscoveryClient - Application is null : false
+2024-03-11T23:24:18,341 INFO  com.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+2024-03-11T23:24:18,341 INFO  com.netflix.discovery.DiscoveryClient - Application version is -1: true
+2024-03-11T23:24:18,341 INFO  com.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+2024-03-11T23:24:18,756 INFO  com.netflix.discovery.DiscoveryClient - The response status is 200
+2024-03-11T23:24:18,763 INFO  com.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+2024-03-11T23:24:18,766 INFO  com.netflix.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+2024-03-11T23:24:18,773 INFO  com.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1710199458773 with initial instances count: 1
+2024-03-11T23:24:18,792 INFO  org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry - Registering application USER-SERVICE with eureka with status UP
+2024-03-11T23:24:18,793 INFO  com.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1710199458793, current=UP, previous=STARTING]
+2024-03-11T23:24:18,796 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_USER-SERVICE/192.168.1.6:user-service:8000: registering service...
+2024-03-11T23:24:18,796 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8000"]
+2024-03-11T23:24:18,827 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8000 (http) with context path ''
+2024-03-11T23:24:18,828 INFO  org.springframework.cloud.netflix.eureka.serviceregistry.EurekaAutoServiceRegistration - Updating port to 8000
+2024-03-11T23:24:18,866 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_USER-SERVICE/192.168.1.6:user-service:8000 - registration status: 204
+2024-03-11T23:24:19,100 INFO  com.gustavo.userservice.UserServiceApplication - Started UserServiceApplication in 39.745 seconds (process running for 45.274)
+2024-03-11T23:24:19,124 INFO  org.springframework.amqp.rabbit.connection.CachingConnectionFactory - Attempting to connect to: [localhost:5672]
+2024-03-11T23:24:19,230 INFO  org.springframework.amqp.rabbit.connection.CachingConnectionFactory - Created new connection: rabbitConnectionFactory#50099588:0/SimpleConnection@a32bf4f [delegate=amqp://user@127.0.0.1:5672/, localPort=45798]
+2024-03-11T23:24:20,004 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-03-11T23:24:20,005 INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-03-11T23:24:20,011 INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 6 ms
+2024-03-11T23:29:18,345 INFO  com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-03-11T23:29:49,380 DEBUG com.gustavo.userservice.services.impl.UserDetailsServiceImpl - GET userDetailsServiceImpl loadUserByUsername username: tflGustavo found
+2024-03-11T23:29:49,753 DEBUG com.gustavo.userservice.controllers.AuthController - POST authController login authentication received UsernamePasswordAuthenticationToken [Principal=com.gustavo.userservice.utils.UserAuthenticated@7b9b0ed3, Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=192.168.1.6, SessionId=null], Granted Authorities=[ROLE_USER]]
+2024-03-11T23:29:49,951 DEBUG com.gustavo.userservice.services.impl.CurrentUserServiceImpl - GET currentUserServiceImpl getCurrentUser username: tflGustavo found
+2024-03-11T23:29:50,316 DEBUG com.gustavo.userservice.services.impl.RefreshTokenServiceImpl - POST refreshTokenServiceImpl createRefreshToken userId: 5a1fdbec-1426-4d48-9109-6205d77dc85c received
+2024-03-11T23:29:50,317 INFO  com.gustavo.userservice.services.impl.RefreshTokenServiceImpl - Refresh token created successfully userId 5a1fdbec-1426-4d48-9109-6205d77dc85c
+2024-03-11T23:29:50,317 DEBUG com.gustavo.userservice.services.impl.UserServiceImpl - POST userServiceImpl login userId: 5a1fdbec-1426-4d48-9109-6205d77dc85c logged
+2024-03-11T23:29:50,317 INFO  com.gustavo.userservice.services.impl.UserServiceImpl - User successfully logged userId: 5a1fdbec-1426-4d48-9109-6205d77dc85c
+2024-03-11T23:30:29,544 INFO  org.springframework.boot.admin.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+2024-03-11T23:30:29,546 INFO  org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry - Unregistering application USER-SERVICE with eureka with status DOWN
+2024-03-11T23:30:29,546 INFO  com.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1710199829546, current=DOWN, previous=UP]
+2024-03-11T23:30:29,547 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_USER-SERVICE/192.168.1.6:user-service:8000: registering service...
+2024-03-11T23:30:29,557 INFO  org.apache.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-8000"]
+2024-03-11T23:30:29,558 INFO  org.apache.catalina.core.StandardService - Stopping service [Tomcat]
+2024-03-11T23:30:29,561 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_USER-SERVICE/192.168.1.6:user-service:8000 - registration status: 204
+2024-03-11T23:30:29,577 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Destroying Spring FrameworkServlet 'dispatcherServlet'
+2024-03-11T23:30:29,617 WARN  org.apache.catalina.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [boundedElastic-evictor-1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.7/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+ java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+2024-03-11T23:30:29,619 WARN  org.apache.catalina.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [AsyncReporter{org.springframework.boot.actuate.autoconfigure.tracing.zipkin.ZipkinWebClientSender@4425b6ed}] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@17.0.7/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base@17.0.7/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+ java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+ app//zipkin2.reporter.ByteBoundedQueue.drainTo(ByteBoundedQueue.java:81)
+ app//zipkin2.reporter.AsyncReporter$BoundedAsyncReporter.flush(AsyncReporter.java:270)
+ app//zipkin2.reporter.AsyncReporter$Flusher.run(AsyncReporter.java:378)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+2024-03-11T23:30:29,619 WARN  org.apache.catalina.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [reactor-http-epoll-1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ app//io.netty.channel.epoll.Native.epollWait(Native Method)
+ app//io.netty.channel.epoll.Native.epollWait(Native.java:209)
+ app//io.netty.channel.epoll.Native.epollWait(Native.java:202)
+ app//io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:316)
+ app//io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:373)
+ app//io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+ app//io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+ app//io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+2024-03-11T23:30:29,620 WARN  org.apache.catalina.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [reactor-http-epoll-2] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ app//io.netty.channel.epoll.Native.epollWait(Native Method)
+ app//io.netty.channel.epoll.Native.epollWait(Native.java:209)
+ app//io.netty.channel.epoll.Native.epollWait(Native.java:202)
+ app//io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:316)
+ app//io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:373)
+ app//io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+ app//io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+ app//io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+2024-03-11T23:30:29,621 WARN  org.apache.catalina.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [reactor-http-epoll-3] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ app//io.netty.channel.epoll.Native.epollWait(Native Method)
+ app//io.netty.channel.epoll.Native.epollWait(Native.java:209)
+ app//io.netty.channel.epoll.Native.epollWait(Native.java:202)
+ app//io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:316)
+ app//io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:373)
+ app//io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+ app//io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+ app//io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+2024-03-11T23:30:29,621 WARN  org.apache.catalina.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [reactor-http-epoll-4] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ app//io.netty.channel.epoll.Native.epollWait(Native Method)
+ app//io.netty.channel.epoll.Native.epollWait(Native.java:209)
+ app//io.netty.channel.epoll.Native.epollWait(Native.java:202)
+ app//io.netty.channel.epoll.EpollEventLoop.epollWaitNoTimerChange(EpollEventLoop.java:316)
+ app//io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:373)
+ app//io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+ app//io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+ app//io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+ java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+2024-03-11T23:30:29,625 INFO  org.apache.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8000"]
+2024-03-11T23:30:29,628 INFO  org.apache.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-8000"]
+2024-03-11T23:30:31,770 INFO  org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-03-11T23:30:31,954 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-03-11T23:30:31,967 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-03-11T23:30:32,297 INFO  com.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...
+2024-03-11T23:30:35,300 INFO  com.netflix.discovery.DiscoveryClient - Unregistering ...
+2024-03-11T23:30:35,316 INFO  com.netflix.discovery.DiscoveryClient - DiscoveryClient_USER-SERVICE/192.168.1.6:user-service:8000 - deregister  status: 200
+2024-03-11T23:30:35,344 INFO  com.netflix.discovery.DiscoveryClient - Completed shut down of DiscoveryClient

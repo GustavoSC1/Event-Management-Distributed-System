@@ -1,5 +1,7 @@
 spring:
   application:
     name: discovery-server
+  profiles:
+    active: test
   config:
     import: optional:configserver:http://localhost:8888/

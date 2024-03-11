@@ -4,6 +4,13 @@ server:
 spring:
   application:
     name: config-server
-  profiles:
-    active:
-    - native      
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/GustavoSC1/Event-Management-Config-Files
+          #username: username
+          #password: password
+          default-label: main
+          search-paths:
+          - 'config*'  
