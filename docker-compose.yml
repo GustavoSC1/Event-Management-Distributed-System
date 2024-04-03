@@ -9,7 +9,7 @@ services:
       - 5672:5672
       - 15672:15672
     volumes:
-      - ../dados:/var/lib/rabbitmq/
+      - ../rabbitmq:/var/lib/rabbitmq/
     environment:
       - RABBITMQ_DEFAULT_USER=user
       - RABBITMQ_DEFAULT_PASS=password
@@ -27,19 +27,64 @@ services:
       RABBIT_URI: amqp://user:password@rabbitmq:5672
     networks:
       - microservices-network
-
-     
-  postgres:
-    image: postgres:16.2-alpine
-    container_name: postgres
-    restart: always
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
+  
+  user-db:
+    image: postgres:latest
+    container_name: user-db
     ports:
       - 5432:5432
+    restart: always
+    environment:
+      POSTGRES_DB: db-user
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: root
     volumes:
-      - ../volume:/var/lib/postgresql/data
+      - ../postgres-user:/var/lib/postgresql/data
+    networks:
+      - microservices-network
+      
+  event-db:
+    image: postgres:latest
+    container_name: event-db
+    ports:
+      - 5434:5432
+    restart: always
+    environment:
+      POSTGRES_DB: db-event
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: root
+    volumes:
+      - ../postgres-event:/var/lib/postgresql/data
+    networks:
+      - microservices-network
+      
+  notification-db:
+    image: postgres:latest
+    container_name: notification-db
+    ports:
+      - 5436:5432
+    restart: always
+    environment:
+      POSTGRES_DB: db-notification
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: root
+    volumes:
+      - ../postgres-notification:/var/lib/postgresql/data
+    networks:
+      - microservices-network
+      
+  payment-db:
+    image: postgres:latest
+    container_name: payment-db
+    ports:
+      - 5438:5432
+    restart: always
+    environment:
+      POSTGRES_DB: db-payment
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: root
+    volumes:
+      - ../postgres-payment:/var/lib/postgresql/data
     networks:
       - microservices-network
       
@@ -51,11 +96,9 @@ services:
       PGADMIN_DEFAULT_EMAIL: user@localhost.com
       PGADMIN_DEFAULT_PASSWORD: password
     ports:
-      - 8080:80
-    depends_on:
-      - postgres
+      - 5050:80
     volumes:
-      - ../data/pgadmin:/var/lib/pgadmin
+      - ../pgadmin:/var/lib/pgadmin
     networks:
       - microservices-network
 
