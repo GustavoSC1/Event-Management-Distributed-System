@@ -4,6 +4,10 @@ server:
 spring:
   application:
     name: config-server
+  security:
+    user:
+      name: config
+      password: password
   cloud:
     config:
       server:
@@ -12,4 +16,4 @@ spring:
           #username: username
           #password: password
           default-label: main
-          search-paths: ${GIT_SEARCH_PATHS:test*}
+          search-paths: ${GIT_SEARCH_PATHS:dev*}
