@@ -1,13 +1,13 @@
 # Event Management System - Microservices
 [![NPM](https://img.shields.io/npm/l/react)](https://github.com/GustavoSC1/Event-Management-Distributed-System/blob/main/LICENSE)
 
-Este é um sistema de gerenciamento de eventos desenvolvido com uma arquitetura de microserviços. O sistema permite que os usuários criem, participem e gerenciem eventos.
+Este é um sistema de gerenciamento de eventos desenvolvido com uma arquitetura de microsserviços. O sistema permite que os usuários criem, participem e gerenciem eventos.
 
-O projeto é uma API REST criada usando a linguagem Java, o banco de dados PostgreSQL, os projetos do ecossitema Spring e outras tecnologias.
+O projeto é uma API REST criada usando a linguagem Java, o banco de dados PostgreSQL, os projetos do ecossistema Spring e outras tecnologias.
 
 ## Visão Geral
 
-O sistema é composto por vários microserviços independentes, cada um com uma responsabilidade específica e que interagem entre si por meio de comunicação Síncrona e Assíncrona:
+O sistema é composto por vários microsserviços independentes, cada um com uma responsabilidade específica e que interagem entre si por meio de comunicação Síncrona e Assíncrona:
 
 - **User Service -** Gerencia todas as funcionalidades relacionadas aos usuários do sistema. Isso inclui a criação, atualização, exclusão e recuperação de informações sobre usuários.
 - **Event Service -** Lida com todas as funcionalidades relacionadas aos eventos. Isso inclui a criação, atualização, consulta e recuperação de eventos. Também é responsável pela reserva e gerenciamento de tickets.
