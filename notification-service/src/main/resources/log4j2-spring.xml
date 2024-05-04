@@ -2,12 +2,10 @@
 <Configuration status="DEBUG">
 	<Appenders>
 		<Console name="LogToConsole" target="SYSTEM_OUT">
-			<PatternLayout pattern="%d{ISO8601}{GMT+0} %-5level %logger{36} - %msg%n"/>
+			<EcsLayout serviceName="notification-service" serviceVersion="my-app-version" serviceEnvironment="my-app-environment" serviceNodeName="em-cluster-node"/>
 		</Console>
 		<File name="LogToFile" fileName="logs/notification-service.log">
-            <PatternLayout>
-                <Pattern>%d{ISO8601}{GMT+0} %-5level %logger{36} - %msg%n</Pattern>
-            </PatternLayout>
+            <EcsLayout serviceName="notification-service" serviceVersion="my-app-version" serviceEnvironment="my-app-environment" serviceNodeName="em-cluster-node"/>
         </File>
 	</Appenders>
 	<Loggers>

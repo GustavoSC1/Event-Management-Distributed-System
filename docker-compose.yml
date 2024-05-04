@@ -42,7 +42,7 @@ services:
       - ../postgres-user:/var/lib/postgresql/data
     networks:
       - microservices-network
-      
+  
   event-db:
     image: postgres:latest
     container_name: event-db
@@ -57,7 +57,7 @@ services:
       - ../postgres-event:/var/lib/postgresql/data
     networks:
       - microservices-network
-      
+
   notification-db:
     image: postgres:latest
     container_name: notification-db
@@ -87,7 +87,7 @@ services:
       - ../postgres-payment:/var/lib/postgresql/data
     networks:
       - microservices-network
-      
+
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: pgadmin
@@ -99,6 +99,58 @@ services:
       - 5050:80
     volumes:
       - ../pgadmin:/var/lib/pgadmin
+    networks:
+      - microservices-network 
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.2
+    container_name: elasticsearch
+    restart: always
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      discovery.type: "single-node"
+      bootstrap.memory_lock: true
+      xpack.security.enabled: false
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ../esdata:/usr/share/elasticsearch/data
+    networks:
+      - microservices-network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.12.2
+    container_name: kibana
+    restart: always
+    ports:
+      - 5601:5601
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
+    depends_on:
+      - elasticsearch
+    networks:
+      - microservices-network
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.12.2
+    container_name: filebeat
+    entrypoint: filebeat -e -strict.perms=false
+    user: root
+    restart: always
+    volumes:
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./user-service/logs:/usr/share/filebeat/logs/user-service:ro
+      - ./event-service/logs:/usr/share/filebeat/logs/event-service:ro
+      - ./payment-service/logs:/usr/share/filebeat/logs/payment-service:ro
+      - ./notification-service/logs:/usr/share/filebeat/logs/notification-service:ro
+    depends_on:
+      - elasticsearch
     networks:
       - microservices-network
 

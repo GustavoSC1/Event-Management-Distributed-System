@@ -30,7 +30,7 @@ build/
 !**/src/test/**/build/
 
 ### Logs ###
-logs/
+.log
 
 ### VS Code ###
 .vscode/
