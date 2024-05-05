@@ -15,7 +15,7 @@ O sistema é composto por vários microsserviços independentes, cada um com uma
 - **Payment Service -** Representa algumas funcionalidades relacionadas ao processamento de pagamentos. 
 
 ## Arquitetura
-![Arquitetura 1](https://ik.imagekit.io/gustavosc/Event%20Management%20Distributed%20System/Arquitetura_ChOVWOgC_K.png?updatedAt=1712339535391)
+![Arquitetura 1](https://ik.imagekit.io/gustavosc/Event%20Management%20Distributed%20System/Diagrama%20sem%20nome(4).drawio_jUoj0-pj-.png?updatedAt=1714907467108)
 ![Modelo Conceitual](https://ik.imagekit.io/gustavosc/Event%20Management%20Distributed%20System/Event%20Management_h8wv6ATdE.png?updatedAt=1712266532493)
 
 ## Tecnologias Utilizadas
@@ -35,6 +35,9 @@ O sistema é composto por vários microsserviços independentes, cada um com uma
 - [Spring Cloud Config](https://docs.spring.io/spring-cloud-config/docs/current/reference/html/)
 - [Resilience4j](https://resilience4j.readme.io/docs/getting-started)
 - [Zipkin](https://zipkin.io/)
+- [Elasticsearch](https://www.elastic.co/pt/elasticsearch)
+- [Kibana](https://www.elastic.co/pt/kibana)
+- [Filebeat](https://www.elastic.co/pt/beats/filebeat)
 - [OpenAPI](https://swagger.io/specification/)
 - [Maven](https://maven.apache.org/)
 - [RabbitMQ](https://www.rabbitmq.com/)
