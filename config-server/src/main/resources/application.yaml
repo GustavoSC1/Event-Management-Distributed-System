@@ -12,7 +12,7 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/GustavoSC1/Event-Management-Config-Files
+          uri: https://github.com/GustavoSC1/Event-Management-Distributed-System/config-files          
           #username: username
           #password: password
           default-label: main
