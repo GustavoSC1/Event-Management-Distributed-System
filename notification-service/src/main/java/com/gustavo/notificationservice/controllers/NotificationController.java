@@ -42,8 +42,7 @@ public class NotificationController {
 	})
 	@GetMapping("/notifications/users/{userId}")
 	public ResponseEntity<Page<NotificationResponseDTO>> findByUser(
-			@PathVariable(value = "userId")
-            UUID userId,
+			@PathVariable(value = "userId") UUID userId,
             @PageableDefault(page = 0, size = 10, sort = "notificationId", direction = Sort.Direction.ASC)
             Pageable pageable) {
 		log.debug("GET notificationController findByUser userId: {} received", userId);

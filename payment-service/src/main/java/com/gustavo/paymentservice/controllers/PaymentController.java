@@ -75,8 +75,7 @@ public class PaymentController {
 	})
 	@GetMapping("/users/{userId}")
 	public ResponseEntity<Page<PaymentResponseDTO>> findByUser(
-			@PathVariable(value = "userId")
-            UUID userId,
+			@PathVariable(value = "userId") UUID userId,
             @PageableDefault(page = 0, size = 10, sort = "paymentRequestDate", direction = Sort.Direction.DESC)
             Pageable pageable) {
 		log.debug("GET paymentController findByUser userId: {} received", userId);

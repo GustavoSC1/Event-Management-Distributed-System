@@ -81,47 +81,55 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void delete(UUID userId) {
-		User user = findById(userId);
-
-		NotificationEventDTO notificationEventDto = new NotificationEventDTO();
-		notificationEventDto.setTitle("An event you are registered for has been canceled.");
-
-		List<Event> createdEvents = eventRepository.findAllCreatedEventsByUser(userId);
 		
-		for(Event event: createdEvents) {
-			notificationEventDto.setMessage("The " + event.getName() + " event has been cancelled.");
+		Optional<User> userOptional = userRepository.findById(userId);
 		
-			if(!event.getEventStatus().equals(EventStatus.CANCELED) &&
-					   !event.getEventStatus().equals(EventStatus.PAST)) {
+		User user = userOptional.orElse(null);
 		
-				if(event.getPrice().equals(0.0)) {
-					notificationEventDto.setMessage("The " + event.getName() + " event has been cancelled.");
-		        } else {		   
-		        	notificationEventDto.setMessage("The " + event.getName() + " event has been cancelled. "
-		        			+ "If you have already made the payment, please contact " + event.getCreationUser().getEmail() + 
-		        			" to request a refund.");
-		        }
-				
-				for(Ticket eventTicket: event.getTickets()) {
-		    		notificationEventDto.setUserId(eventTicket.getUser().getUserId());
-		    		notificationProducer.produceNotificationEvent(notificationEventDto);
-		    	}
-				
-				notificationEventDto.setTitle("Event canceled");
-				notificationEventDto.setMessage("The " + event.getName() + " event has been canceled.");
-				for(User staffUser: event.getStaffUsers()) {
-		    		notificationEventDto.setUserId(staffUser.getUserId());
-		    		notificationProducer.produceNotificationEvent(notificationEventDto);
-		    	}						
-						
-			} 
-
-			eventRepository.deleteById(event.getEventId());	
+		if (user != null) {
+			NotificationEventDTO notificationEventDto = new NotificationEventDTO();
+			notificationEventDto.setTitle("An event you are registered for has been canceled.");
+	
+			List<Event> createdEvents = eventRepository.findAllCreatedEventsByUser(userId);
+			
+			for(Event event: createdEvents) {
+				notificationEventDto.setMessage("The " + event.getName() + " event has been cancelled.");
+			
+				if(!event.getEventStatus().equals(EventStatus.CANCELED) &&
+						   !event.getEventStatus().equals(EventStatus.PAST)) {
+			
+					if(event.getPrice().equals(0.0)) {
+						notificationEventDto.setMessage("The " + event.getName() + " event has been cancelled.");
+			        } else {		   
+			        	notificationEventDto.setMessage("The " + event.getName() + " event has been cancelled. "
+			        			+ "If you have already made the payment, please contact " + event.getCreationUser().getEmail() + 
+			        			" to request a refund.");
+			        }
+					
+					for(Ticket eventTicket: event.getTickets()) {
+			    		notificationEventDto.setUserId(eventTicket.getUser().getUserId());
+			    		notificationProducer.produceNotificationEvent(notificationEventDto);
+			    	}
+					
+					notificationEventDto.setTitle("Event canceled");
+					notificationEventDto.setMessage("The " + event.getName() + " event has been canceled.");
+					for(User staffUser: event.getStaffUsers()) {
+			    		notificationEventDto.setUserId(staffUser.getUserId());
+			    		notificationProducer.produceNotificationEvent(notificationEventDto);
+			    	}						
+							
+				} 
+	
+				eventRepository.deleteById(event.getEventId());	
+			}		
+		
+			log.debug("DELETE userServiceImpl delete userId: {} deleted", userId);
+	        log.info("User successfully deleted userId: {}", userId);
+			userRepository.delete(user);
+		} else {
+			log.warn("User not found! userId: {}", userId);
 		}
 		
-		log.debug("DELETE userServiceImpl delete userId: {} deleted", userId);
-        log.info("User successfully deleted userId: {}", userId);
-		userRepository.delete(user);	
 	}
 		
 }

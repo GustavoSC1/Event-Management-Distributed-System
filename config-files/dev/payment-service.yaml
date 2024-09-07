@@ -1,0 +1,73 @@
+server:
+  port: 8300
+  
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5438/db-payment
+    username: user
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        show_sql: true
+  output:
+    ansi:
+      enabled: ALWAYS
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: password
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/eventmanagement
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka:password@localhost:8761/eureka
+      
+rabbitmq:
+  exchange:
+    paymentExchange: payments.v1.payment_created
+    paymentMadeExchange: payments.v1.payment_made
+  queue:
+    paymentQueue: payments.v1.payment_created.send_payment
+  key:
+    paymentKey: payments.v1.payment_created.send_payment.key
+
+keycloak:
+  server-url: http://localhost:8080
+  realm: eventmanagement
+  client-id: gateway
+  client-secret: 1vAYC2svFaNfa3Xht9q12S7azdqhksvP
+  username: gustavo
+  password: 123456
+
+springdoc:
+  swagger-ui:
+    oauth: 
+      client-id: gateway
+      client-secret: 1vAYC2svFaNfa3Xht9q12S7azdqhksvP
+  show-actuator: true
+    
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+  tracing:
+    sampling:
+      probability: 1.0
+      
+logging:
+  level:
+    com:
+      gustavo:
+        paymentservice: DEBUG

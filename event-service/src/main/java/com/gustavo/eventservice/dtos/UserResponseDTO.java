@@ -4,30 +4,29 @@ import java.io.Serializable;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.gustavo.eventservice.entities.enums.UserStatus;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserResponseDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private UUID userId;
-	private String name;
+	private String firstName;
+	private String lastName;
 	private String cpf;
 	private String imageUrl;
 	private String email;
-	private UserStatus userStatus;
 	
 	public UserResponseDTO() {
 
 	}
 
-	public UserResponseDTO(UUID userId, String name, String cpf, String imageUrl, String email, UserStatus userStatus) {
+	public UserResponseDTO(UUID userId, String firstName, String lastName, String cpf, String imageUrl, String email) {
 		this.userId = userId;
-		this.name = name;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.cpf = cpf;
 		this.imageUrl = imageUrl;
 		this.email = email;
-		this.userStatus = userStatus;
 	}
 
 	public UUID getUserId() {
@@ -38,12 +37,20 @@ public class UserResponseDTO implements Serializable {
 		this.userId = userId;
 	}
 
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getCpf() {
@@ -68,14 +75,6 @@ public class UserResponseDTO implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public UserStatus getUserStatus() {
-		return userStatus;
-	}
-
-	public void setUserStatus(UserStatus userStatus) {
-		this.userStatus = userStatus;
 	}
 
 }

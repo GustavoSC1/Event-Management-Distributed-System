@@ -1,34 +1,29 @@
 package com.gustavo.userservice.services;
 
+import java.util.List;
 import java.util.UUID;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-
-import com.gustavo.userservice.dtos.LoginResponseDTO;
 import com.gustavo.userservice.dtos.UserRequestDTO;
 import com.gustavo.userservice.dtos.UserResponseDTO;
-import com.gustavo.userservice.entities.User;
 
 public interface UserService {
-		
-	LoginResponseDTO login(Authentication authentication);
-	
+
 	UserResponseDTO insert(UserRequestDTO userRequestDto);
 	
 	UserResponseDTO getOneUser(UUID userId);
 	
-	Page<UserResponseDTO> findAll(String name, String email, Pageable pageable);
+	List<UserResponseDTO> findAll(String username, String firstName, String lastName, String email, int page, int pageSize);
 	
 	UserResponseDTO update(UUID userId, UserRequestDTO userRequestDto);
 	
 	void delete(UUID userId);
 	
-	void updatePassword(UUID userId, UserRequestDTO userRequestDto);
+	void updatePassword(UUID userId);
+	
+	void forgotPassword(String userEmail);
+	
+	void updateEmail(UUID userId, UserRequestDTO userRequestDto);
 	
 	UserResponseDTO updateImage(UUID userId, UserRequestDTO userRequestDto);
-	
-	User findById(UUID userId);
-			
+				
 }

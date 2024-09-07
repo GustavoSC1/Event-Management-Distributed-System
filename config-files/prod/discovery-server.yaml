@@ -1,0 +1,31 @@
+server:
+  port: ${PORT}
+  
+spring:
+  security:
+    user:
+      name: ${PROD_SECURITY_USER_NAME}
+      password: ${PROD_SECURITY_USER_PASSWORD}
+
+eureka:
+  instance: 
+    hostname: ${PROD_EUREKA_HOSTNAME}
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    serviceUrl:
+      defaultZone: ${PROD_EUREKA_DEFAULTZONE}
+      
+management:
+  zipkin:
+    tracing:
+      endpoint: ${PROD_ZIPKIN_TRACING_ENDPOINT}
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+  tracing:
+    sampling:
+      probability: 0.05
+      

@@ -26,6 +26,7 @@ public class FeignConfig {
 		if(authentication.getPrincipal() instanceof Jwt authToken){			
 			token = authToken.getTokenValue();			
 	    }
+		System.out.println("Feign token: "+token);
 		return token;
 	}
 

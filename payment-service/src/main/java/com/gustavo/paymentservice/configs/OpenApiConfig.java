@@ -1,6 +1,7 @@
 package com.gustavo.paymentservice.configs;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -23,9 +24,15 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 	            url = "http://www.apache.org/licenses/LICENSE-2.0"
 	        )
 	    ),
-	    security = {@SecurityRequirement(name = "bearerToken")}	
+	    security = {@SecurityRequirement(name = "Keycloak")}	
 	)
-@SecurityScheme(name = "bearerToken", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")
+@SecurityScheme(
+	    name = "Keycloak"
+	    , openIdConnectUrl = "http://localhost:8080/realms/eventmanagement/.well-known/openid-configuration"
+	    , scheme = "bearer"
+	    , type = SecuritySchemeType.OPENIDCONNECT
+	    , in = SecuritySchemeIn.HEADER
+	    )
 public class OpenApiConfig {
 
 }

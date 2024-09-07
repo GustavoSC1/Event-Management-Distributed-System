@@ -1,0 +1,75 @@
+server:
+  port: 8200
+  
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5436/db-notification
+    username: user
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        show_sql: true
+  output:
+    ansi:
+      enabled: ALWAYS
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: password
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/eventmanagement
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka:password@localhost:8761/eureka
+      
+rabbitmq:
+  exchange:
+    notificationExchange:  notifications.v1.notification_created
+    paymentMadeExchange: payments.v1.payment_made
+  queue:
+    notificationQueue: notifications.v1.notification_created.send_notification
+    paymentMadeQueue: payments.v1.payment_made.send_confirmation_to_notification
+  key:
+    notificationKey: notifications.v1.notification_created.send_notification.key
+    
+keycloak:
+  server-url: http://localhost:8080
+  realm: eventmanagement
+  client-id: gateway
+  client-secret: 1vAYC2svFaNfa3Xht9q12S7azdqhksvP
+  username: gustavo
+  password: 123456
+
+springdoc:
+  swagger-ui:
+    oauth: 
+      client-id: gateway
+      client-secret: 1vAYC2svFaNfa3Xht9q12S7azdqhksvP
+  show-actuator: true
+    
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+  tracing:
+    sampling:
+      probability: 1.0
+      
+logging:
+  level:
+    com:
+      gustavo:
+        notificationservice: DEBUG
+    

@@ -11,6 +11,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,10 +53,11 @@ public class StaffController {
 			@ApiResponse(responseCode = "422", description = "Data validation error")
 	})
 	@PostMapping("/staffs/events/{eventId}/users")
-	public ResponseEntity<String> insert(@PathVariable UUID eventId, @Validated
+	public ResponseEntity<String> insert(@AuthenticationPrincipal Jwt principal, @PathVariable UUID eventId, @Validated
             @RequestBody StaffRequestDTO staffRequestDto) {
-		log.debug("POST staffController insert eventId: {} staffRequestDto received {}", eventId, staffRequestDto.toString());
-		eventService.insertStaff(eventId, staffRequestDto);
+		UUID userId = UUID.fromString(principal.getClaimAsString("sub"));
+		log.debug("POST staffController insert userId: {} eventId: {} staffRequestDto received {}", userId, eventId, staffRequestDto.toString());
+		eventService.insertStaff(userId, eventId, staffRequestDto);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body("Staff successfully registered!"); 
 	}

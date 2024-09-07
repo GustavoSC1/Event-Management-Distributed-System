@@ -19,15 +19,15 @@ public interface EventService {
 	
 	EventResponseDTO getOneEvent(UUID eventId);
 	
-	EventResponseDTO update(UUID eventId, EventRequestDTO eventRequestDto);
+	EventResponseDTO update(UUID userId, UUID eventId, EventRequestDTO eventRequestDto);
 	
-	void closeRegistrations(UUID eventId);
+	void closeRegistrations(UUID userId, UUID eventId);
 	
-	void cancelEvent(UUID eventId);
+	void cancelEvent(UUID userId, UUID eventId);
 	
 	Event findById(UUID eventId);
 	
-	void insertStaff(UUID eventId, StaffRequestDTO staffRequestDTO);
+	void insertStaff(UUID userId, UUID eventId, StaffRequestDTO staffRequestDTO);
 	
 	Page<EventResponseDTO> findStaffUsers(UUID userId, Pageable pageable);
 

@@ -2,46 +2,48 @@ package com.gustavo.userservice.dtos.rabbitmqDtos;
 
 import java.util.UUID;
 
-import com.gustavo.userservice.entities.User;
+import org.keycloak.representations.idm.UserRepresentation;
 
 public class UserEventDTO {
 	
 	private UUID userId;
-	private String name;
+	private String firstName;
+	private String lastName;
 	private String phone;	
 	private String cpf;
 	private String imageUrl;
 	private String username;
 	private String email;
-	private String userStatus;
 	private String actionType;
 	
 	public UserEventDTO() {
 
 	}
 
-	public UserEventDTO(UUID userId, String name, String phone, String cpf, String imageUrl, String username,
-			String email, String userStatus, String actionType) {
+	public UserEventDTO(UUID userId, String firstName, String lastName, String phone, String cpf, String imageUrl, String username,
+			String email, String actionType) {
 		this.userId = userId;
-		this.name = name;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.phone = phone;
 		this.cpf = cpf;
 		this.imageUrl = imageUrl;
 		this.username = username;
 		this.email = email;
-		this.userStatus = userStatus;
 		this.actionType = actionType;
 	}
 	
-	public UserEventDTO(User user) {
-		this.userId = user.getUserId();
-		this.name = user.getName();
-		this.phone = user.getPhone();
-		this.cpf = user.getCpf();
-		this.imageUrl = user.getImageUrl();
-		this.username = user.getUsername();
-		this.email = user.getEmail();
-		this.userStatus = user.getUserStatus().toString();
+	public UserEventDTO(UserRepresentation userRepresentation) {
+		super();
+		this.userId = UUID.fromString(userRepresentation.getId());
+		this.firstName = userRepresentation.getFirstName();
+		this.lastName = userRepresentation.getLastName();
+		this.phone = userRepresentation.getAttributes().get("phone").get(0);
+		this.cpf = userRepresentation.getAttributes().get("cpf").get(0);
+		this.imageUrl = userRepresentation.getAttributes().containsKey("imageUrl") ? 
+				userRepresentation.getAttributes().get("imageUrl").get(0) : null;
+		this.username = userRepresentation.getUsername();
+		this.email = userRepresentation.getEmail();
 	}
 
 	public UUID getUserId() {
@@ -52,12 +54,20 @@ public class UserEventDTO {
 		this.userId = userId;
 	}
 
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getPhone() {
@@ -100,14 +110,6 @@ public class UserEventDTO {
 		this.email = email;
 	}
 
-	public String getUserStatus() {
-		return userStatus;
-	}
-
-	public void setUserStatus(String userStatus) {
-		this.userStatus = userStatus;
-	}
-
 	public String getActionType() {
 		return actionType;
 	}
@@ -118,8 +120,8 @@ public class UserEventDTO {
 
 	@Override
 	public String toString() {
-		return "UserEventDTO [userId=" + userId + ", name=" + name + ", phone=" + phone + ", cpf=" + cpf + ", imageUrl="
-				+ imageUrl + ", username=" + username + ", email=" + email + ", userStatus=" + userStatus
+		return "UserEventDTO [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", phone="
+				+ phone + ", cpf=" + cpf + ", imageUrl=" + imageUrl + ", username=" + username + ", email=" + email
 				+ ", actionType=" + actionType + "]";
 	}
 

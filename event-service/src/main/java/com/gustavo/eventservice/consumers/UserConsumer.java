@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import com.gustavo.eventservice.dtos.rabbitmqDtos.UserEventDTO;
 import com.gustavo.eventservice.entities.User;
 import com.gustavo.eventservice.entities.enums.ActionType;
-import com.gustavo.eventservice.entities.enums.UserStatus;
 import com.gustavo.eventservice.services.UserService;
 
 @Component
@@ -28,7 +27,6 @@ public class UserConsumer {
 		User user = new User();
 				
 		BeanUtils.copyProperties(userEventDto, user);
-		user.setUserStatus(UserStatus.valueOf(userEventDto.getUserStatus()));
 		
 		switch (ActionType.valueOf(userEventDto.getActionType())) {
 			case CREATE:

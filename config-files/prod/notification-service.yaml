@@ -1,0 +1,78 @@
+server:
+  port: ${PORT}
+
+spring:
+  datasource:
+    url: ${PROD_DB_URL}
+    username: ${PROD_DB_USERNAME}
+    password: ${PROD_DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        show_sql: true
+  output:
+    ansi:
+      enabled: ALWAYS
+  rabbitmq:
+    host: ${PROD_AMQP_HOST}
+    port: ${PROD_AMQP_PORT}
+    username: ${PROD_AMQP_USERNAME}
+    password: ${PROD_AMQP_PASSWORD}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${PROD_OAUTH_ISSUER_URI}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${PROD_EUREKA_DEFAULTZONE}
+      
+rabbitmq:
+  exchange:
+    notificationExchange:  notifications.v1.notification_created
+    paymentMadeExchange: payments.v1.payment_made
+  queue:
+    notificationQueue: notifications.v1.notification_created.send_notification
+    paymentMadeQueue: payments.v1.payment_made.send_confirmation_to_notification
+  key:
+    notificationKey: notifications.v1.notification_created.send_notification.key
+    
+keycloak:
+  server-url: ${PROD_KEYCLOAK_SERVER_URL}
+  realm: ${PROD_KEYCLOAK_REALM}
+  client-id: ${PROD_KEYCLOAK_CLIENT_ID}
+  client-secret: ${PROD_KEYCLOAK_CLIENT_SECRET}
+  username: ${PROD_KEYCLOAK_USERNAME}
+  password: ${PROD_KEYCLOAK_PASSWORD}
+
+springdoc:
+  swagger-ui:
+    oauth: 
+      client-id: ${PROD_SWAGGER_OAUTH_CLIENT_ID}
+      client-secret: ${PROD_SWAGGER_OAUTH_CLIENT_SECRET}
+  show-actuator: true
+
+management:
+  zipkin:
+    tracing:
+      endpoint: ${PROD_ZIPKIN_TRACING_ENDPOINT}
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+  tracing:
+    sampling:
+      probability: 0.05
+      
+logging:
+  level:
+    com:
+      gustavo:
+        notificationservice: DEBUG
+    

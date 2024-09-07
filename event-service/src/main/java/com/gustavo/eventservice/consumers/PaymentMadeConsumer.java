@@ -21,7 +21,6 @@ public class PaymentMadeConsumer {
 	@RabbitListener(queues = "${rabbitmq.queue.paymentMadeQueue}")
 	public void onPaymentMade(@Payload PaymentMadeEventDTO paymentMadeEventDto) {
 		ticketService.setTicketPaid(paymentMadeEventDto);
-		log.debug("CONSUMER paymentMadeConsumer onPaymentMade paymentMadeEventDto consumed {}", paymentMadeEventDto.toString());
 	}
 
 }
