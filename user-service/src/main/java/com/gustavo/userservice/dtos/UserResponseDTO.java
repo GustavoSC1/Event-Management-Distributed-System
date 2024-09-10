@@ -45,8 +45,6 @@ public class UserResponseDTO extends RepresentationModel<UserResponseDTO> implem
 		this.lastName = userRepresentation.getLastName();
 		this.phone = userRepresentation.getAttributes().get("phone").get(0);
 		this.cpf = userRepresentation.getAttributes().get("cpf").get(0);
-		System.out.println("imageUrl: "+
-				userRepresentation.getAttributes().get("imageUrl").get(0));
 		this.imageUrl = userRepresentation.getAttributes().containsKey("imageUrl") ? 
 				userRepresentation.getAttributes().get("imageUrl").get(0) : null;
 		this.username = userRepresentation.getUsername();

@@ -74,25 +74,21 @@ public class UserServiceImpl implements UserService {
         user.setCredentials(list);
 
         UsersResource usersResource = getUsersResource();
-
         Response response = usersResource.create(user);
 
         if (response.getStatus() == 201) {        	
         	UUID userId = UUID.fromString(response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1"));
-        	
+
         	UserRepresentation userRepresentation = usersResource.get(userId.toString()).toRepresentation();
-        	      
+
         	emailVerification(userRepresentation.getId());
         	log.debug("Email was send to userId: {}", userId);
-            log.info("Email was send to userId: : {}", userId);            
-                             
+            log.info("Email was send to userId: : {}", userId);   
+
             UserEventDTO userEventDto = new UserEventDTO(userRepresentation);
     		userEventDto.setActionType(ActionType.CREATE.toString());
-    		
     		userProducer.produceUserEvent(userEventDto);
-                        
         	UserResponseDTO userResponseDto = new UserResponseDTO(userRepresentation);
-    		    		
     		log.debug("POST userServiceImpl insert userId: {} saved", userResponseDto.getUserId());
             log.info("User saved successfully userId: {}", userResponseDto.getUserId());
     		
