@@ -61,46 +61,5 @@ public class AuthController {
 		
 		return ResponseEntity.status(HttpStatus.OK).body("Password reset email sent successfully.");
 	}
-	/*
-	@Operation(summary = "Login user", security = {@SecurityRequirement(name = "basicAuth")})
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "User successfully saved"),
-			@ApiResponse(responseCode = "400", description = "This request can be processed"),
-			@ApiResponse(responseCode = "422", description = "Data validation error")
-	})
-	@PostMapping("/login")	
-	public ResponseEntity<LoginResponseDTO> login(Authentication authentication) {
-		log.debug("POST authController login authentication received {}", authentication.toString());
-		LoginResponseDTO token = userService.login(authentication);
-		
-		return ResponseEntity.ok().body(token);
-	}*/
-	/*
-	@Operation(summary = "Generate a new token")
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Token generated successfully"),
-			@ApiResponse(responseCode = "403", description = "Invalid refresh token"),
-			@ApiResponse(responseCode = "422", description = "Data validation error")
-	})
-	@PostMapping("/refreshtoken")
-	public ResponseEntity<TokenRefreshResponseDTO> refreshtoken(@RequestBody @Validated TokenRefreshRequestDTO request) {
-		log.debug("POST authController refreshtoken request received {}", request.toString());
-		TokenRefreshResponseDTO token = refreshTokenService.refreshToken(request);
-		 
-		return ResponseEntity.ok().body(token);
-	}
-	
-	@Operation(summary = "Log out of account")
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Log out completed successfully"),
-			@ApiResponse(responseCode = "400", description = "This request can be processed")
-	})
-	@PostMapping("/signout")
-	public ResponseEntity<String> logoutUser() {		
-		refreshTokenService.logoutUser();
-		String message = "Log out successful!";
-		
-		return ResponseEntity.ok().body(message);
-	}*/
 
 }

@@ -1,9 +1,7 @@
 package com.gustavo.eventservice.dtos.rabbitmqDtos;
 
 import java.util.UUID;
-/*
-import org.keycloak.models.UserModel;
-*/
+
 public class UserEventDTO {
 	
 	private UUID userId;
@@ -32,19 +30,6 @@ public class UserEventDTO {
 		this.email = email;
 		this.actionType = actionType;
 	}
-	/*
-	public UserEventDto(UserModel userModel) {
-		super();
-		this.userId = UUID.fromString(userModel.getId());
-		this.firstName = userModel.getFirstName();
-		this.lastName = userModel.getLastName();
-		this.phone = userModel.getAttributes().get("phone").get(0);
-		this.cpf = userModel.getAttributes().get("cpf").get(0);
-		this.imageUrl = userModel.getAttributes().containsKey("imageUrl") ? 
-				userModel.getAttributes().get("imageUrl").get(0) : null;
-		this.username = userModel.getUsername();
-		this.email = userModel.getEmail();
-	}*/
 
 	public UUID getUserId() {
 		return userId;
