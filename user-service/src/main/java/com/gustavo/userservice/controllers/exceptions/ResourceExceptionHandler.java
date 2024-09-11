@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.gustavo.userservice.services.exceptions.BusinessException;
 import com.gustavo.userservice.services.exceptions.ObjectNotFoundException;
-import com.gustavo.userservice.services.exceptions.TokenRefreshException;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -39,23 +38,13 @@ public class ResourceExceptionHandler {
 		StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), "Business exception", e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
-	
+		
 	@ExceptionHandler(ObjectNotFoundException.class)
 	public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException e, HttpServletRequest request) {
 		log.error("{}: {}", "Not found", e.getMessage());
 		StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(), "Not found", e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
 	}
-	
-	@ExceptionHandler(TokenRefreshException.class)
-	public ResponseEntity<StandardError> authorization(TokenRefreshException e, HttpServletRequest request) {	
-		log.error("{}: {}", "Access denied", e.getMessage());
-		StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.FORBIDDEN.value(), "Access denied", e.getMessage(), request.getRequestURI());		
-		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
-	}
-	
-	//Token inválido: AuthenticationEntryPoint
-	//Sem permissão: AccessDeniedHandler
 		
 	@ExceptionHandler(AccessDeniedException.class)
 	public ResponseEntity<StandardError> accessDenied(AccessDeniedException e, HttpServletRequest request) {		

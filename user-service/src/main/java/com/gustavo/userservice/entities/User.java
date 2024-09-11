@@ -2,26 +2,14 @@ package com.gustavo.userservice.entities;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 
-import com.gustavo.userservice.entities.enums.UserStatus;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -34,7 +22,10 @@ public class User implements Serializable {
 	private UUID userId;
 	
 	@Column(nullable = false, length = 150)
-	private String name;
+	private String firstName;
+	
+	@Column(nullable = false, length = 150)
+	private String lastName;
 	
 	@Column(length = 20)
 	private String phone;
@@ -54,45 +45,22 @@ public class User implements Serializable {
 	@Column(nullable = false, length = 255)
 	private String password;
 	
-	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	private UserStatus userStatus;
-	
-	@Column(nullable = false)
-	private LocalDateTime creationDate;
-	
-	@Column(nullable = false)
-	private LocalDateTime lastUpdateDate;
-	
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(
-			name = "TB_USER_ROLE",
-			joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-	)
-	private Set<Role> roles = new HashSet<>();
-	
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-	private RefreshToken refreshToken;
-
 	public User() {
 
 	}
 
-	public User(UUID userId, String name, String phone, String cpf, String imageUrl, String username, String email,
-			String password, UserStatus userStatus, LocalDateTime creationDate, LocalDateTime lastUpdateDate) {
+	public User(UUID userId, String firstName, String lastName, String phone, String cpf, String imageUrl, String username, String email,
+			String password, LocalDateTime creationDate, LocalDateTime lastUpdateDate) {
 		super();
 		this.userId = userId;
-		this.name = name;
+		this.firstName = firstName;
+		this.firstName = firstName;
 		this.phone = phone;
 		this.cpf = cpf;
 		this.imageUrl = imageUrl;
 		this.username = username;
 		this.email = email;
 		this.password = password;
-		this.userStatus = userStatus;
-		this.creationDate = creationDate;
-		this.lastUpdateDate = lastUpdateDate;
 	}
 
 	public UUID getUserId() {
@@ -103,12 +71,20 @@ public class User implements Serializable {
 		this.userId = userId;
 	}
 
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getPhone() {
@@ -159,50 +135,9 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public UserStatus getUserStatus() {
-		return userStatus;
-	}
-
-	public void setUserStatus(UserStatus userStatus) {
-		this.userStatus = userStatus;
-	}
-
-	public LocalDateTime getCreationDate() {
-		return creationDate;
-	}
-
-	public void setCreationDate(LocalDateTime creationDate) {
-		this.creationDate = creationDate;
-	}
-
-	public LocalDateTime getLastUpdateDate() {
-		return lastUpdateDate;
-	}
-
-	public void setLastUpdateDate(LocalDateTime lastUpdateDate) {
-		this.lastUpdateDate = lastUpdateDate;
-	}
-
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
-	
-	public RefreshToken getRefreshToken() {
-		return refreshToken;
-	}
-
-	public void setRefreshToken(RefreshToken refreshToken) {
-		this.refreshToken = refreshToken;
-	}
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(cpf, creationDate, email, name, imageUrl, lastUpdateDate, password, phone, roles,
-				userId, userStatus, username);
+		return Objects.hash(cpf, email, firstName, imageUrl, lastName, password, phone, userId, username);
 	}
 
 	@Override
@@ -214,12 +149,11 @@ public class User implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return Objects.equals(cpf, other.cpf) && Objects.equals(creationDate, other.creationDate)
-				&& Objects.equals(email, other.email) && Objects.equals(name, other.name)
-				&& Objects.equals(imageUrl, other.imageUrl) && Objects.equals(lastUpdateDate, other.lastUpdateDate)
-				&& Objects.equals(password, other.password) && Objects.equals(phone, other.phone)
-				&& Objects.equals(roles, other.roles) && Objects.equals(userId, other.userId)
-				&& userStatus == other.userStatus && Objects.equals(username, other.username);
-	}	
+		return Objects.equals(cpf, other.cpf) && Objects.equals(email, other.email)
+				&& Objects.equals(firstName, other.firstName) && Objects.equals(imageUrl, other.imageUrl)
+				&& Objects.equals(lastName, other.lastName) && Objects.equals(password, other.password)
+				&& Objects.equals(phone, other.phone) && Objects.equals(userId, other.userId)
+				&& Objects.equals(username, other.username);
+	}
 
 }

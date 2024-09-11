@@ -21,10 +21,12 @@ import com.gustavo.userservice.services.UserTicketService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "User Ticket endpoint")
 @RestController
+@SecurityRequirement(name = "Keycloak")
+@Tag(name = "User Ticket endpoint")
 public class UserTicketController {
 	
 	Logger log = LogManager.getLogger(UserTicketController.class);
@@ -40,7 +42,7 @@ public class UserTicketController {
 	@GetMapping("/users/{userId}/tickets")
 	public ResponseEntity<Page<TicketResponseDTO>> findAllTicketsByUser(
 			@PathVariable UUID userId,
-			@PageableDefault(page = 0, size = 10, sort = "ticketId", direction = Sort.Direction.ASC) Pageable pageable) {
+			@PageableDefault(page = 0, size = 10, sort = "ticketId", direction = Sort.Direction.ASC) Pageable pageable) {		
 		log.debug("GET userTicketController findAllTicketsByUser userId: {} received", userId);
 		Page<TicketResponseDTO> ticketResponseDtoPage = userTicketService.findAllTicketsByUser(userId, pageable);
 

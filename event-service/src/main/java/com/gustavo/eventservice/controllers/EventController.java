@@ -16,6 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -111,10 +113,12 @@ public class EventController {
 			@ApiResponse(responseCode = "422", description = "Data validation error")
 	})
 	@PutMapping("/{eventId}")
-	public ResponseEntity<EventResponseDTO> update(@PathVariable UUID eventId, 
+	public ResponseEntity<EventResponseDTO> update(@AuthenticationPrincipal Jwt principal, 
+			@PathVariable UUID eventId, 
 			@RequestBody @Validated(EventRequestDTO.EventView.EventPut.class) EventRequestDTO eventRequestDto) {
-		log.debug("PUT eventController update eventId: {} eventRequestDto received {}", eventId, eventRequestDto.toString());
-		EventResponseDTO eventResponseDto = eventService.update(eventId, eventRequestDto);
+		UUID userId = UUID.fromString(principal.getClaimAsString("sub"));
+		log.debug("PUT eventController update userId: {} eventId: {} eventRequestDto received {}", userId, eventId, eventRequestDto.toString());
+		EventResponseDTO eventResponseDto = eventService.update(userId, eventId, eventRequestDto);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(eventResponseDto);
 	}
@@ -127,9 +131,10 @@ public class EventController {
 			@ApiResponse(responseCode = "404", description = "Could not find the requested data")
 	})
 	@PatchMapping("/{eventId}/close")
-	public ResponseEntity<String> closeRegistrations(@PathVariable UUID eventId) {
-		log.debug("PATCH eventController closeRegistrations eventId: {} received", eventId);
-		eventService.closeRegistrations(eventId);
+	public ResponseEntity<String> closeRegistrations(@AuthenticationPrincipal Jwt principal, @PathVariable UUID eventId) {
+		UUID userId = UUID.fromString(principal.getClaimAsString("sub"));
+		log.debug("PATCH eventController closeRegistrations userId: {} eventId: {} received", userId, eventId);
+		eventService.closeRegistrations(userId, eventId);
 		
 		return ResponseEntity.status(HttpStatus.OK).body("Registrations closed successfully.");
 	}
@@ -142,9 +147,10 @@ public class EventController {
 			@ApiResponse(responseCode = "404", description = "Could not find the requested data")
 	})
 	@PatchMapping("/{eventId}/cancel")
-	public ResponseEntity<String> cancelEvent(@PathVariable UUID eventId) {
-		log.debug("PATCH eventController cancelEvent eventId: {} received", eventId);
-		eventService.cancelEvent(eventId);
+	public ResponseEntity<String> cancelEvent(@AuthenticationPrincipal Jwt principal, @PathVariable UUID eventId) {
+		UUID userId = UUID.fromString(principal.getClaimAsString("sub"));
+		log.debug("PATCH eventController cancelEvent userId: {} eventId: {} received", userId, eventId);
+		eventService.cancelEvent(userId, eventId);
 		
 		return ResponseEntity.status(HttpStatus.OK).body("Event canceled successfully.");
 	}

@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import com.gustavo.notificationservice.dtos.NotificationResponseDTO;
@@ -46,12 +45,13 @@ public class NotificationServiceImpl implements NotificationService {
 		
 	@Override
 	public Page<NotificationResponseDTO> findByUser(UUID userId, Pageable pageable) {
-		
-		if(!userId.toString().equals(userID())) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+				
+		if(!authentication.getName().equals(userId.toString())) {
 			log.warn("Access denied! userId: {}", userId);
-			throw new AccessDeniedException("Access denied!");
+			throw new AccessDeniedException("Error: Access denied!");
 		}
-		
+				
 		Page<Notification> notificationPage = notificationRepository.findAllByUserIdAndNotificationStatus(userId, NotificationStatus.CREATED, pageable);
 		
 		Page<NotificationResponseDTO> notificationResponseDtoPage = notificationPage.map(obj -> {
@@ -61,16 +61,18 @@ public class NotificationServiceImpl implements NotificationService {
 		
 		log.debug("GET userServiceImpl findByUser userId: {} found", userId);
         log.info("Notifications found successfully userId: {}", userId);
-
+        
 		return notificationResponseDtoPage;
 	}
 	
 	@Override
 	public void markAsRead(UUID userId, UUID notificationId) {
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
-		if(!userId.toString().equals(userID())) {
+		if(!authentication.getName().equals(userId.toString())) {
 			log.warn("Access denied! userId: {}", userId);
-			throw new AccessDeniedException("Access denied!");
+			throw new AccessDeniedException("Error: Access denied!");
 		}
 		
 		Optional<Notification> notificationOptional = notificationRepository.findByNotificationIdAndUserId(notificationId, userId);
@@ -88,14 +90,4 @@ public class NotificationServiceImpl implements NotificationService {
 		notificationRepository.save(notification);
 	}
 	
-	public String userID() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if(authentication.getPrincipal() instanceof Jwt authToken){
-			log.debug("GET userServiceImpl userID username: {} found", authentication.getName());
-	        return authToken.getClaimAsString("userId");
-	    } else {
-	    	return "";
-	    }
-	}
-
 }

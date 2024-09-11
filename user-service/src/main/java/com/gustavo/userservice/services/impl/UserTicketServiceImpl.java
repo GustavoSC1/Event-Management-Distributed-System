@@ -15,38 +15,27 @@ import org.springframework.stereotype.Service;
 
 import com.gustavo.userservice.clients.TicketClient;
 import com.gustavo.userservice.dtos.clientsDtos.TicketResponseDTO;
-import com.gustavo.userservice.services.CurrentUserService;
-import com.gustavo.userservice.services.UserService;
 import com.gustavo.userservice.services.UserTicketService;
 
 @Service
 public class UserTicketServiceImpl implements UserTicketService {
 	
 	Logger log = LogManager.getLogger(UserTicketServiceImpl.class);
-	
-	@Autowired
-	private UserService userService;
-	
-	@Autowired
-	private CurrentUserService currentUserService;
-	
+			
 	@Autowired
 	private TicketClient ticketClient;
 	
 	@Override
 	public Page<TicketResponseDTO> findAllTicketsByUser(UUID userId, Pageable pageable) {
 		
-		UUID userAuthenticatedId = currentUserService.getCurrentUser().getId();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
-		if(!userAuthenticatedId.equals(userId)) {
-			log.warn("Access denied! userId:{}", userId);
+		if(!authentication.getName().equals(userId.toString())) {
+			log.warn("Access denied! userId: {}", userId);
 			throw new AccessDeniedException("Error: Access denied!");
 		}
 		
-		userService.findById(userId);
-				
-		String token = "";
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String token = "";		
 		if(authentication.getPrincipal() instanceof Jwt authToken){			
 			token = authToken.getTokenValue();			
 	    }

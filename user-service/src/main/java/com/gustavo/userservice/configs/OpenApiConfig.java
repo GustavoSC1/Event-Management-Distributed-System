@@ -3,13 +3,13 @@ package com.gustavo.userservice.configs;
 import org.springframework.context.annotation.Configuration;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
-import io.swagger.v3.oas.annotations.security.SecuritySchemes;
 
 @Configuration
 @OpenAPIDefinition(
@@ -27,12 +27,15 @@ import io.swagger.v3.oas.annotations.security.SecuritySchemes;
 	            url = "http://www.apache.org/licenses/LICENSE-2.0"
 	        )
 		    ),
-	    security = {@SecurityRequirement(name = "bearerToken")}
+	    security = {@SecurityRequirement(name = "Keycloak")}
 	)
-@SecuritySchemes({
-@SecurityScheme(name = "basicAuth", type = SecuritySchemeType.HTTP, scheme = "basic"),
-@SecurityScheme(name = "bearerToken", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")
-})
+@SecurityScheme(
+	    name = "Keycloak"
+	    , openIdConnectUrl = "http://localhost:8080/realms/eventmanagement/.well-known/openid-configuration"
+	    , scheme = "bearer"
+	    , type = SecuritySchemeType.OPENIDCONNECT
+	    , in = SecuritySchemeIn.HEADER
+	    )
 public class OpenApiConfig {
 	
 }

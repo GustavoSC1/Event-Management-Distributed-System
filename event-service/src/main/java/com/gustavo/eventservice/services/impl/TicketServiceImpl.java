@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.gustavo.eventservice.dtos.EventResponseDTO;
@@ -28,7 +30,6 @@ import com.gustavo.eventservice.entities.enums.EventStatus;
 import com.gustavo.eventservice.producers.NotificationProducer;
 import com.gustavo.eventservice.producers.PaymentProducer;
 import com.gustavo.eventservice.repositories.TicketRepository;
-import com.gustavo.eventservice.services.CurrentUserService;
 import com.gustavo.eventservice.services.EventService;
 import com.gustavo.eventservice.services.TicketService;
 import com.gustavo.eventservice.services.UserService;
@@ -49,9 +50,6 @@ public class TicketServiceImpl implements TicketService {
 	@Autowired
 	private EventService eventService;
 	
-	@Autowired
-	private CurrentUserService currentUserService;
-
 	@Autowired
 	private NotificationProducer notificationProducer;
 	
@@ -125,15 +123,22 @@ public class TicketServiceImpl implements TicketService {
 	
 	@Override
 	public void setTicketPaid(PaymentMadeEventDTO paymentMadeEventDto) {
-		Ticket ticket = findById(paymentMadeEventDto.getTicketId());
+		Optional<Ticket> ticketOptional = ticketRepository.findById(paymentMadeEventDto.getTicketId());
 		
-		ticket.setIsPaid(paymentMadeEventDto.isPaid());
-		ticket.setPaymentDate(paymentMadeEventDto.getPaymentDate());
+		Ticket ticket = ticketOptional.orElse(null);
 		
-		log.debug("PUT ticketServiceImpl setTicketPaid ticketId: {} paid", paymentMadeEventDto.getTicketId());
-        log.info("Ticket paid successfully ticketId: {}", paymentMadeEventDto.getTicketId());
-
-		ticketRepository.save(ticket);
+		if (ticket != null) {					
+		
+			ticket.setIsPaid(paymentMadeEventDto.isPaid());
+			ticket.setPaymentDate(paymentMadeEventDto.getPaymentDate());
+			
+			log.debug("PUT ticketServiceImpl setTicketPaid ticketId: {} paid", paymentMadeEventDto.getTicketId());
+	        log.info("Ticket paid successfully ticketId: {}", paymentMadeEventDto.getTicketId());
+	
+			ticketRepository.save(ticket);
+		} else {
+			log.warn("Ticket not found! ticketId: {}", paymentMadeEventDto.getTicketId());
+		}
 	}
 	
 	@Override
@@ -160,13 +165,13 @@ public class TicketServiceImpl implements TicketService {
 	@Override
 	public Page<TicketResponseDTO> findByUser(UUID userId, Pageable pageable) {
 		
-		UUID userAuthenticatedId = currentUserService.getCurrentUser().getId();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
-		if(!userAuthenticatedId.equals(userId)) {
+		if(!authentication.getName().equals(userId.toString())) {
 			log.warn("Access denied! userId: {}", userId);
 			throw new AccessDeniedException("Error: Access denied!");
 		}
-		
+						
 		User user = userService.findById(userId);
 		
 		Page<Ticket> eventTicket = ticketRepository.findAllByUser(user, pageable);

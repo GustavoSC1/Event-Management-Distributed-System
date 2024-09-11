@@ -22,13 +22,20 @@ public class UserRequestDTO implements Serializable {
 		public static interface UserPut {}
 		public static interface ImagePut {}
 		public static interface PasswordPut {}
+		public static interface EmailPut {}
 	}
 	
-	@NotEmpty(message="The name field is required", groups = {UserView.UserPost.class, UserView.UserPut.class})
-	@Size(min=8, max=150, message="The length must be between 8 and 150 characters", groups = {UserView.UserPost.class, UserView.UserPut.class})
+	@NotEmpty(message="The first name field is required", groups = {UserView.UserPost.class, UserView.UserPut.class})
+	@Size(min=1, max=150, message="The length must be between 1 and 150 characters", groups = {UserView.UserPost.class, UserView.UserPut.class})
 	// Usado para mapear campos para uma ou mais views.
 	@JsonView({UserView.UserPost.class, UserView.UserPut.class})
-	private String name;
+	private String firstName;
+	
+	@NotEmpty(message="The last name field is required", groups = {UserView.UserPost.class, UserView.UserPut.class})
+	@Size(min=1, max=150, message="The length must be between 1 and 150 characters", groups = {UserView.UserPost.class, UserView.UserPut.class})
+	// Usado para mapear campos para uma ou mais views.
+	@JsonView({UserView.UserPost.class, UserView.UserPut.class})
+	private String lastName;
 	
 	@NotEmpty(message="The phone field is required", groups = {UserView.UserPost.class, UserView.UserPut.class})
 	@JsonView({UserView.UserPost.class, UserView.UserPut.class})
@@ -38,38 +45,34 @@ public class UserRequestDTO implements Serializable {
 	@JsonView({UserView.UserPost.class, UserView.UserPut.class})
 	private String cpf;
 	
-	@NotEmpty(message="The username field is required", groups = UserView.UserPost.class)
-	@Size(min=4, max=50, message="The length must be between 4 and 50 characters", groups = UserView.UserPost.class)
-	@UsernameConstraint(groups = UserView.UserPost.class)
-	@JsonView(UserView.UserPost.class)
+	@NotEmpty(message="The username field is required", groups = {UserView.UserPost.class, UserView.UserPut.class})
+	@Size(min=4, max=50, message="The length must be between 4 and 50 characters", groups = {UserView.UserPost.class, UserView.UserPut.class})
+	@UsernameConstraint(groups = {UserView.UserPost.class, UserView.UserPut.class})
+	@JsonView({UserView.UserPost.class, UserView.UserPut.class})
 	private String username;
 	
 	@NotEmpty(message="The imageUrl field is required", groups = UserView.ImagePut.class)
 	@JsonView(UserView.ImagePut.class)
 	private String imageUrl;
 	
-	@NotEmpty(message="The email field is required", groups = UserView.UserPost.class)
-	@Email(message="Invalid email", groups = UserView.UserPost.class)
-	@JsonView(UserView.UserPost.class)
+	@NotEmpty(message="The email field is required", groups = {UserView.UserPost.class, UserView.EmailPut.class})
+	@Email(message="Invalid email", groups = {UserView.UserPost.class, UserView.EmailPut.class})
+	@JsonView({UserView.UserPost.class, UserView.EmailPut.class})
 	private String email;
 	
 	@NotEmpty(message="The password field is required", groups = {UserView.UserPost.class, UserView.PasswordPut.class})
 	@Size(min=8, max=20, message="The length must be between 8 and 20 characters", groups = {UserView.UserPost.class, UserView.PasswordPut.class})
 	@JsonView({UserView.UserPost.class, UserView.PasswordPut.class})
 	private String password;
-	
-	@NotEmpty(message="The old password field is required", groups = UserView.PasswordPut.class)
-	@Size(min=8, max=20, message="The length must be between 8 and 20 characters", groups = UserView.PasswordPut.class)
-	@JsonView(UserView.PasswordPut.class)
-	private String oldPassword;
 
 	public UserRequestDTO() {
 		
 	}
 
-	public UserRequestDTO(String name, String phone, String cpf, String username, String imageUrl, String email, String password) {
+	public UserRequestDTO(String firstName, String lastName, String phone, String cpf, String username, String imageUrl, String email, String password) {
 		super();
-		this.name = name;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.phone = phone;
 		this.cpf = cpf;
 		this.username = username;
@@ -78,12 +81,20 @@ public class UserRequestDTO implements Serializable {
 		this.password = password;
 	}
 
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getPhone() {
@@ -134,19 +145,11 @@ public class UserRequestDTO implements Serializable {
 		this.password = password;
 	}
 
-	public String getOldPassword() {
-		return oldPassword;
-	}
-
-	public void setOldPassword(String oldPassword) {
-		this.oldPassword = oldPassword;
-	}
-
 	@Override
 	public String toString() {
-		return "UserRequestDTO [name=" + name + ", phone=" + phone + ", cpf=" + cpf + ", username=" + username
-				+ ", imageUrl=" + imageUrl + ", email=" + email + ", password=" + password + ", oldPassword="
-				+ oldPassword + "]";
-	}	
+		return "UserRequestDTO [firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", cpf=" + cpf
+				+ ", username=" + username + ", imageUrl=" + imageUrl + ", email=" + email + ", password=" + password
+				+ "]";
+	}
 
 }

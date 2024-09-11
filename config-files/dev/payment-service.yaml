@@ -15,12 +15,17 @@ spring:
         show_sql: true
   output:
     ansi:
-      enabled: Always  
+      enabled: ALWAYS
   rabbitmq:
     host: localhost
     port: 5672
     username: user
     password: password
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/eventmanagement
 
 eureka:
   client:
@@ -35,12 +40,21 @@ rabbitmq:
     paymentQueue: payments.v1.payment_created.send_payment
   key:
     paymentKey: payments.v1.payment_created.send_payment.key
-    
-jwt:
-  expiration: 3600000
-  refreshExpiration: 86400000
-  public:
-    key: 'classpath:app.pub'
+
+keycloak:
+  server-url: http://localhost:8080
+  realm: eventmanagement
+  client-id: gateway
+  client-secret: 1vAYC2svFaNfa3Xht9q12S7azdqhksvP
+  username: gustavo
+  password: 123456
+
+springdoc:
+  swagger-ui:
+    oauth: 
+      client-id: gateway
+      client-secret: 1vAYC2svFaNfa3Xht9q12S7azdqhksvP
+  show-actuator: true
     
 management:
   endpoints:

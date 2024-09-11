@@ -1,0 +1,29 @@
+1. Login (Obter Token de Acesso)
+- Endpoint: /realms/{realm}/protocol/openid-connect/token
+- Método: POST
+- Descrição: Utilizado para obter um token de acesso (e opcionalmente um refresh token) ao autenticar o usuário.
+- Parâmetros comuns:
+  - grant_type: Deve ser password para login com nome de usuário e senha.
+  - client_id: O ID do cliente registrado no Keycloak.
+  - client_secret: (Opcional) Segredo do cliente, dependendo das configurações do cliente.
+  - username: Nome de usuário.
+  - password: Senha do usuário.
+
+2. Refresh Token
+- Endpoint: /realms/{realm}/protocol/openid-connect/token
+- Método: POST
+- Descrição: Utilizado para obter um novo token de acesso usando um refresh token válido.
+- Parâmetros comuns:
+  - grant_type: Deve ser refresh_token.
+  - client_id: O ID do cliente registrado no Keycloak.
+  - client_secret: (Opcional) Segredo do cliente.
+  - refresh_token: O refresh token obtido anteriormente.
+
+3. Logout
+- Endpoint: /realms/{realm}/protocol/openid-connect/logout
+- Método: POST
+- Descrição: Utilizado para fazer logout de um usuário e invalidar os tokens de acesso e refresh tokens associados.
+- Parâmetros comuns:
+  - client_id: O ID do cliente registrado no Keycloak.
+  - client_secret: (Opcional) Segredo do cliente.
+  - refresh_token: (Opcional) O refresh token a ser invalidado.

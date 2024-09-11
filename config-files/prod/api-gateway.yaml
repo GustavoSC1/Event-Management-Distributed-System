@@ -2,11 +2,22 @@ server:
   port: ${PORT}
   
 spring:
+  security:    
+    oauth2:
+      client:
+        registration:
+          keycloak:
+              #provider: keycloak
+              #authorization-grant-type: authorization_code
+              client-id: ${PROD_OAUTH_CLIENT_REGISTRATION_CLIENT_ID}
+              client-secret: ${PROD_OAUTH_CLIENT_REGISTRATION_CLIENT_SECRET}
+              scope: openid, profile, email
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/realms/eventmanagement
+  
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true
       routes:
       - id: user-service
         uri: lb://user-service
@@ -14,24 +25,28 @@ spring:
         - Path=/user-service/**
         filters:
         - RewritePath=/user-service/(?<path>.*), /$\{path}
+        - TokenRelay=
       - id: event-service
         uri: lb://event-service
         predicates:
         - Path=/event-service/**
         filters:
         - RewritePath=/event-service/(?<path>.*), /$\{path}
+        - TokenRelay=
       - id: payment-service
         uri: lb://payment-service
         predicates:
         - Path=/payment-service/**
         filters:
         - RewritePath=/payment-service/(?<path>.*), /$\{path}
+        - TokenRelay=
       - id: notification-service
         uri: lb://notification-service
         predicates:
         - Path=/notification-service/**
         filters:
         - RewritePath=/notification-service/(?<path>.*), /$\{path}
+        - TokenRelay=
       - id: openapi
         uri: lb://api-gateway
         predicates:
@@ -43,6 +58,14 @@ eureka:
   client:
     service-url:
       defaultZone: ${PROD_EUREKA_DEFAULTZONE}
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    oauth: 
+      client-id: ${PROD_SWAGGER_OAUTH_CLIENT_ID}
+      client-secret: ${PROD_SWAGGER_OAUTH_CLIENT_SECRET}
       
 management:
   zipkin:

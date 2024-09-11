@@ -21,10 +21,12 @@ import com.gustavo.userservice.services.UserNotificationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "User Notification endpoint")
 @RestController
+@SecurityRequirement(name = "Keycloak")
+@Tag(name = "User Notification endpoint")
 public class UserNotificationController {
 	
 	Logger log = LogManager.getLogger(UserNotificationController.class);
@@ -40,7 +42,7 @@ public class UserNotificationController {
 	@GetMapping("/users/{userId}/notifications")
 	public ResponseEntity<Page<NotificationResponseDTO>> findAllNotificationsByUser(
 			@PathVariable UUID userId,
-			@PageableDefault(page = 0, size = 10, sort = "notificationId", direction = Sort.Direction.ASC) Pageable pageable) {
+			@PageableDefault(page = 0, size = 10, sort = "notificationId", direction = Sort.Direction.ASC) Pageable pageable) {		
 		log.debug("GET userNotificationController findAllNotificationsByUser userId: {} received", userId);
 		Page<NotificationResponseDTO> notificationResponseDtoPage = 
 				userNotificationService.findAllNotificationsByUser(userId, pageable);

@@ -15,12 +15,17 @@ spring:
         show_sql: true
   output:
     ansi:
-      enabled: Always # Ativa a saida em cores ANSI.
+      enabled: ALWAYS # Ativa a saida em cores ANSI.
   rabbitmq:
     host: localhost
     port: 5672
     username: user
     password: password
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/eventmanagement
   #zipkin:
     #base-url: http://localhost:9411 
     
@@ -48,6 +53,14 @@ resilience4j:
         failureRateThreshold: 50
         eventConsumerBufferSize: 10
 
+keycloak:
+  server-url: http://localhost:8080
+  realm: eventmanagement
+  client-id: gateway
+  client-secret: 1vAYC2svFaNfa3Xht9q12S7azdqhksvP
+  username: gustavo
+  password: 123456
+
 eureka:
   client:
     service-url:
@@ -58,16 +71,12 @@ rabbitmq:
     userExchange: users.v1.user_event
   key:
     userKey: users.v1.user_event.send_user.key
-    
-jwt:
-  expiration: 3600000
-  refreshExpiration: 86400000
-  private:
-    key: classpath:app.key
-  public:
-    key: classpath:app.pub
 
 springdoc:
+  swagger-ui:
+    oauth: 
+      client-id: gateway
+      client-secret: 1vAYC2svFaNfa3Xht9q12S7azdqhksvP
   show-actuator: true
    
 management:

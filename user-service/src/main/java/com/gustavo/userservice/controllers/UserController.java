@@ -3,16 +3,12 @@ package com.gustavo.userservice.controllers;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,10 +31,12 @@ import com.gustavo.userservice.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/users")
+@SecurityRequirement(name = "Keycloak")
 @Tag(name = "User endpoint")
 public class UserController {
 	
@@ -64,19 +62,24 @@ public class UserController {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Users found successfully"),
 			@ApiResponse(responseCode = "403", description = "You are not allowed to make this request")
-	})
+	})	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@GetMapping
-	public ResponseEntity<Page<UserResponseDTO>> getAllUsers(
-			@RequestParam(value="name", defaultValue="") String name,
+	public ResponseEntity<List<UserResponseDTO>> getAllUsers(
+			@RequestParam(value="username", defaultValue="") String username,
+			@RequestParam(value="firstName", defaultValue="") String firstName,
+			@RequestParam(value="lastName", defaultValue="") String lastName,
 			@RequestParam(value="email", defaultValue="") String email,
-			@PageableDefault(page = 0, size = 10, sort = "userId", direction = Sort.Direction.ASC) Pageable pageable) {
-		log.debug("GET userController getAllUsers name: {} email: {} received", name, email);
-		Page<UserResponseDTO> urserResponseDtoPage = userService.findAll(name, email, pageable);
+			@RequestParam(value="page", defaultValue="0") String page,
+			@RequestParam(value="pageSize", defaultValue="10") String pageSize) {
+		
+		log.debug("GET userController getAllUsers username: {} firstName: {} lastName: {} email: {} page: {} pageSize: {} received", username, firstName, lastName, email, page, pageSize);
+		
+		List<UserResponseDTO> urserResponseDtoPage = userService.findAll(username, firstName, lastName, email, Integer.valueOf(page), Integer.valueOf(pageSize));
 		
 		if(!urserResponseDtoPage.isEmpty()) {
 			
-			for(UserResponseDTO userResponseDto: urserResponseDtoPage.toList()) {
+			for(UserResponseDTO userResponseDto: urserResponseDtoPage) {
 				userResponseDto.add(linkTo(methodOn(UserController.class).getOneUser(userResponseDto.getUserId())).withSelfRel());
 			}
 			
@@ -116,6 +119,24 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body("User deleted successfully.");
 	}
 	
+	@Operation(summary = "Updates a user email")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Successfully edited user email"),
+			@ApiResponse(responseCode = "400", description = "This request can be processed"),
+			@ApiResponse(responseCode = "403", description = "You are not allowed to make this request"),
+			@ApiResponse(responseCode = "404", description = "Could not find the requested data"),
+			@ApiResponse(responseCode = "422", description = "Data validation error")
+	})
+	@PatchMapping("/{userId}/email")
+	public ResponseEntity<String> updateEmail(@PathVariable UUID userId, 
+			@RequestBody @Validated(UserRequestDTO.UserView.EmailPut.class) 
+			@JsonView(UserRequestDTO.UserView.EmailPut.class) UserRequestDTO userRequestDto) {
+		log.debug("PATCH userController updateEmail userId: {} userRequestDto received {}", userId, userRequestDto.toString());
+		userService.updateEmail(userId, userRequestDto);
+		
+		return ResponseEntity.status(HttpStatus.OK).body("Email updated successfully.");
+	}
+	
 	@Operation(summary = "Updates a user password")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Successfully edited user password"),
@@ -125,11 +146,9 @@ public class UserController {
 			@ApiResponse(responseCode = "422", description = "Data validation error")
 	})
 	@PatchMapping("/{userId}/password")
-	public ResponseEntity<String> updatePassword(@PathVariable UUID userId, 
-			@RequestBody @Validated(UserRequestDTO.UserView.PasswordPut.class) 
-			@JsonView(UserRequestDTO.UserView.PasswordPut.class) UserRequestDTO userRequestDto) {
-		log.debug("PATCH userController updatePassword userId: {} userRequestDto received {}", userId, userRequestDto.toString());
-		userService.updatePassword(userId, userRequestDto);
+	public ResponseEntity<String> updatePassword(@PathVariable UUID userId) {
+		log.debug("PATCH userController updatePassword userId: {} userRequestDto received {}", userId);
+		userService.updatePassword(userId);
 		
 		return ResponseEntity.status(HttpStatus.OK).body("Password updated successfully.");
 	}

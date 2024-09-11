@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.gustavo.eventservice.dtos.EventRequestDTO;
@@ -25,7 +27,6 @@ import com.gustavo.eventservice.entities.enums.EventStatus;
 import com.gustavo.eventservice.producers.NotificationProducer;
 import com.gustavo.eventservice.repositories.EventRepository;
 import com.gustavo.eventservice.repositories.TicketRepository;
-import com.gustavo.eventservice.services.CurrentUserService;
 import com.gustavo.eventservice.services.EventService;
 import com.gustavo.eventservice.services.UserService;
 import com.gustavo.eventservice.services.exceptions.BusinessException;
@@ -44,10 +45,7 @@ public class EventServiceImpl implements EventService {
 			
 	@Autowired
 	private UserService userService;
-	
-	@Autowired
-	private CurrentUserService currentUserService;
-	
+		
 	@Autowired
 	private NotificationProducer notificationProducer;
 	
@@ -122,17 +120,15 @@ public class EventServiceImpl implements EventService {
 	}
 	
 	@Override
-	public EventResponseDTO update(UUID eventId, EventRequestDTO eventRequestDto) {
-				
-		UUID userAuthenticatedId = currentUserService.getCurrentUser().getId();
-				
+	public EventResponseDTO update(UUID userId, UUID eventId, EventRequestDTO eventRequestDto) {
+								
 		Event event = findById(eventId);
 		
-		User user = userService.findById(userAuthenticatedId);
+		User user = userService.findById(userId);
 		
-		if(!event.getCreationUser().getUserId().equals(userAuthenticatedId) && 
+		if(!event.getCreationUser().getUserId().equals(userId) && 
 			!event.getStaffUsers().contains(user)) {
-			log.warn("Access denied! userAuthenticatedId: {}", userAuthenticatedId);
+			log.warn("Access denied! userAuthenticatedId: {}", userId);
 			throw new AccessDeniedException("Error: Access denied!");
 		}
 
@@ -178,14 +174,12 @@ public class EventServiceImpl implements EventService {
 	}
 	
 	@Override
-	public void closeRegistrations(UUID eventId) {
-		
-		UUID userAuthenticatedId = currentUserService.getCurrentUser().getId();
-				
+	public void closeRegistrations(UUID userId, UUID eventId) {
+						
 		Event event = findById(eventId);
 		
-		if(!event.getCreationUser().getUserId().equals(userAuthenticatedId)) {
-			log.warn("Access denied! userAuthenticatedId: {}", userAuthenticatedId);
+		if(!event.getCreationUser().getUserId().equals(userId)) {
+			log.warn("Access denied! userAuthenticatedId: {}", userId);
 			throw new AccessDeniedException("Error: Access denied!");
 		}
 
@@ -215,13 +209,12 @@ public class EventServiceImpl implements EventService {
 	}
 	
 	@Override
-	public void cancelEvent(UUID eventId) {		
-		UUID userAuthenticatedId = currentUserService.getCurrentUser().getId();
+	public void cancelEvent(UUID userId, UUID eventId) {		
 		
 		Event event = findById(eventId);
 		
-		if(!event.getCreationUser().getUserId().equals(userAuthenticatedId)) {
-			log.warn("Access denied! userAuthenticatedId: {}", userAuthenticatedId);
+		if(!event.getCreationUser().getUserId().equals(userId)) {
+			log.warn("Access denied! userAuthenticatedId: {}", userId);
 			throw new AccessDeniedException("Error: Access denied!");
 		}
 		
@@ -271,14 +264,12 @@ public class EventServiceImpl implements EventService {
 	}
 	
 	@Override
-	public void insertStaff(UUID eventId, StaffRequestDTO staffRequestDTO) {
-		
-		UUID userAuthenticatedId = currentUserService.getCurrentUser().getId();
-		
+	public void insertStaff(UUID userId, UUID eventId, StaffRequestDTO staffRequestDTO) {
+				
 		Event event = findById(eventId);
 		
-		if(!event.getCreationUser().getUserId().equals(userAuthenticatedId)) {
-			log.warn("Access denied! userAuthenticatedId: {}", userAuthenticatedId);
+		if(!event.getCreationUser().getUserId().equals(userId)) {
+			log.warn("Access denied! userAuthenticatedId: {}", userId);
 			throw new AccessDeniedException("Error: Access denied!");
 		}
 		
@@ -312,14 +303,14 @@ public class EventServiceImpl implements EventService {
 	
 	@Override
 	public Page<EventResponseDTO> findStaffUsers(UUID userId, Pageable pageable) {
-				
-		UUID userAuthenticatedId = currentUserService.getCurrentUser().getId();
 		
-		if(!userAuthenticatedId.equals(userId)) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		if(!authentication.getName().equals(userId.toString())) {
 			log.warn("Access denied! userId: {}", userId);
 			throw new AccessDeniedException("Error: Access denied!");
 		}
-		
+						
 		Page<Event> eventPage = eventRepository.findAllByStaffUsersUserId(userId, pageable);
 		
 		log.debug("GET eventServiceImpl findStaffUsers userId: {} found", userId);
