@@ -26,6 +26,14 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8080/realms/eventmanagement
+  cache:
+    type: redis
+    redis:
+      key-prefix: "user-service::"
+  data:
+    redis:
+      port: 6379
+      host: localhost
   #zipkin:
     #base-url: http://localhost:9411 
     

@@ -26,6 +26,14 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: ${PROD_OAUTH_ISSUER_URI}
+  cache:
+    type: redis
+    redis:
+      key-prefix: "event-service::"
+  data:
+    redis:
+      port: ${PROD_REDIS_PORT}
+      host: ${PROD_REDIS_HOST}
 
 eureka:
   client:

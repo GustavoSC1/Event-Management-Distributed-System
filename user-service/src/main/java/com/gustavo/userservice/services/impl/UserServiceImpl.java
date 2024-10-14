@@ -17,6 +17,10 @@ import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,6 +39,7 @@ import com.gustavo.userservice.services.exceptions.ObjectNotFoundException;
 import jakarta.ws.rs.core.Response;
 
 @Service
+@CacheConfig(cacheNames = "users")
 public class UserServiceImpl implements UserService {
 	
 	Logger log = LogManager.getLogger(UserServiceImpl.class);
@@ -76,7 +81,7 @@ public class UserServiceImpl implements UserService {
         UsersResource usersResource = getUsersResource();
         Response response = usersResource.create(user);
 
-        if (response.getStatus() == 201) {        	
+        if (response.getStatus() == 201) {  
         	UUID userId = UUID.fromString(response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1"));
 
         	UserRepresentation userRepresentation = usersResource.get(userId.toString()).toRepresentation();
@@ -91,13 +96,13 @@ public class UserServiceImpl implements UserService {
         	UserResponseDTO userResponseDto = new UserResponseDTO(userRepresentation);
     		log.debug("POST userServiceImpl insert userId: {} saved", userResponseDto.getUserId());
             log.info("User saved successfully userId: {}", userResponseDto.getUserId());
-    		
+    		            
             return userResponseDto;
         } else if(response.getStatus() == 409) {
-        	log.error("User already exists: {}", response.getStatusInfo().toString());
+        	log.error("User already exists: {}", response.getStatusInfo().toString());        	
         	throw new BusinessException("User already exists: " + response.getStatusInfo().toString());        	  
         } else {
-        	log.error("Failed to create user: {}", response.getStatusInfo().toString());
+        	log.error("Failed to create user: {}", response.getStatusInfo().toString());        	
         	throw new BusinessException("Failed to create user: " + response.getStatusInfo().toString());      
         }
 		
@@ -109,6 +114,7 @@ public class UserServiceImpl implements UserService {
     }
 	
 	@Override
+	@Cacheable(key = "#userId")
 	public UserResponseDTO getOneUser(UUID userId) {
 		try {
 			UserRepresentation userRepresentation = getUsersResource().get(userId.toString()).toRepresentation();
@@ -126,6 +132,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	@Cacheable(key = "#username + '_' + #firstName + '_' + #lastName + '_' + #email + '_' + #page + '_' + #pageSize")
 	public List<UserResponseDTO> findAll(String username, String firstName, String lastName, String email, int page, int pageSize) {
 		try {
 			List<UserRepresentation> userRepresentationList = getUsersResource().search(username, firstName, lastName, email, page * pageSize, pageSize);
@@ -146,6 +153,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	@CachePut(key = "#userId")
 	public UserResponseDTO update(UUID userId, UserRequestDTO userRequestDto) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
@@ -188,6 +196,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	@CacheEvict(key = "#userId")
 	public void delete(UUID userId) {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -209,6 +218,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	@CacheEvict(key = "#userId")
 	public void updateEmail(UUID userId, UserRequestDTO userRequestDto) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
@@ -276,6 +286,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	@CachePut(key = "#userId")
 	public UserResponseDTO updateImage(UUID userId, UserRequestDTO userRequestDto) {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

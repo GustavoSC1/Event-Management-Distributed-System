@@ -47,7 +47,6 @@ public class AuthController {
 									@JsonView(UserRequestDTO.UserView.UserPost.class) UserRequestDTO userRequestDto) {
 		log.debug("POST authController insert userRequestDto received {}", userRequestDto.toString());
 		
-		System.out.println("Passou no AuthController");
 		UserResponseDTO userResponseDto = userService.insert(userRequestDto);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(userResponseDto);

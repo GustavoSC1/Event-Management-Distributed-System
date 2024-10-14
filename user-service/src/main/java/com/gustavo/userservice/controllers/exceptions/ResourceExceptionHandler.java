@@ -47,7 +47,7 @@ public class ResourceExceptionHandler {
 	}
 		
 	@ExceptionHandler(AccessDeniedException.class)
-	public ResponseEntity<StandardError> accessDenied(AccessDeniedException e, HttpServletRequest request) {		
+	public ResponseEntity<StandardError> accessDenied(AccessDeniedException e, HttpServletRequest request) {
 		log.error("{}: {}", "Access denied", e.getMessage());
 		StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.FORBIDDEN.value(), "Access denied", e.getMessage(), request.getRequestURI());		
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);

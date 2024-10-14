@@ -15,7 +15,7 @@ services:
       - RABBITMQ_DEFAULT_PASS=password
     networks:
       - microservices-network
-      
+
   zipkin:
     image: openzipkin/zipkin:3.0.6
     ports:
@@ -72,7 +72,7 @@ services:
       - ../postgres-notification:/var/lib/postgresql/data
     networks:
       - microservices-network
-      
+
   payment-db:
     image: postgres:latest
     container_name: payment-db
@@ -116,7 +116,18 @@ services:
       - ../pgadmin:/var/lib/pgadmin
     networks:
       - microservices-network 
-       
+
+  cache-redis:
+    image: redis:latest
+    container_name: cache-redis
+    ports:
+      - "6379:6379"
+    restart: always
+    volumes:
+      - ../redis-cache:/data
+    networks:
+      - microservices-network
+
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.15.1
     container_name: elasticsearch
@@ -168,24 +179,7 @@ services:
       - elasticsearch
     networks:
       - microservices-network
-      
-filebeat:
-    image: docker.elastic.co/beats/filebeat:8.12.2
-    container_name: filebeat
-    entrypoint: filebeat -e -strict.perms=false
-    user: root
-    restart: always
-    volumes:
-      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
-      - ./user-service/logs:/usr/share/filebeat/logs/user-service:ro
-      - ./event-service/logs:/usr/share/filebeat/logs/event-service:ro
-      - ./payment-service/logs:/usr/share/filebeat/logs/payment-service:ro
-      - ./notification-service/logs:/usr/share/filebeat/logs/notification-service:ro
-    depends_on:
-      - elasticsearch
-    networks:
-      - microservices-network
-        
+              
   keycloak:
     image: quay.io/keycloak/keycloak:24.0.4
     container_name: keycloak

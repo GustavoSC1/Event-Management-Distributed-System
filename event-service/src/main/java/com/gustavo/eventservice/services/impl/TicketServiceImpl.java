@@ -9,6 +9,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
@@ -121,7 +123,8 @@ public class TicketServiceImpl implements TicketService {
         notificationProducer.produceNotificationEvent(notificationEventDto);		
 	}	
 	
-	@Override
+	@Override	
+	@CacheEvict(value = "tickets", key = "#paymentMadeEventDto.ticketId")
 	public void setTicketPaid(PaymentMadeEventDTO paymentMadeEventDto) {
 		Optional<Ticket> ticketOptional = ticketRepository.findById(paymentMadeEventDto.getTicketId());
 		
@@ -191,6 +194,7 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	@Override
+	@Cacheable(value = "tickets", key = "#ticketId")
 	public Ticket findById(UUID ticketId) {
 		Optional<Ticket> ticketOptional = ticketRepository.findById(ticketId);
 		

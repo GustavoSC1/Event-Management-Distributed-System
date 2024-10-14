@@ -8,6 +8,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,7 @@ public class UserServiceImpl implements UserService {
 	private NotificationProducer notificationProducer;
 	
 	@Override
+	@CacheEvict(value = "users", key = "#user.userId")
 	public UserResponseDTO insert(User user) {
 		userRepository.save(user);
 		
@@ -52,6 +55,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	@Cacheable(value = "users", key = "#userId")
 	public User findById(UUID userId) {
 		Optional<User> userOptional = userRepository.findById(userId);
 		
@@ -80,6 +84,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@CacheEvict(value = "users", key = "#userId")
 	public void delete(UUID userId) {
 		
 		Optional<User> userOptional = userRepository.findById(userId);
