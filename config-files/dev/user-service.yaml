@@ -2,17 +2,6 @@ server:
   port: 8000
   
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/db-user
-    username: user
-    password: root
-  jpa:
-    hibernate:
-      ddl-auto: update
-      dialect: org.hibernate.dialect.PostgreSQLDialect
-    properties:
-      hibernate:
-        show_sql: true
   output:
     ansi:
       enabled: ALWAYS # Ativa a saida em cores ANSI.

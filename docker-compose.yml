@@ -28,21 +28,6 @@ services:
     networks:
       - microservices-network
 
-  user-db:
-    image: postgres:latest
-    container_name: user-db
-    ports:
-      - 5432:5432
-    restart: always
-    environment:
-      POSTGRES_DB: db-user
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: root
-    volumes:
-      - ../postgres-user:/var/lib/postgresql/data
-    networks:
-      - microservices-network
-
   event-db:
     image: postgres:latest
     container_name: event-db
